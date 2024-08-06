@@ -1,6 +1,6 @@
 # Physical Design_2024
 ## GCC Compilation of C program
-Shown below is a series of steps to compile a C program using GCC
+Shown below are a series of steps to compile a C program using GCC.
 ### Step 1
 Open the terminal. Make sure you're in the home directory. Open any editor and type a new file "file_name.c" to type the C program. Here the gedit editor is used.<br/>
 i. **CODE SNIPPET:**
