@@ -6,12 +6,13 @@ Open the terminal. Make sure you're in the home directory. Open any editor and t
 i. **CODE SNIPPET:**
 ```c
 #include <studio.h>
-void main()
+int main()
 {
 int i, n=10,sum=0;
 for(i=1;i<=n;i++)
 sum=sum+1;
 printf("Sum from 1 to %d is %d \n",n,sum);
+return 0;
 }
 ```
 ### Step 2
@@ -27,5 +28,6 @@ gcc -o file_name.out file_name.c
 ```
 The image of the C code along with outputs is shown below.<br/>
 The output is shown for n being 10,100 and 1000 respectively and the result is stored in "result.out" file.
-![c compilation](https://github.com/user-attachments/assets/8a88c9dd-7aa0-4d72-b7a2-01044d654dad)
+![Screenshot from 2024-08-07 10-16-01](https://github.com/user-attachments/assets/914592b1-80c8-4b5f-a14f-9b406c6fff14)
+
 
