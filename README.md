@@ -1,4 +1,7 @@
 # Physical Design_2024
+# TABLE OF CONTENTS
+1. [GCC Compilation of C program](url)
+2. [RISC V COMPILATION OF C PROGRAM](url)
 ## GCC Compilation of C program
 Shown below are a series of steps to compile a C program using GCC.
 ### Step 1
