@@ -1,8 +1,8 @@
 # Physical Design_2024
-# TABLE OF CONTENTS
-1. [GCC Compilation of C program](GCC-Compilation-of-C-program)
-2. [RISC V COMPILATION OF C PROGRAM](url)
-## GCC Compilation of C program
+## TABLE OF CONTENTS
+1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
+2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
+## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
 ### Step 1
 Open the terminal. Make sure you're in the home directory. Open any editor and type a new file "file_name.c" to type the C program. Here the gedit editor is used.<br/>
