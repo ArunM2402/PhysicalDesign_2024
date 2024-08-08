@@ -2,6 +2,7 @@
 ## TABLE OF CONTENTS
 1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
+3. [SPIKE SIMULATION](#spike-simulation)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
 ### Step 1
@@ -101,7 +102,35 @@ The calculation of both optimizations are shown below:
 From the picture, we can observe:
 * O1: It enables a basic level of optimization which involves short compilation time. It optimizes the code without any major agressive changes.The reduction of code size is moderate( In our example, it turns out to be 15).
 * Ofast: It enables an aggressive level of optimization which sometimes may involve breaking strict standards. It gives us maximum performance but at the cost of precision and correctness issues. The code size is further reduced( In our example, it turns out to be 12).
-  
+## SPIKE SIMULATION
+* In the previous section, we had compiled our code using the RISC-V compiler. Now we will be debugging it using spike. Spike is a functional simulator built on the RISC-V Instruction Set Architecture which creates an environment to test and run RISC-V programs.
+The code can be debugged using spike using the following command
+```
+spike pk filename.o
+```
+Here,pk stands for Proxy kernal which provides services for the simulator.
+The code is run using both GCC compiler and Spike.The picture is shown below:
+![VirtualBox_ASIC1_08_08_2024_11_38_53](https://github.com/user-attachments/assets/8a2fa439-1242-4bf2-8f45-c4b956b0bec9)
+***Note that the output of both runs are same.***
+* The code can be analysed and debugged using the command:
+```
+spike -d pk filename.o
+```
+Here, d indicates an iteractive debugging interface which allows for execution by setting breakpoints.
+* Once the debugging mode is open, we can control the execution by the following command:
+```
+until pc 0 <start_addr> <end_addr>
+```
+The picture is shown below:
+![2](https://github.com/user-attachments/assets/8311e137-ed6d-4c86-9b06-f58e3481cb3d)
+***The execution is run from address 0(starting address) until the PC hits 100b0(end address).***
+* The contents of the register before and after each instruction can be analyzed by the set of commands as shown in the picture below:
+![3](https://github.com/user-attachments/assets/efba6f37-3b77-4496-8db6-6b5bfbe0027c)
+* We can also see the contents of the stack pointer in a similar way as shown in the picture below:
+![Screenshot from 2024-08-08 11-50-10](https://github.com/user-attachments/assets/65206173-ba52-4704-ab2a-074a7903491b)
+***As seen in the picture, the difference between the contents of SP before and after the instruction is shown to be hexadecimal value of 10.***
+
+
   
 
 
