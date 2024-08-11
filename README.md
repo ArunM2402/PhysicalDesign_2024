@@ -3,6 +3,8 @@
 1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
 3. [SPIKE SIMULATION](#spike-simulation)
+4. [RISC-V INSTRUCTION SET](#risc-v-instruction-set)
+[REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
 ### Step 1
@@ -129,8 +131,42 @@ The picture is shown below:
 * We can also see the contents of the stack pointer in a similar way as shown in the picture below:
 ![Screenshot from 2024-08-08 11-50-10](https://github.com/user-attachments/assets/65206173-ba52-4704-ab2a-074a7903491b)
 ***As seen in the picture, the difference between the contents of SP before and after the instruction is shown to be hexadecimal value of 10.***
+## RISC-V INSTRUCTION SET
+RISC-V is an open standard instruction set architecture aimed at helping professionals to collaborate and enable a new era of processors. It enables people to develop new processors for specific applications. It is open source and follows the principles of reduced instruction set.
+### Instructions
+The machine is programmed in such a way that it understands only certain formats. Hence, it is important to understand them. RISC-V basically has 6 types of instructions which are:
+1. R-Type <br/>
+   <img width="496" alt="image" src="https://github.com/user-attachments/assets/0c883c1e-9107-4df5-9f79-5dc57c15fef6"> <br/>
+   These are the Register type operations. They are mainly used for arithmetic and logical operations. There is no immediate integer data involved.  Bits 0 to 6 are opcode 
+   (operation code), used to identify the type of instruction. Bits 7 to 11 are the index of the rd register(destination register) which stores the result. rs1 and rs2 are 
+   called source registers for inputs. Function 3 and Function 7 fields further help to specify the operation.
+2. I-Type <br/>
+   <img width="484" alt="image" src="https://github.com/user-attachments/assets/2391a512-3511-44f9-863e-b800aaff8706"> <br/>
+   The I-type(Immediate Instruction type) involves an immediate data as one of the inputs. As an result, there is no rs2 field. Instead the upper 12 bits are assigned for 
+   the immediate data. Function7 field is also eliminated.
+3. S-Type <br/>
+   <img width="484" alt="image" src="https://github.com/user-attachments/assets/77f684e1-f112-4cd6-adf5-1de8dc63079a"> <br/>
+   These type of data is used to store information from a register to a memory location. Hence, there is no rd(destination) field. The immediate data of 12 bits is also 
+   divided into two fields of upper 7 and lower 5 bits. There are two source registers (rs1 and rs2). The address where data is to be stored is calculated by adding the 
+   value in the base address register (rs1) to the immediate value, which is formed by combining its two parts. The content of the second source register (rs2) is then 
+   stored at this computed memory address.
+4. B-Type <br/>
+   <img width="487" alt="image" src="https://github.com/user-attachments/assets/a23a48e7-16ea-4eb3-8777-61038c2a454e"> <br/>
+   B-type instructions are mainly used as branch instructions. It usually involves a condition based on which the branching takes place.It  does not include rd register and 
+   funct7. It contains rs1, rs2, funct3 and immediate. The immediate is divided for efficient encoding.
+5. U-Type <br/>
+   <img width="487" alt="image" src="https://github.com/user-attachments/assets/a9449223-8ac9-44df-bfde-ddea63425df3"> <br/>
+   It stands for Upper Immediate. It is used for operations that involve a large immediate integer value. The upper 20 bits are reserved for the immediate data.There is no 
+   source register. It has only destination register and opcode fields.
+6. J-Type <br/>
+   <img width="480" alt="image" src="https://github.com/user-attachments/assets/64c1ba08-6f47-4297-8e9d-caa2f89fd296"><br/>
+   This is similar to the U-type instruction. It also has only immediate data, destination and opcode fields. It is used for unconditional jump statements. It is used to 
+   jump to a target address which is calculated relative to the current program counter.
 
-
+## REFERENCES
+* https://forgefunder.com/~kunal/riscv_workshop.vdi
+* https://riscv.org/technical/specifications/
+* https://fraserinnovations.com/risc-v/risc-v-instruction-set-explanation/
   
 
 
