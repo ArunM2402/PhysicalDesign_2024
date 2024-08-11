@@ -3,7 +3,8 @@
 1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
 3. [SPIKE SIMULATION](#spike-simulation)
-4. [RISC-V INSTRUCTION SET](#risc-v-instruction-set)<br/>
+4. [RISC-V INSTRUCTION SET](#risc-v-instruction-set)
+5. [ENCODING INSTRUCTIONS](#encoding-instructions)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -156,13 +157,132 @@ The machine is programmed in such a way that it understands only certain formats
    funct7. It contains rs1, rs2, funct3 and immediate. The immediate is divided for efficient encoding.
 5. U-Type <br/>
    <img width="487" alt="image" src="https://github.com/user-attachments/assets/a9449223-8ac9-44df-bfde-ddea63425df3"> <br/>
-   It stands for Upper Immediate. It is used for operations that involve a large immediate integer value. The upper 20 bits are reserved for the immediate data.There is no 
-   source register. It has only destination register and opcode fields.
+   It stands for Upper Immediate. It is used for operations that involve a large immediate integer value. The upper 20 bits 
+   are reserved for the immediate data.There is no source register. It has only destination register and opcode fields.
 6. J-Type <br/>
    <img width="480" alt="image" src="https://github.com/user-attachments/assets/64c1ba08-6f47-4297-8e9d-caa2f89fd296"><br/>
-   This is similar to the U-type instruction. It also has only immediate data, destination and opcode fields. It is used for unconditional jump statements. It is used to 
-   jump to a target address which is calculated relative to the current program counter.
-
+   This is similar to the U-type instruction. It also has only immediate data, destination and opcode fields. It is used 
+   for unconditional jump statements. It is used to jump to a target address which is calculated relative to the current 
+   program counter.
+## ENCODING INSTRUCTIONS
+1. ADD r8,r9,r10<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 01001<br/>
+   rs2: 01010<br/>
+   rd: 01000<br/>
+   func3: 000<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_01010_01001_000_01000_0110011<br/>
+2. SUB r10,r8,r9<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 01000<br/>
+   rs2: 01001<br/>
+   rd: 01010<br/>
+   func3: 000<br/>
+   func7: 0100000<br/>
+   32 bit pattern: 0100000_01001_01000_000_01010_0110011<br/>
+3. AND r9,r8,r10<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 01000<br/>
+   rs2: 01010<br/>
+   rd: 01001<br/>
+   func3:111<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_01010_01000_111_01001_0110011<br/>
+4. OR r8,r9,r5<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 01001<br/>
+   rs2: 00101<br/>
+   rd: 01000<br/>
+   func3: 110<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_00101_01001_110_01000_0110011<br/>
+5. XOR r8,r8,r4<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 01000<br/>
+   rs2: 00100<br/>
+   rd: 01000<br/>
+   func3: 100<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_00100_01000_100_01000_0110011<br/>
+6. SLT r0,r1,r4<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 00001<br/>
+   rs2:00100<br/>
+   rd: 00000<br/>
+   func3: 010<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_00100_00001_010_00000_0110011<br/>
+7. ADDi r2,r2,5<br/>
+   Type: I-type<br/>
+   opcode: 0110011<br/>
+   rs1: 00010<br/>
+   rd: 00010<br/>
+   func3: 000<br/>
+   imm[11:0]: 000000000101<br/>
+   32 bit pattern: 000000000101_00010_000_00010_0010011<br/>
+8. SW r2,r0,4<br/>
+   Type: S-type<br/>
+   opcode: 0100011<br/>
+   rs1: 00000<br/>
+   rs2: 00010<br/>
+   func3: 010<br/>
+   imm[4:0]: 00100<br/>
+   imm[11:5]: 0000000<br/>
+   32 bit pattern: 0000000_00010_00000_010_00100_0100011<br/>
+9. SRL r6,r1,r1<br/>
+   Type: R-type<br/>
+   opcode: 0110011<br/>
+   rs1: 00001<br/>
+   rs2: 00001<br/>
+   rd: 00110<br/>
+   func3: 101<br/>
+   func7: 0000000<br/>
+   32 bit pattern: 0000000_00001_00001_00110_0110011<br/>
+10. BNE r0,r0,20<br/>
+    Type: B-type<br/>
+    opcode: 1100011<br/>
+    rs1: 00000<br/>
+    rs2: 00000<br/>
+    func3: 001<br/>
+    imm[4:1]: 0101<br/>
+    imm[11]: 0<br/>
+    imm[12]: 0<br/>
+    imm[10:5]: 000000<br/>
+    32 bit pattern: 0_000000_00000_001_0101_0_1100011<br/>
+11. BEQ r0,r0,15<br/>
+    Type: B-type<br/>
+    opcode: 1100011<br/>
+    rs1: 00000<br/>
+    rs2: 00000<br/>
+    func3: 000<br/>
+    imm[4:1]: 0111<br/>
+    imm[11]: 1<br/>
+    imm[12]: 0<br/>
+    imm[10:5]: 000000<br/>
+    32 bit pattern: 0_000000_00000_000_0111_1_1100011<br/>
+12. LW r3,501,r2<br/>
+    Type: I-type<br/>
+    opcode: 0000011<br/>
+    rs1: 00010<br/>
+    rd: 00011<br/>
+    func3: 010<br/>
+    imm[11:0]: 000011111101_00010_010_00011_0000011<br/>
+13. SLL r5,r1,r1<br/>
+    Type: R-type<br/>
+    opcode: 0110011<br/>
+    rs1: 00001<br/>
+    rs2: 00001<br/>
+    rd: 00101<br/>
+    func3: 001<br/>
+    func7: 0000000<br/>
+    32 bit pattern: 0000000_00001_00001_001_00101_0110011<br/>
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
