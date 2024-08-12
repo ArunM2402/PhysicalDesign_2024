@@ -5,6 +5,7 @@
 3. [SPIKE SIMULATION](#spike-simulation)
 4. [RISC-V INSTRUCTION SET](#risc-v-instruction-set)
 5. [ENCODING INSTRUCTIONS](#encoding-instructions)<br/>
+6. [FUNCTIONAL SIMULATION OF RISC-V](#functional-simulation-of-risc-v)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -283,10 +284,84 @@ The machine is programmed in such a way that it understands only certain formats
     func3: 001<br/>
     func7: 0000000<br/>
     32 bit pattern: 0000000_00001_00001_001_00101_0110011<br/>
+## FUNCTIONAL SIMULATION OF RISC-V
+The steps to be followed are:
+* Make your own directory and navigate to that directory using the commands below. This is used to create a workspace for your files.
+```
+mkdir <name>
+cd <name>
+```
+* Create file for design code and testbench using touch command as shown below:
+```
+touch design_name.v testbench.v
+```
+* Use the verilog code from the reference library.
+* For simulation, we run the following command:
+```
+iverilog -o output_file design_name.v testbench.v
+./output_file
+```
+* To view the waveform, use:
+```
+gtkwave vcd_file.vcd
+```
+This is shown in the picture below:
+![lab2](https://github.com/user-attachments/assets/d66eeb16-c051-4f8e-aa8a-0bade4d1fdf5)
+
+
+Now let us go over the instructions given in the verilog file. As seen , they are hard coded.These instructions are "hard-coded" because their values or operations are explicitly defined in the source code and cannot be changed without modifying the code itself. They are not dynamically configurable. Hence there is a difference seen between the standard RISC-V instructions and hard-coded ISA.
+![lab1](https://github.com/user-attachments/assets/bf1a9dc1-e419-4f8f-a212-b65ee9b4bb92)
+
+The differences are noted below:
+
+| Operation | Standard RISCV ISA | Hardcoded ISA |
+|:---------:|:------------------:|:-------------:|
+| ADD R6, R2, R1 | 32'h00110333 | 32'h02208300 |
+| SUB R7, R1, R2 | 32'h402083b3	| 32'h02209380 |
+| AND R8, R1, R3 | 32'h0030f433	| 32'h0230a400 |
+| OR R9, R2, R5	 | 32'h005164b3	| 32'h02513480 |
+| XOR R10, R1, R4| 32'h0040c533	| 32'h0240c500 |
+| SLT R1, R2, R4 | 32'h0045a0b3	| 32'h02415580 |
+| ADDI R12, R4, 5| 32'h0052a023	| 32'h00520600 |
+| SW R3, R1, 2	 | 32'h0030a123	| 32'h00209181 |
+| LW R13, R1, 2	 | 32'h0020a683	| 32'h00208681 |
+| BEQ R0, R0, 15 | 32'h00000f63	| 32'h00f00002 |
+| ADD R14, R2, R2 | 32'h00c2c333 | 32'h00210700 |
+| BNE R0, R1, 20 | 32'hfef3e03b | 32'h01409002 |
+| ADDI R12, R4, 5 | 32'h0052a023 | 32'h00520601 |
+| SLL R15, R1, R2 | 32'h002097b3 | 32'h00208783 |
+| SRL R16, R14, R2 | 32'h0030a123 | 32'h00271803 |
+
+The waveforms are shown below:
+1. ADD R6, R2, R1
+   ![1](https://github.com/user-attachments/assets/fb697392-5e23-4b4e-9e54-bb4cdb6be800)
+2. SUB R7, R1, R2
+   ![2](https://github.com/user-attachments/assets/dcbc9b02-9f03-42ef-8fff-1af424708cb4)
+3. AND R8, R1, R3
+   ![3](https://github.com/user-attachments/assets/2c40ebe5-e844-4e3d-a133-32d581638866)
+4. OR R9, R2, R5
+   ![4](https://github.com/user-attachments/assets/55bd035c-5421-4b8c-8c8f-e3a5791d0b77)
+5. XOR R10, R1, R4
+    ![5](https://github.com/user-attachments/assets/5325c368-a9c2-4573-a14a-1ed428da57fb)
+6. SLT R1, R2, R4
+    ![6](https://github.com/user-attachments/assets/5ac39acb-515f-498b-a9f6-afe3fc6383e4)
+7. ADDI R12, R4, 5
+    ![7](https://github.com/user-attachments/assets/e65360e0-2f25-4b82-90d6-6ee1597ac7b9)
+8. SW R3, R1, 2
+    ![8](https://github.com/user-attachments/assets/635f24d6-46f7-4362-aef1-2b1d266d35de)
+9. LW R13, R1, 2
+    ![9](https://github.com/user-attachments/assets/63155331-ddf2-453c-b3db-753b35ca1f7d)
+10. BEQ R0, R0, 15
+    ![10](https://github.com/user-attachments/assets/1b9906a2-b635-4d5c-94b4-07943e4ee980)
+11. ADD R14, R2, R2
+    ![11](https://github.com/user-attachments/assets/70a96f91-4ebf-4147-bd31-2ab9ecfac08f)
+
+
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
 * https://fraserinnovations.com/risc-v/risc-v-instruction-set-explanation/
+* https://github.com/vinayrayapati/rv32i
   
 
 
