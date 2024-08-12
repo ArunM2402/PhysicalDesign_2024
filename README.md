@@ -295,6 +295,7 @@ cd <name>
 ```
 touch design_name.v testbench.v
 ```
+<img width="689" alt="image" src="https://github.com/user-attachments/assets/99470fb3-0bd4-404c-bda9-ede5d8abe66b"><br/>
 * Use the verilog code from the reference library.
 * For simulation, we run the following command:
 ```
