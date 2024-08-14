@@ -357,6 +357,50 @@ The waveforms are shown below:
 11. ADD R14, R2, R2
     ![11](https://github.com/user-attachments/assets/70a96f91-4ebf-4147-bd31-2ab9ecfac08f)
 
+## CUSTOM REAL-LIFE APPLICATION IMPLEMENTATION
+### AUTOMATIC TEMPERATURE CONTROLLER
+As the name suggests, automatic temperature controller is a simple design which regulates the temperature of a room by increasing/decreasing the temperature by heating/cooling mechanism until it reaches a specified target temperature. The  current room temperature can be read using a sensor.
+The C code for the design is shown below:
+``` c
+#include <stdio.h>
+
+int main() {
+    int target_temp;
+    int current_temp;
+
+    printf("Enter the target room temperature: ");
+    scanf("%d", &target_temp);
+    printf("Enter the current room temperature: ");
+    scanf("%d", &current_temp);
+
+    while (1) {
+        if (current_temp < target_temp) {
+            while (current_temp < target_temp) {
+                current_temp++;
+                printf("Heating... Current Temperature: %d°C\n", current_temp);
+                for (long i = 0; i < 100000000; i++); //delay
+            }
+            printf("Heater OFF. Target Temperature %d°C reached.\n", current_temp);
+            break;
+        } else if (current_temp > target_temp) {
+            while (current_temp > target_temp) {
+                current_temp--;
+                printf("Cooling... Current Temperature: %d°C\n", current_temp);
+                for (long i = 0; i < 100000000; i++); //delay
+            }
+            printf("Cooler OFF. Target Temperature %d°C reached.\n", current_temp);
+            break;
+        } else {
+            printf("Target temperature reached: %d°C\n", current_temp);
+            break;
+        }
+    }
+
+    return 0;
+}
+```
+* This code can be compiled using GCC and sample test results can be seen as shown below:
+
 
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
