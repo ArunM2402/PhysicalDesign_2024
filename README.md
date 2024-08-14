@@ -4,8 +4,9 @@
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
 3. [SPIKE SIMULATION](#spike-simulation)
 4. [RISC-V INSTRUCTION SET](#risc-v-instruction-set)
-5. [ENCODING INSTRUCTIONS](#encoding-instructions)<br/>
-6. [FUNCTIONAL SIMULATION OF RISC-V](#functional-simulation-of-risc-v)<br/>
+5. [ENCODING INSTRUCTIONS](#encoding-instructions)
+6. [FUNCTIONAL SIMULATION OF RISC-V](#functional-simulation-of-risc-v)
+7. [CUSTOM REAL-LIFE APPLICATION IMPLEMENTATION](#custom-real-life-application-implementation)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -400,8 +401,11 @@ int main() {
 }
 ```
 * This code can be compiled using GCC and sample test results can be seen as shown below:
+![app1](https://github.com/user-attachments/assets/7b7c7715-403c-41e3-9f1c-5f71cd9946b2)
+* The same code can be compiled using RISC-V compiler and sample test results can be seen as shown below:
+![app2](https://github.com/user-attachments/assets/aa11e1fe-e075-4b67-adae-abef373e95e2)
 
-
+***From the snapshots of both compilation(GCC and RISC-V), we can see that the outputs are same.***
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
