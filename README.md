@@ -9,6 +9,7 @@
 7. [CUSTOM REAL-LIFE APPLICATION IMPLEMENTATION](#custom-real-life-application-implementation)<br/>
 8. [RISC-V MYTH WORKSHOP](#risc-v-myth-workshop)<br/>
 9. [SINGLE STAGE PROCESSOR](#single-stage-processor)<br/>
+10. [5-STAGE PIPELINE PROCESSOR](#5-stage-pipeline-processor)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -638,6 +639,77 @@ To verify the working, we can add a testbench command to check if the simulation
 ```
 ![WhatsApp Image 2024-08-20 at 01 37 31_8629a791](https://github.com/user-attachments/assets/f41cb395-f3da-4432-a443-ad4eb5fcac2f) <br/>
 As seen, the sum of numbers 1 to 9 is calculated to be 45 (2D in hexadecimal). The log file also shows a confirmation by simulation passed message.
+
+## 5-STAGE PIPELINE PROCESSOR
+The above single stage processor can be extended to a 5 stage pipeline. <br/>
+* A 3- cycle valid signal is created. There is an additional start signal which signifies the first high bit of valid signal. So valid is 0 for reset and 1 for start. Otherwise, it is assigned the 3-cycle looped value. <br/>
+<img width="458" alt="image" src="https://github.com/user-attachments/assets/5f2d216e-c5dd-47f6-8b0a-06b97c6d6203"><br/>
+![WhatsApp Image 2024-08-20 at 01 50 28_05a397e4](https://github.com/user-attachments/assets/2d9bb594-6e0e-491e-95fd-ade2c39b06d2)<br/>
+* To take care of invalid cases, we introduce a valid_taken_br signal. Accordingly, the PC mux is also modified.<br/>
+![WhatsApp Image 2024-08-20 at 18 10 20_5d6db4d5](https://github.com/user-attachments/assets/1ab714ff-d50c-4cad-85de-805ef5bc8d06)<br/>
+* The logic is then distributed across stages as shown.<br/>
+<img width="449" alt="image" src="https://github.com/user-attachments/assets/3fd990bb-385e-44d0-9675-fef73d9e9c96"><br/>
+* Register File Bypass (also known as register file forwarding or data forwarding) is a technique used in pipelined processors to handle data hazards and improve performance by allowing instructions to use the result of an operation before it has been written back to the register file. A common hazard is Read After Write (RAW) Hazard which occurs when an instruction needs to read a register that is yet to be updated by a previous instruction. <br/>
+<img width="428" alt="image" src="https://github.com/user-attachments/assets/25038c25-76e6-41a6-84e0-9bc240faf404"><br/>
+![WhatsApp Image 2024-08-20 at 18 23 47_e4173a4f](https://github.com/user-attachments/assets/6ed02393-a8d9-436b-b5e6-ad3416469606)<br/>
+* The branch instruction is now corrected to account for the 3-cycle value based on the non-existence of a valid signal in the previous two cycles. The PC is incremented every cycle. <br/>
+<img width="494" alt="image" src="https://github.com/user-attachments/assets/b25fea0a-60b7-4381-acc5-9aad2652bd67"><br/>
+![WhatsApp Image 2024-08-20 at 18 10 20_a4e3bf61](https://github.com/user-attachments/assets/f7825424-3009-427e-84c2-6760f5ced9a9)<br/>
+* The decode unit is completed to fit all instructions.The ones marked in red are already done. Load instructions are treated as same so the is_load signal is based only on the opcode. <br/>
+<img width="330" alt="image" src="https://github.com/user-attachments/assets/be65e014-8b5b-455c-8285-ddb784dd9ae5"><br/>
+![WhatsApp Image 2024-08-20 at 19 05 48_6d42dad9](https://github.com/user-attachments/assets/eabce9c8-661f-4cfd-8655-a99161530852)<br/>
+* Similarly, the ALU is also completed. The SLT(set less than) and SLTI( set less than immediate) share a common term with SLTIU( Set less than immediate unsigned) hence intermediate signals are used. <br/>
+![WhatsApp Image 2024-08-20 at 19 25 06_c23691ea](https://github.com/user-attachments/assets/19ca93a7-6202-426e-97f3-539eae5f750e)<br/>
+* The load and store instructions are used to transfer data between memory and registers. These instructions are essential for handling data in programs, as they enable reading from and writing to memory locations. <br/>
+<img width="491" alt="image" src="https://github.com/user-attachments/assets/acb91edf-2a11-4c48-9494-be1e23c7dc7a"><br/>
+![WhatsApp Image 2024-08-20 at 19 35 10_31e08c48](https://github.com/user-attachments/assets/7de91bc8-d27c-421c-bab5-a302aceaf86c)<br/>
+* The ALU is used to compute the address for load/store instructions. Later, the register file portion is also updated.<br/>
+<img width="491" alt="image" src="https://github.com/user-attachments/assets/c4fcad7f-dd47-4043-8387-364634023c08"><br/>
+![WhatsApp Image 2024-08-20 at 19 37 41_1d2d40c3](https://github.com/user-attachments/assets/92e572f2-8cb7-4a91-8365-bad35e270420)<br/>
+![WhatsApp Image 2024-08-20 at 19 41 13_66cfd8ec](https://github.com/user-attachments/assets/94039cdf-e58e-4881-be9a-f42fb3692aff)<br/>
+* The loading of data from memory is enabled by uncommenting the m4+dmem(@4) line. The interface signals are also connected.<br/>
+<img width="260" alt="image" src="https://github.com/user-attachments/assets/7bfd352d-90b1-4c2a-bae2-d56d0500bc2b"><br/>
+![WhatsApp Image 2024-08-20 at 19 58 05_5820f4f7](https://github.com/user-attachments/assets/b74f54f3-d41f-4218-9c02-7ac77c59d4d6)<br/>
+* We modify the test program to store the result in register r15.<br/>
+![WhatsApp Image 2024-08-20 at 19 54 06_4f6a5b44](https://github.com/user-attachments/assets/a86f6bb3-ddcc-416d-8ef4-bcc4b3fe7920)<br/>
+* We add the jump feature to the processor. There are two jumps- JAL(Jump and Link) and JALR( Jump and Link Register). JAL does the computation relative to the PC while JALR does the computation relative to a register. <br/>
+<img width="490" alt="image" src="https://github.com/user-attachments/assets/d8e6eb63-c416-4af5-9378-0b588e77cd17"><br/>
+![WhatsApp Image 2024-08-20 at 20 00 32_e1d6c24a](https://github.com/user-attachments/assets/e6165bff-bca4-4654-9661-f79f1322f842)<br/>
+* The PC is also modified accordingly. <br/>
+![WhatsApp Image 2024-08-20 at 22 09 18_d98830dc](https://github.com/user-attachments/assets/818980c4-8718-4093-afe2-ee0af8637d94)<br/>
+The entire design can be seen below: <br/>
+<img width="958" alt="image" src="https://github.com/user-attachments/assets/3ade5b73-729b-4981-b20d-caec5f0e59e5"><br/>
+The waveforms for the important signals are as follows:
+* reset and clock<br/>
+![WhatsApp Image 2024-08-21 at 10 56 19_2a79ce47](https://github.com/user-attachments/assets/1057ab7a-5529-4335-9e85-7795e93b6adf)<br/>
+For authenticity check, the clock is named as clk_arun.<br/>
+* Final result <br/>
+<img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
+It can be seen that the result of sum of numbers 1 to 9 is 45( 2D in hexadecimal) and is correct.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
