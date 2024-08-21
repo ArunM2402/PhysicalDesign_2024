@@ -8,6 +8,7 @@
 6. [FUNCTIONAL SIMULATION OF RISC-V](#functional-simulation-of-risc-v)
 7. [CUSTOM REAL-LIFE APPLICATION IMPLEMENTATION](#custom-real-life-application-implementation)<br/>
 8. [RISC-V MYTH WORKSHOP](#risc-v-myth-workshop)<br/>
+9. [SINGLE STAGE PROCESSOR](#single-stage-processor)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -585,12 +586,88 @@ The code is shown below. For authenticity check of design, the clock signal is m
 The distance calculation code can be extended to 3 dimensions by adding an extra coordinate value and making the appropriate changes as shown.
 ![WhatsApp Image 2024-08-18 at 15 30 12_531ba253](https://github.com/user-attachments/assets/6ba5097b-337e-49ed-9c9f-31035d9f2954)<br/>
 
+## SINGLE STAGE PROCESSOR
+We shall now look at how a processor's functionality can be implemented in a single stage. <br/>
+<img width="541" alt="image" src="https://github.com/user-attachments/assets/4ffb667f-56bc-4d1c-a7fb-b08317070637"><br/>
+We will be designing the processor in steps of blocks as shown below.
+1. Program Counter<br/>
+ Program counter (or PC) holds the address of the next instruction to be executed in a program. It plays a crucial role in controlling the flow of a program by keeping track of where the processor is in the sequence of instructions. <br/>
+ <img width="530" alt="image" src="https://github.com/user-attachments/assets/758d37fb-2642-491f-84a8-8d692041c323"><br/>
+ ![WhatsApp Image 2024-08-20 at 00 56 53_19e2e44d](https://github.com/user-attachments/assets/2bd4057a-0f20-4d78-b377-bb57575cbb67)<br/>
+2. Fetch<br/>
+The instruction fetch unit (IFU) takes care of program instructions to be fetched from memory, and executed, in an appropriate order. The IFU reads the address stored in the Program Counter (PC) and retrieves the corresponding instruction from memory. The efficiency of the IFU directly impacts the performance of the CPU. If the IFU can quickly and accurately fetch instructions, the rest of the pipeline can operate at maximum efficiency.<br/>
+<img width="266" alt="image" src="https://github.com/user-attachments/assets/789e3c6b-87f9-4470-87c5-f7010ef9e5da"><br/>
+![WhatsApp Image 2024-08-20 at 00 59 46_4b3d398c](https://github.com/user-attachments/assets/c153ab7a-e598-455c-86bc-c81725db1871)<br/>
+3. Decode<br/>
+The Instruction Decode (ID) stage is a crucial part of the CPU's pipeline where the fetched instruction is interpreted, and the necessary control signals are generated to direct the subsequent stages of execution. <br/>
+<img width="532" alt="image" src="https://github.com/user-attachments/assets/f2c936fd-0801-4df6-84cd-360134a2c43b"><br/>
+There are basically 6 types of instructions: R-type(Register),I-type(Immediate),S-type(Store),B-type(Branch),U-type(Upper Immediate),J-type(Jump).<br/>
+<img width="583" alt="image" src="https://github.com/user-attachments/assets/80188248-ab28-4922-a8e5-e263ab3df96d"><br/>
+![WhatsApp Image 2024-08-20 at 01 00 56_44a78b42](https://github.com/user-attachments/assets/b98e49f5-38a3-4673-9241-ef10ac963163)<br/>
+The immediate data is decoded accordingly as shown: <br/>
+<img width="571" alt="image" src="https://github.com/user-attachments/assets/7532fe61-b542-40a3-894a-d881b3b56ed4"><br/>
+![WhatsApp Image 2024-08-20 at 01 02 00_b22ae7fa](https://github.com/user-attachments/assets/cda8763d-6640-4d81-a2e5-72d03f6ef040)<br/>
+Other important fields like rs1,rs2,rd,func3,func7 are also decoded.<br/>
+<img width="568" alt="image" src="https://github.com/user-attachments/assets/a7d0720c-839a-43ff-a86e-67ee76b050ed"><br/>
+![WhatsApp Image 2024-08-20 at 01 03 30_f1bed109](https://github.com/user-attachments/assets/3cdc8ac6-9c35-4964-8a6a-1c4e6ea0f896)<br/>
+![WhatsApp Image 2024-08-20 at 01 04 44_5d0d417e](https://github.com/user-attachments/assets/5132b719-0c13-4dad-a9b7-b99f1d62b2c8)<br/>
+The instructions marked in red below can also be decoded and added to the stage. To ignore warnings, we use `BOGUS_USE directive. <br/>
+<img width="479" alt="image" src="https://github.com/user-attachments/assets/090dfd11-1666-4a5c-b48c-ad2cf4c15d5f"><br/>
+![WhatsApp Image 2024-08-20 at 01 07 02_f7903f11](https://github.com/user-attachments/assets/cac7b2c4-2ee7-4538-84d2-5e072f6d43f1)<br/>
+4. Register file <br/>
+The register file consists of a set of registers used to hold temporary data and operands for instructions. It acts as a fast storage area where the processor can quickly read and write data, which is essential for efficient execution of instructions. <br/>
+<img width="563" alt="image" src="https://github.com/user-attachments/assets/c2f942bb-99a5-4264-9ccd-a4683daba38d"><br/>
+![WhatsApp Image 2024-08-20 at 01 09 23_b0be82ca](https://github.com/user-attachments/assets/4465cf8e-05e6-4384-886c-6552ee3d4a1a)<br/>
+5. ALU <br/>
+ALU is responsible for performing arithmetic and logical operations on the data provided by the instruction. The inputs for the ALU block comes from the register file. Based on the opcode(which decides the operation), the result is computed. <br/>
+<img width="572" alt="image" src="https://github.com/user-attachments/assets/8f8db678-ddbd-48eb-a38f-445e05f91446"><br/>
+![WhatsApp Image 2024-08-20 at 01 15 06_300d0148](https://github.com/user-attachments/assets/79af6bca-50d5-440d-b89e-a4eb906cd019)<br/>
+![WhatsApp Image 2024-08-20 at 01 19 42_01ccd776](https://github.com/user-attachments/assets/bb0fe32d-4470-4fa2-90f8-97fd3f11bf95)<br/>
+6. Writeback/ Register file write <br/>
+Once the result is computed, the output is written back to a register file. This helps us save the output if and when it is required for further instructions/operations. <br/>
+<img width="544" alt="image" src="https://github.com/user-attachments/assets/93db6d48-994a-4127-bc6d-aa687deb0693"><br/>
+![WhatsApp Image 2024-08-20 at 01 23 10_64c603b3](https://github.com/user-attachments/assets/c3cca216-0b3a-4d0a-b7fb-ee59533e4995)<br/>
+7. Branch instructions<br/>
+Branch instructions in RISC-V are used to alter the flow of execution based on the result of a comparison. These instructions allow for conditional execution, loops, and decision-making within programs. They are handled differently since they can alter the PC contents. <br/>
+<img width="549" alt="image" src="https://github.com/user-attachments/assets/0c5a8f09-298f-4170-8863-2db9a37c254d"><br/>
+![WhatsApp Image 2024-08-20 at 01 34 51_70775ebe](https://github.com/user-attachments/assets/b6630542-0fea-440f-81eb-a9641234638c)<br/>
+8. TESTBENCH<br/>
+To verify the working, we can add a testbench command to check if the simulation has passed or not. <br/>
+```
+*passed = |cpu/xreg[10]>>5$value == (1+2+3+4+5+6+7+8+9);
+```
+![WhatsApp Image 2024-08-20 at 01 37 31_8629a791](https://github.com/user-attachments/assets/f41cb395-f3da-4432-a443-ad4eb5fcac2f) <br/>
+As seen, the sum of numbers 1 to 9 is calculated to be 45 (2D in hexadecimal). The log file also shows a confirmation by simulation passed message.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
 * https://fraserinnovations.com/risc-v/risc-v-instruction-set-explanation/
 * https://github.com/vinayrayapati/rv32i
+* https://github.com/stevehoover/RISC-V_MYTH_Workshop/blob/master/risc-v_shell.tlv
   
 
 
