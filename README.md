@@ -406,6 +406,185 @@ int main() {
 ![app2](https://github.com/user-attachments/assets/aa11e1fe-e075-4b67-adae-abef373e95e2)
 
 ***From the snapshots of both compilation(GCC and RISC-V), we can see that the outputs are same.***
+
+## RISC-V MYTH WORKSHOP
+### TL-Verilog in Makerchip IDE
+* Makerchip is a free tool used to design circuits. It can be used on your browser to code, compile, simulate and debug designs.
+* Transaction Verilog or TL-Verilog is an extension to Verilog HDL. It has simpler syntaxes and provides a higher level of abstraction which makes coding easy.
+### Logic gates
+* Logic gates are the fundamental building blocks of digital circuits. They are very instrumental in design of all combinational and sequential circuits. The common gates with their truth table are shown below:
+<img width="551" alt="image" src="https://github.com/user-attachments/assets/dbd91fc7-7b53-4591-8443-0a551bceb91a"> <br/>
+### Basic combinational circuits in Makerchip
+1. Pythagorean example
+   Let us see a code that finds the hypotenuse( pythagorean distance between two points).
+   ```
+   \m4_TLV_version 1d: tl-x.org
+   \SV
+   `include "sqrt32.v";
+   
+   m4_makerchip_module
+   \TLV
+   
+   // Stimulus
+   
+   // DUT (Design Under Test)
+   |calc
+      
+         @1
+            $aa_sq[7:0] = $aa[3:0] ** 2;
+            $bb_sq[7:0] = $bb[3:0] ** 2;
+         @2
+            $cc_sq[8:0] = $aa_sq + $bb_sq;
+         @3
+            $cc[4:0] = sqrt($cc_sq);
+     \SV
+     endmodule
+    ```
+The picture is shown below:
+![WhatsApp Image 2024-08-17 at 22 55 31_e77c5e76](https://github.com/user-attachments/assets/b6725f7f-4b72-496e-be0a-385e52a74365)
+2. Inverter
+```
+$out = ! $in1;
+```
+![WhatsApp Image 2024-08-17 at 23 33 15_d39fceee](https://github.com/user-attachments/assets/edc55890-ce85-42c7-a6f4-57a0483c6e70)
+3. And gate
+```
+$out = $in1 && $in2;
+```
+![WhatsApp Image 2024-08-17 at 23 34 56_01681869](https://github.com/user-attachments/assets/96ec4814-2c99-458f-9f46-30c9ec607555)
+4. OR gate
+```
+$out = $in1 || $in2;
+```
+![WhatsApp Image 2024-08-17 at 23 35 45_e1d8c035](https://github.com/user-attachments/assets/75f88810-d8e8-4b09-a57a-c7f0d7f044ec)
+5. XOR gate
+```
+$out = $in1 ^ $in2;
+```
+![WhatsApp Image 2024-08-17 at 23 40 50_81dd1b69](https://github.com/user-attachments/assets/3cd4ef22-1e1e-441f-bd4a-71483457088b)
+6. Using vectors
+```
+$out[4:0] = $in1[3:0] + $in2[3:0] ;
+```
+![WhatsApp Image 2024-08-17 at 23 43 30_b6d2e6ae](https://github.com/user-attachments/assets/4510c662-05d4-4fde-9012-72831c6efeab)
+7. Multiplexer
+```
+$out = $sel ? $in1 : $in2;
+```
+![WhatsApp Image 2024-08-17 at 23 46 06_b77d3926](https://github.com/user-attachments/assets/bb004dfe-d94f-48e0-8d58-8bd5efaecaec)
+```
+$out[7:0] = $sel ? $in1[7:0] : $in2[7:0] ;
+```
+![WhatsApp Image 2024-08-17 at 23 47 45_4a125a72](https://github.com/user-attachments/assets/d6dc2adc-29e4-48bf-b42c-4c58bbce8bba)
+
+8. Basic Calculator
+Below shown is a basic calculator which performs addition, subtraction, multiplication and division. The inputs are given random values. There is an operand select line which chooses 1 out of 4 operations.
+<img width="430" alt="image" src="https://github.com/user-attachments/assets/64233cc1-f057-49c7-aaf1-5289df98e107"> <br/>
+![WhatsApp Image 2024-08-17 at 23 55 14_eedb6eb1](https://github.com/user-attachments/assets/124c6276-db16-4c14-95a8-3d68046be19b)
+
+### Basic sequential circuits in Makerchip
+1. Fibonacci series <br/>
+<img width="316" alt="image" src="https://github.com/user-attachments/assets/e4b02c17-e9b6-46fb-9697-42b9b48cef4e"> <br/>
+![WhatsApp Image 2024-08-18 at 00 05 25_7d888ff3](https://github.com/user-attachments/assets/dc660d9d-c3fe-4a68-961c-9f8276f34bf7)
+2. Counter <br/>
+<img width="191" alt="image" src="https://github.com/user-attachments/assets/bc5df02c-64d2-4f34-b62d-787778901186"> <br/>
+![WhatsApp Image 2024-08-18 at 00 07 47_3caad1b4](https://github.com/user-attachments/assets/4a65ac05-68f7-4659-b381-71e2f28e3ed1)
+3. Sequential Calculator
+We will be extending our earlier calculator with one of the inputs being the earlier output( feedback loop). <br/>
+<img width="465" alt="image" src="https://github.com/user-attachments/assets/21e135bd-92cd-4660-8f33-72ac314393f0"><br/>
+![WhatsApp Image 2024-08-18 at 00 19 49_a2e0038b](https://github.com/user-attachments/assets/1118dead-83ce-46ec-a56b-8c9c7425811f)
+
+### CONCEPT OF PIPELINING
+Pipelining refers to the technique of dividing the execution of an instruction into several stages.This allows multiple instructions to be processed simultaneously, improving the overall throughput of the processor.
+We'll illustrate the concept using the example of Pythagorean distance calculation which we used earlier.
+* Below shown is the case of the entire set of instructions being exceuted in a single stage. <br/>
+![WhatsApp Image 2024-08-18 at 12 18 00_33014522](https://github.com/user-attachments/assets/05409387-244a-4788-8956-99c31e35c2d4) <br/>
+* Now we divide our code into 3 stages with appropriate time stamps. <br/>
+![WhatsApp Image 2024-08-18 at 12 18 35_d93618a7](https://github.com/user-attachments/assets/9f279826-528d-471e-99cf-71f956f67dd3) <br/>
+* We can also have a 5 stage pipeline with intermediate stages also being considered as shown. <br/>
+![WhatsApp Image 2024-08-18 at 12 19 17_f9ba0631](https://github.com/user-attachments/assets/ea8892d5-c703-44a7-8cb0-9665f3978391)<br/>
+* Below shown is a case when the value of a is taken from the stage-4 and given back to stage-0.
+![WhatsApp Image 2024-08-18 at 12 20 00_318f6076](https://github.com/user-attachments/assets/867f1dbf-6847-45e1-82a6-3f3ec428324e)
+* The same can be extended to n-stages(example 12) as shown.<br/>
+![WhatsApp Image 2024-08-18 at 12 20 54_938eef29](https://github.com/user-attachments/assets/4746e1a4-021b-4a14-a7c0-e93da3fabbd0)<br/>
+* The code can be extended to find total distance of points using pipelining as shown.<br/>
+![WhatsApp Image 2024-08-18 at 15 04 19_c15d4c1a](https://github.com/user-attachments/assets/17b28daa-d754-4fe4-90b3-f367f93ee7a7)<br/>
+
+Let us now see the working of a calculator integrated with counter with stages.
+* Here the calculator and counter functionality are in a single stage. <br/>
+<img width="473" alt="image" src="https://github.com/user-attachments/assets/6b064866-fe9c-4805-9d7e-eae742d66273"><br/>
+![WhatsApp Image 2024-08-18 at 12 35 57_9a3c4381](https://github.com/user-attachments/assets/276a409d-c742-4ba8-9a12-f49ec22cc131)<br/>
+* We can extend the code to a 2 cycle pipeline. We add a valid signal which along with reset forces the operation-decidiing mux to force an output value of 0.<br/>
+<img width="416" alt="image" src="https://github.com/user-attachments/assets/c63b812e-4ea0-47ed-9299-c6eda8df4686"><br/>
+![WhatsApp Image 2024-08-18 at 12 56 07_5adad01c](https://github.com/user-attachments/assets/a4a27907-9f54-4906-b2e2-d3414fb9987c)<br/>
+* The code can be further modified by changing the valid logic to a valid_or_reset signal logic. This signal decides the validity of the design.
+<img width="413" alt="image" src="https://github.com/user-attachments/assets/67a4b1f8-7957-4c26-91a1-d0b8aca66ded"> <br/>
+The code is shown below. For authenticity check of design, the clock signal is modified as clk_arun.
+```
+\m4_TLV_version 1d: tl-x.org
+\SV
+   // This code can be found in: https://github.com/stevehoover/RISC-V_MYTH_Workshop
+   
+   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/RISC-V_MYTH_Workshop/bd1f186fde018ff9e3fd80597b7397a1c862cf15/tlv_lib/calculator_shell_lib.tlv'])
+
+\SV
+   m4_makerchip_module   // (Expanded in Nav-TLV pane.)
+
+\TLV   
+   |calc
+      @0
+         $reset = *reset;
+         $clk_arun = *clk;
+      @1
+         $val1 [31:0] = >>2$out [31:0];
+         $val2 [31:0] = $rand2[3:0];
+         
+         $valid = $reset ? 1'b0 : >>1$valid + 1'b1 ;
+         $valid_or_reset = $valid || $reset;
+         
+      ?$vaild_or_reset
+         @1   
+            $sum [31:0] = $val1 + $val2;
+            $diff[31:0] = $val1 - $val2;
+            $prod[31:0] = $val1 * $val2;
+            $quot[31:0] = $val1 / $val2;
+            
+         @2   
+            $out [31:0] = $reset ? 32'b0 :
+                          ($op[1:0] == 2'b00) ? $sum :
+                          ($op[1:0] == 2'b01) ? $diff :
+                          ($op[1:0] == 2'b10) ? $prod :
+                                                $quot ;
+            
+            
+
+      // Macro instantiations for calculator visualization(disabled by default).
+      // Uncomment to enable visualisation, and also,
+      // NOTE: If visualization is enabled, $op must be defined to the proper width using the expression below.
+      //       (Any signals other than $rand1, $rand2 that are not explicitly assigned will result in strange errors.)
+      //       You can, however, safely use these specific random signals as described in the videos:
+      //  o $rand1[3:0]
+      //  o $rand2[3:0]
+      //  o $op[x:0]
+      
+   //m4+cal_viz(@3) // Arg: Pipeline stage represented by viz, should be atleast equal to last stage of CALCULATOR logic.
+
+   
+   // Assert these to end simulation (before Makerchip cycle limit).
+   *passed = *cyc_cnt > 40;
+   *failed = 1'b0;
+   
+
+  \SV
+   endmodule
+ ```
+<img width="929" alt="image" src="https://github.com/user-attachments/assets/b9ea7a64-aad4-4b3c-bb20-f94aabecfdc1"><br/>
+
+### 3D distance calculation
+The distance calculation code can be extended to 3 dimensions by adding an extra coordinate value and making the appropriate changes as shown.
+![WhatsApp Image 2024-08-18 at 15 30 12_531ba253](https://github.com/user-attachments/assets/6ba5097b-337e-49ed-9c9f-31035d9f2954)<br/>
+
+
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
