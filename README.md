@@ -7,6 +7,7 @@
 5. [ENCODING INSTRUCTIONS](#encoding-instructions)
 6. [FUNCTIONAL SIMULATION OF RISC-V](#functional-simulation-of-risc-v)
 7. [CUSTOM REAL-LIFE APPLICATION IMPLEMENTATION](#custom-real-life-application-implementation)<br/>
+8. [RISC-V MYTH WORKSHOP](#risc-v-myth-workshop)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
