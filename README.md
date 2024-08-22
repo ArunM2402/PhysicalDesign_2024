@@ -684,8 +684,9 @@ The waveforms for the important signals are as follows:
 ![WhatsApp Image 2024-08-21 at 10 56 19_2a79ce47](https://github.com/user-attachments/assets/1057ab7a-5529-4335-9e85-7795e93b6adf)<br/>
 For authenticity check, the clock is named as clk_arun.<br/>
 * Final result <br/>
+<img width="109" alt="image" src="https://github.com/user-attachments/assets/46e52332-7644-4af7-ac6d-6346c0fe24f6"><br/>
 <img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
-It can be seen that the result of sum of numbers 1 to 9 is 45( 2D in hexadecimal) and is correct.
+It can be seen that the result of sum of numbers 1 to 9 is 45( 2D in hexadecimal) and is correct. The result is stored in Reg-15(as mentioned in our test code) which can be seen from the visualization window.
 
 
 
