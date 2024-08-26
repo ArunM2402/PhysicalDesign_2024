@@ -10,6 +10,7 @@
 8. [RISC-V MYTH WORKSHOP](#risc-v-myth-workshop)<br/>
 9. [SINGLE STAGE PROCESSOR](#single-stage-processor)<br/>
 10. [5-STAGE PIPELINE PROCESSOR](#5-stage-pipeline-processor)<br/>
+11. 
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -687,54 +688,47 @@ For authenticity check, the clock is named as clk_arun.<br/>
 <img width="109" alt="image" src="https://github.com/user-attachments/assets/46e52332-7644-4af7-ac6d-6346c0fe24f6"><br/>
 <img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
 It can be seen that the result of sum of numbers 1 to 9 is 45( 2D in hexadecimal) and is correct. The result is stored in Reg-15(as mentioned in our test code) which can be seen from the visualization window.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## SIMULATION OF RISCV CORE USING IVERILOG
+The designed core in MakerChip IDE is in TL-Verilog language. It is to be converted to Verilog HDL. This is done with the help of the sandpiper-saas compiler. Pre-synthesis simulation was carried out using the GTKWave simulator. <br/>
+**NOTE: All codes (.tlv,.v,tb.v) are included as separated files in the same repository.**
+### STEPS
+* Installing packages
+```
+sudo apt install make python python3 python3-pip git iverilog gtkwave docker.io
+sudo chmod 666 /var/run/docker.sock
+```
+* Installing sandpiper
+```
+sudo apt-get install python3-venv
+python3 -m venv .venv
+source ~/.venv/bin/activate
+pip3 install pyyaml click sandpiper-saas
+```
+* Clone the reference repository given.
+```
+git clone https://github.com/manili/VSDBabySoC.git
+```
+![sand3](https://github.com/user-attachments/assets/1a258d72-91da-4794-a79e-78a6cf912bec)<br/>
+* Write your TLV code instead of the existing code and save it with .tlv extension.
+* Run the compiler to convert the code into .v file
+```
+sandpiper-saas -i ./src/module/pgm.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./src/module/
+```
+![sand_t](https://github.com/user-attachments/assets/b6f01572-4f66-488d-b8b3-666e645e516d)<br/>
+* Write the testbench file and simulate.
+```
+iverilog -o output/pre_synth_sim.out -DPRE_SYNTH_SIM src/module/testbench.v -I src/include -I src/module
+```
+* Run the .out file from output directory.
+```
+cd output
+./pre_synth_sim.out
+```
+* A VCD file is generated. Run it using gtkwave to observe waveform.
+```
+gtkwave pre_synth_sim.vcd
+```
+![sand_wave](https://github.com/user-attachments/assets/5e215682-849c-41e3-97a7-69a67d1edd82)<br/>
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
