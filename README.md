@@ -10,7 +10,7 @@
 8. [RISC-V MYTH WORKSHOP](#risc-v-myth-workshop)<br/>
 9. [SINGLE STAGE PROCESSOR](#single-stage-processor)<br/>
 10. [5-STAGE PIPELINE PROCESSOR](#5-stage-pipeline-processor)<br/>
-11. 
+11. [SIMULATION OF RISCV CORE USING IVERILOG](#simulation-of-riscv-core-using-iverilog)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -714,7 +714,8 @@ git clone https://github.com/manili/VSDBabySoC.git
 ```
 sandpiper-saas -i ./src/module/pgm.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./src/module/
 ```
-![sand_t](https://github.com/user-attachments/assets/b6f01572-4f66-488d-b8b3-666e645e516d)<br/>
+<img width="472" alt="image" src="https://github.com/user-attachments/assets/ee06d1c9-b24a-4c8d-a2fa-f629b64d5f87"><br/>
+
 * Write the testbench file and simulate.
 ```
 iverilog -o output/pre_synth_sim.out -DPRE_SYNTH_SIM src/module/testbench.v -I src/include -I src/module
@@ -724,17 +725,25 @@ iverilog -o output/pre_synth_sim.out -DPRE_SYNTH_SIM src/module/testbench.v -I s
 cd output
 ./pre_synth_sim.out
 ```
+<img width="733" alt="image" src="https://github.com/user-attachments/assets/5c0ab1fa-9885-4701-b73e-357e0166ff20"><br/>
 * A VCD file is generated. Run it using gtkwave to observe waveform.
 ```
 gtkwave pre_synth_sim.vcd
 ```
-![sand_wave](https://github.com/user-attachments/assets/5e215682-849c-41e3-97a7-69a67d1edd82)<br/>
+<img width="514" alt="image" src="https://github.com/user-attachments/assets/6b7f7fe4-e704-47ee-843e-76aa83298c82"> <br/>
+As observed, there is a 10 bit output which has the value 2D ( Sum of 1 to 9 in hexadecimal). There is also a clock signal (clk_arun) and reset(reset) associated with the core. The CPU result just verifies the same with the ALU operation. <br/>
+For convienance, the graphs obtained from the earlier lab (MakerChip IDE) is added below. <br/>
+![WhatsApp Image 2024-08-21 at 10 56 19_2a79ce47](https://github.com/user-attachments/assets/1057ab7a-5529-4335-9e85-7795e93b6adf)<br/>
+<img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
+It can be seen that the result is 2D in both graphs. Hence we can say that the designed core is functionally correct.
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
 * https://fraserinnovations.com/risc-v/risc-v-instruction-set-explanation/
 * https://github.com/vinayrayapati/rv32i
 * https://github.com/stevehoover/RISC-V_MYTH_Workshop/blob/master/risc-v_shell.tlv
+* https://github.com/Subhasis-Sahu/SFAL-VSD
+* https://github.com/shivanishah269/risc-v-core/tree/master/FPGA_Implementation
   
 
 
