@@ -736,6 +736,71 @@ For convienance, the graphs obtained from the earlier lab (MakerChip IDE) is add
 ![WhatsApp Image 2024-08-21 at 10 56 19_2a79ce47](https://github.com/user-attachments/assets/1057ab7a-5529-4335-9e85-7795e93b6adf)<br/>
 <img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
 It can be seen that the result is 2D in both graphs. Hence we can say that the designed core is functionally correct.
+## BABYSOC SIMULATION-PRE-SYNTHESIS
+* OpenSTA (Open Static Timing Analyzer) is an open-source software tool used for static timing analysis (STA) in digital integrated circuit (IC) design. It helps in validating the timing performance of a circuit without requiring simulation of the entire design. It can be installed using
+```
+git clone https://github.com/The-OpenROAD-Project/OpenSTA.git
+cd OpenSTA
+mkdir build
+cd build
+cmake ..
+make -j20
+sudo make install
+```
+![Screenshot from 2024-09-02 18-22-45](https://github.com/user-attachments/assets/a2553a97-0028-4dcf-88b5-ee2153558b18)<br/>
+![Screenshot from 2024-09-02 18-23-17](https://github.com/user-attachments/assets/e3d171e2-4844-45cd-8aa1-e8023f424ffa)<br/>
+* Yosys is an open-source framework for Verilog RTL synthesis. It is widely used in digital design workflows to convert high-level Verilog descriptions of digital circuits into gate-level representations that can be used for further implementation in FPGAs, ASICs, or for formal verification. It can be installed using:
+```
+sudo apt-get update
+ git clone https://github.com/YosysHQ/yosys.git
+ cd yosys
+ sudo apt install make (If make is not installed please install it) 
+ sudo apt-get install build-essential clang bison flex \
+    libreadline-dev gawk tcl-dev libffi-dev git \
+    graphviz xdot pkg-config python3 libboost-system-dev \
+    libboost-python-dev libboost-filesystem-dev zlib1g-dev
+ make config-gcc
+ make -j20
+ sudo make install
+```
+![Screenshot from 2024-08-30 09-06-41](https://github.com/user-attachments/assets/c34608ce-0a0b-41b4-b745-bfde37096974)<br/>
+![Screenshot from 2024-08-30 09-32-32](https://github.com/user-attachments/assets/fc5aa08f-7416-43dc-a417-f553ddddac28)<br/>
+* Icarus Verilog (or Iverilog) is an open-source Verilog simulation and synthesis tool. It is widely used in digital design for simulating and verifying Verilog hardware descriptions.Icarus Verilog also supports synthesis, though its synthesis capabilities are limited. It can be instaled using:
+```
+sudo apt-get install iverilog
+```
+![Screenshot from 2024-09-02 18-29-18](https://github.com/user-attachments/assets/ffb11308-5c70-4226-8726-3dea2bd7af43)<br/>
+* GTKWave is an open-source waveform viewer that is widely used in digital design to view and analyze simulation results. It is primarily used to generate waveform from dump files, such as VCD (Value Change Dump), LXT, or FST files. GTKWave provides a graphical interface to observe how signals in a digital design change over time. It can be installed using:
+```
+sudo apt install gtkwave
+```
+![Screenshot from 2024-09-02 18-29-32](https://github.com/user-attachments/assets/82cab9ae-31c4-4ef8-8b11-de41252387c9)
+
+* The next step is to download all the files required for simulation. For this, we clone the reference github repository.
+```
+git clone https://github.com/manili/VSDBabySoC.git
+```
+* We replace the .tlv file with our core code. We can also use the earlier generated .v files.
+* We have to generate the vcd dump file for the gtkwave platform using the following steps:
+```
+cd VSDBabySoC
+iverilog -o output/pre_synth_sim.out -DPRE_SYNTH_SIM src/module/testbench.v -I src/include -I src/module
+cd output
+./pre_synth_sim.out
+gtkwave pre_synth_sim.vcd
+```
+![Screenshot from 2024-09-02 18-34-17](https://github.com/user-attachments/assets/343f6edd-dc26-465d-8295-efe9a445aad9)<br/>
+### Waveforms
+The waveforms generated from gtkwave are shown below:
+![Screenshot from 2024-09-02 09-41-03](https://github.com/user-attachments/assets/31bfa046-d6c1-4802-96be-5fa458abdfe6)<br/>
+The following observations can be made:
+1. Custom Clock signal
+2. Reset signal
+3. Analog signal output from DAC module
+4. Sum of numbers 1 to 9 which is 2D. This value is reflected across output of ALU unit from CPU stage, the 10 bit output from designed core(RV_TO_DAC) and 10 bit wire D.
+The analog output is analogous to the 10 bit output from the core.
+
+
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
