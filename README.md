@@ -800,14 +800,17 @@ gtkwave pre_synth_sim.vcd
 ```
 ![Screenshot from 2024-09-02 18-34-17](https://github.com/user-attachments/assets/343f6edd-dc26-465d-8295-efe9a445aad9)<br/>
 ### Waveforms
-The waveforms generated from gtkwave are shown below:
+The waveforms generated from gtkwave are shown below: <br/>
+![Screenshot from 2024-09-02 21-14-09](https://github.com/user-attachments/assets/1100c3c7-8e3c-4232-94cd-8dec8d641378)<br/>
 ![Screenshot from 2024-09-02 09-41-03](https://github.com/user-attachments/assets/31bfa046-d6c1-4802-96be-5fa458abdfe6)<br/>
 The following observations can be made:
 1. Custom Clock signal
 2. Reset signal
 3. Analog signal output from DAC module
 4. Sum of numbers 1 to 9 which is 2D. This value is reflected across output of ALU unit from CPU stage, the 10 bit output from designed core(RV_TO_DAC) and 10 bit wire D.
-The analog output is analogous to the 10 bit output from the core.
+The analog output is analogous to the 10 bit output from the core.<br/>
+The timestamps of the project done is attached below:<br/>
+![image](https://github.com/user-attachments/assets/751e3971-97ff-482e-98c9-ea78ed8a373c)
 
 
 ## REFERENCES
