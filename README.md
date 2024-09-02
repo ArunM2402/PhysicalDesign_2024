@@ -11,6 +11,7 @@
 9. [SINGLE STAGE PROCESSOR](#single-stage-processor)<br/>
 10. [5-STAGE PIPELINE PROCESSOR](#5-stage-pipeline-processor)<br/>
 11. [SIMULATION OF RISCV CORE USING IVERILOG](#simulation-of-riscv-core-using-iverilog)<br/>
+12. [BABYSOC SIMULATION-PRE-SYNTHESIS](#babysoc-simulation-pre-synthesis)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -737,6 +738,13 @@ For convienance, the graphs obtained from the earlier lab (MakerChip IDE) is add
 <img width="525" alt="image" src="https://github.com/user-attachments/assets/0577b3c9-f458-4417-8757-6322aeb9107d"><br/>
 It can be seen that the result is 2D in both graphs. Hence we can say that the designed core is functionally correct.
 ## BABYSOC SIMULATION-PRE-SYNTHESIS
+SoC is a single chip that integrates all components of a computer or other electronic system. SOCs are commonly used in mobile devices, embedded systems, and increasingly in other areas of electronics. VSDBabySoC is a similar chip modelled on RISC-V which is able to perform some operations. It is generally used to design and test simple functionalities. It consists of:
+* RVMYTH core is a simple RISCV-based CPU, which was designed earlier in this course.(refer earlier labs). It was  created from scratch using the TLV Verilog. The core was designed to add numbers from 1 to 9 and generate the sum output.
+* A phase-locked loop or PLL is a control system that generates an output signal whose phase is related to the phase of an input signal.
+* A digital-to-analog converter or DAC is a system that converts a digital signal into an analog signal.The DAC module gets the 10 bit digital output from the rvmyth core and generate the corresponding analog output signal 'OUT'.
+<img width="610" alt="image" src="https://github.com/user-attachments/assets/07cb353c-b4b4-4ce7-bf04-45fb07c207e4"><br/>
+The steps are as shown below: <br/>
+### Installing tools: <br/>
 * OpenSTA (Open Static Timing Analyzer) is an open-source software tool used for static timing analysis (STA) in digital integrated circuit (IC) design. It helps in validating the timing performance of a circuit without requiring simulation of the entire design. It can be installed using
 ```
 git clone https://github.com/The-OpenROAD-Project/OpenSTA.git
@@ -774,7 +782,8 @@ sudo apt-get install iverilog
 ```
 sudo apt install gtkwave
 ```
-![Screenshot from 2024-09-02 18-29-32](https://github.com/user-attachments/assets/82cab9ae-31c4-4ef8-8b11-de41252387c9)
+![Screenshot from 2024-09-02 18-29-32](https://github.com/user-attachments/assets/82cab9ae-31c4-4ef8-8b11-de41252387c9) <br/>
+### GENERATING VCD FILE <br/>
 
 * The next step is to download all the files required for simulation. For this, we clone the reference github repository.
 ```
@@ -809,6 +818,7 @@ The analog output is analogous to the 10 bit output from the core.
 * https://github.com/stevehoover/RISC-V_MYTH_Workshop/blob/master/risc-v_shell.tlv
 * https://github.com/Subhasis-Sahu/SFAL-VSD
 * https://github.com/shivanishah269/risc-v-core/tree/master/FPGA_Implementation
+* https://github.com/manili/VSDBabySoC.git
   
 
 
