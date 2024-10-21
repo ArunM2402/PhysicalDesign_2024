@@ -957,7 +957,7 @@ This is simulated using iverilog and waveform is seen using gtkwave as shown bel
 As seen from the waveform, it clearly defines the behaviour of a 2:1 multiplexer.
 #### Introduction to Yosys and Logic synthesis.
 Synthesis is the process that converts RTL into a technology-specific gate-level netlist, optimized for a set of pre-defined constraints. Yosys is a tool used to convert the RTL from the netlist. A netlist is a file that represents the gates and flip-flops required to implement the design in hardware and the ineterconnections between them which is a result of the synthesis process. Yosys is provided with both the design and its corresponding .lib file, and its task is to generate the netlist.<br/>
-![image](https://github.com/user-attachments/assets/ae22451d-1b74-4545-81ed-0cd6450521ad)
+![image](https://github.com/user-attachments/assets/ae22451d-1b74-4545-81ed-0cd6450521ad)<br/>
 The .lib file is a library of standard cells that can be used to implement any logic function. It includes different versions of the same standard cell, such as low speed, high speed etc. We have two kinds of cells- fast and slow.
 * Faster cells are used when the onus is to achieve high performance but at the cost of power.
 * Slower cells are used in portable systems where power is a major concern at the cost of speed. <br/>
@@ -1004,7 +1004,7 @@ write_verilog -noattr good_mux_netlist.v
 #### Hiererchical Synthesis and Flat Synthesis
 Hierarchical synthesis is breaking a comples modules into smaller, more manageable sub-modules or blocks. Each of these sub-modules can be synthesized or designed independently before being integrated into the larger system.
 Let us consider the following example:<br/>
-![image](https://github.com/user-attachments/assets/431abb7d-c50f-4363-834b-d9e33ccdf5b5)
+![image](https://github.com/user-attachments/assets/431abb7d-c50f-4363-834b-d9e33ccdf5b5)<br/>
 The module multiple_modules instantiates two sub_modules where the sub_module1 implements the AND gate and sub_module2 implements the OR gate which are integrated in the multiple_modules.
 The commands are:
 ```
@@ -1020,7 +1020,7 @@ write_verilog multiple_modules_hier.v
 ![Screenshot from 2024-10-20 14-41-24](https://github.com/user-attachments/assets/0242a119-9bdf-4cd2-9b28-30b4f2eb2d20)
 ![Screenshot from 2024-10-20 14-41-45](https://github.com/user-attachments/assets/30b4d8f2-0e49-4901-be50-8c070d08aa55)
 ![Screenshot from 2024-10-20 14-43-26](https://github.com/user-attachments/assets/3e839256-b1fe-4a1e-814c-a25f5845fe41)
-![image](https://github.com/user-attachments/assets/6a1de80b-7ca7-40ec-83d6-a4d056110352)
+![image](https://github.com/user-attachments/assets/6a1de80b-7ca7-40ec-83d6-a4d056110352)<br/>
 Flattening the hierarchy means simplifying the hierarchical structure of a design by collapsing or merging lower-level modules or blocks into a single, unified representation. The commands are:
 ```
 yosys
@@ -1072,7 +1072,7 @@ write_verilog -noattr <netlist_name.v>
 ```
 * Here dfflibmap is used to enable technology mapping of dflipflops.
 #### Different Types of Flipflops:
-1. D flip-flop with Asynchronous reset
+1. D flip-flop with Asynchronous reset<br/>
 This flipflop has the reset as higher priority than clock.
 ```
 module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
@@ -1090,7 +1090,7 @@ endmodule
 ![Screenshot from 2024-10-20 15-30-54](https://github.com/user-attachments/assets/790c0c58-88f5-4d11-a804-7d0d1d94c644)
 ![Screenshot from 2024-10-20 15-31-07](https://github.com/user-attachments/assets/738765e6-8e4d-499e-8407-a88565446112)
 ![Screenshot from 2024-10-20 15-33-07](https://github.com/user-attachments/assets/98077210-00b7-486e-8a41-a3b809a71542)
-2. D flip-flop with synchronous reset
+2. D flip-flop with synchronous reset<br/>
 This flipflop has the clock as higher priority than reset.
 ```
 module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
@@ -1107,7 +1107,7 @@ endmodule
 ![Screenshot from 2024-10-20 15-27-52](https://github.com/user-attachments/assets/84a992b1-5232-4586-b7cf-2770348c34bb)
 ![Screenshot from 2024-10-20 15-36-29](https://github.com/user-attachments/assets/6a1ec9f3-fce3-4de1-bf18-2733e2f68cb0)
 ![Screenshot from 2024-10-20 15-37-09](https://github.com/user-attachments/assets/f03a8cf5-9730-452c-ba51-dad238d2b873)
-3. D flip-flop with Asynchronous set
+3. D flip-flop with Asynchronous set<br/>
 A D flip-flop with asynchronous set combines the functionality of a D flip-flop with the ability to set its state asynchronously. This means that the flip-flop's stored value can be set to 1 or high state regardless of the clock signal's state.
 ```
 module dff_async_set ( input clk ,  input async_set , input d , output reg q );
@@ -1123,7 +1123,7 @@ endmodule
 ![image](https://github.com/user-attachments/assets/77c65a81-eaf0-4a8e-a3d3-6399f0e563bb)
 ![Screenshot from 2024-10-20 15-35-20](https://github.com/user-attachments/assets/81ad531e-0f2a-4bd5-9108-0581a99c837f)
 ![Screenshot from 2024-10-20 15-35-45](https://github.com/user-attachments/assets/f219f164-64be-4caf-b640-f71caa1764be)
-4. D flip-flop with Asynchronous and Synchronous reset
+4. D flip-flop with Asynchronous and Synchronous reset<br/>
 A D flip-flop with both asynchronous and synchronous reset that combines the features of a D flip-flop with the ability to reset its state using either an asynchronous reset input or a synchronous reset input. 
 ```
 module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
@@ -1139,7 +1139,7 @@ end
 endmodule
 ```
 #### Optimization
-1. Example 1:
+1. Example 1:<br/>
 The code is shown below:
 ```
 module mul2 (input [2:0] a, output [3:0] y);
@@ -1149,7 +1149,7 @@ endmodule
 ![Screenshot from 2024-10-20 15-49-04](https://github.com/user-attachments/assets/1c8397b5-926b-4ae1-b005-b006f5e76d26)
 ![Screenshot from 2024-10-20 15-50-07](https://github.com/user-attachments/assets/472a1961-44f7-4a21-b90b-f0efe61a3cca)
 As seen,the code doesn't need any hardware and it only needs the proper wiring of the input bits to the output and grounding the bit y0.
-2. Example 2:
+2. Example 2:<br/>
 The code is shown below:
 ```
 module mult8 (input [2:0] a , output [5:0] y);
@@ -1157,7 +1157,307 @@ module mult8 (input [2:0] a , output [5:0] y);
 endmodule
 ```
 ![Screenshot from 2024-10-20 15-56-12](https://github.com/user-attachments/assets/8889c567-83ab-4e9a-a0e7-1bb94c3551af)
-In this design the 3-bit input number "a" is multiplied by 9 i.e.,(a*9) which can be re-written as (a*8) + a . The term (a*8) is nothing but a left shifting the number a by three bits. Consider that a = a2 a1 a0. (a*8) results in a2 a1 a0 0 0 0. (a*9)=(a*8)+a = a2 a1 a0 a2 a1 a0 = aa(in 6 bit format). Hence in this case no hardware realization is required.
+In this design, the 3-bit number a is multiplied by 9 which can be re-written as 8a+a. This is nothing but left shifting a by 3 bits.Consider that a = a2 a1 a0. (8a) results in a2 a1 a0 0 0 0. (9a)=(8a)+a = a2 a1 a0 a2 a1 a0 = aa(in 6 bit format). Hence in this case no hardware realization is required.
+### Day - 3 : Combinational and Sequential Optimisations
+Optimisations are done inorder to achieve designs that are efficient in terms of area, power, and performance. There are two types:
+#### Combinational circuit optimization
+1. Constant Propagation (Direct Optimisation)<br/>
+Consider the example: <br/>
+![image](https://github.com/user-attachments/assets/b992a367-ef8b-45c6-a6bf-dcab5c510911)
+The circuit can be optimized using De-Morgan's theorem as shown:<br/>
+![image](https://github.com/user-attachments/assets/250016d3-ce3d-49fb-99ab-aea3ca139422)
+2. Boolean Logic Optimisation
+Consider the example shown:
+```
+assign y = a?(b?c:(c?a:0)):(!c);
+```
+This will create a mux as shown.<br/>
+![image](https://github.com/user-attachments/assets/35386db5-41b4-41e9-b2c9-51cf5692f374)
+It can be optimized as : <br/>
+![image](https://github.com/user-attachments/assets/31b31355-4aba-4a4c-8028-bcdf6c5f85a1)
+#### Sequential circuit optimization
+It is of two types:
+1. Basic Techniques<br/>
+   a. Sequential Constant Propagation
+2. Advanced Techniques<br/>
+   a.State Optimisation<br/>
+   b.Retiming<br/>
+   c.Sequential Logic Cloning<br/>
+
+1. Sequential Constant Propagation<br/>
+The D flip-flop shown in the figure is positive edge triggered with asynchronous reset and the data input D is always tied to the ground (i.e, low state or logic 0). When reset is applied the output of the flop becomes low and if reset it deasserted the output of the flop still remains low. Hence the output Y to be always in high state (logic 1 or VDD). Hence the optimised version of this circuit is connecting the output port Y directly to VDD i.e., the supply voltage. <br/>
+![image](https://github.com/user-attachments/assets/54face00-ea96-47d6-a0f9-16cecb771a24)<br/>
+2. State Optimisation<br/>
+State optimization refers to the process of minimizing the number of unused states in a digital circuit's state machine.
+3. Sequential Logic Cloning<br/>
+Sequential logic cloning is used to replicate or clone a portion of a sequential logic circuit while maintaining its functionality and behavior. <br/>
+![image](https://github.com/user-attachments/assets/0e7a57f2-48e6-4da3-afac-9a9f8493c1b9) <br/>
+Consider flop A has large positive slack. Since B and C are placed far, there will be routing delay. To avoid this flop A and the combinational logic 2 is replicated or cloned in the paths of B and C as shown in the figure below. <br/>
+![image](https://github.com/user-attachments/assets/026268d8-1437-4913-bdd0-9a4904c3e88e)
+4. Retiming<br/>
+Retiming used to improve the performance interms of better timing characteristics by repositioning the registers (flip-flops) within the circuit without altering its functionality.The placement of these registers can significantly impact the circuit's overall performance, including its critical path delay, clock frequency, and power consumption. Consider the diagram shown below:<br/>
+![image](https://github.com/user-attachments/assets/063cb748-01df-4035-8561-44cc33591d19)<br/>
+Here the propagation delay/maximum frequency of the circuit depends on the combinational circuit delay.(Assuming Flop C has no setup time). As seen, the maximum operating frequency will be minimum(200,500) which is 200MHz.<br/>
+This can be optimized by retiming the circuit such that the delays between the flops change as shown. The maximum operating frequency is also increased.<br/>
+![image](https://github.com/user-attachments/assets/89ba9741-c153-4429-8023-7c181da9e071)<br/>
+#### Combinational Optimization labs:
+The flow is as shown: <br/>
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
+read_verilog <module_name.v> 
+synth -top <top_module_name>
+# flatten # Use if multiple modules are present
+opt_clean -purge
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+show
+write_verilog -noattr <netlist_name.v>
+```
+* opt_clean is used to remove unused cells and wires. The -purge switch removes internal nets if they have a public name.
+1. Example 1:<br/>
+The code is as shown:
+```
+module opt_check (input a , input b , output y);
+	assign y = a?b:0;
+endmodule
+```
+![Screenshot from 2024-10-20 19-09-32](https://github.com/user-attachments/assets/45eaec76-ba81-4f54-aa8e-d2497a8b2603)
+![Screenshot from 2024-10-20 19-25-51](https://github.com/user-attachments/assets/7f196c04-f127-4d0e-a55a-218a103a22f2)
+![Screenshot from 2024-10-20 19-26-52](https://github.com/user-attachments/assets/084d644a-b5ca-410c-b688-ee604298fa16)
+2. Example 2:<br/>
+The code is as shown:
+```
+module opt_check2 (input a , input b , output y);
+	assign y = a?1:b;
+endmodule
+```
+![image](https://github.com/user-attachments/assets/3b35304b-bfdc-4e8f-a6d2-d862b3f4152d)
+![Screenshot from 2024-10-20 19-28-22](https://github.com/user-attachments/assets/cf3ef552-fa55-4f42-93be-4e53299879ec)
+![Screenshot from 2024-10-20 19-29-37](https://github.com/user-attachments/assets/1b64012c-6adc-48a3-9eac-0e9930c28223)
+3. Example 3:<br/>
+The code is shown below:
+```
+module opt_check3 (input a , input b, input c , output y);
+	assign y = a?(c?b:0):0;
+endmodule
+```
+![Screenshot from 2024-10-20 19-31-20](https://github.com/user-attachments/assets/2e392673-436e-40f9-9654-992ec3c5d338)
+![Screenshot from 2024-10-20 19-31-42](https://github.com/user-attachments/assets/dea7fba9-6b58-40cb-97cd-6630d6c806ea)
+![Screenshot from 2024-10-20 19-33-20](https://github.com/user-attachments/assets/35cb407e-37fc-4bd1-a07b-9454e19af817)
+4. Example 4:<br/>
+The code is shown below:
+```
+module opt_check3 (input a , input b, input c , output y);
+	assign y = a?(c?b:0):0;
+endmodule
+```
+![Screenshot from 2024-10-20 20-04-25](https://github.com/user-attachments/assets/29e9d8e7-385a-4fb9-a8b3-17286ca5ee55)
+![Screenshot from 2024-10-20 20-05-40](https://github.com/user-attachments/assets/2a7a538f-5641-49a8-920f-9ce4f88f45f3)
+![Screenshot from 2024-10-20 20-06-12](https://github.com/user-attachments/assets/d84fc9cc-ba1d-4743-8f86-59668f05640c)
+5. Example 5:<br/>
+The code is shown below:
+```
+module sub_module1(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+
+module sub_module2(input a , input b , output y);
+ assign y = a^b;
+endmodule
+
+
+module multiple_module_opt(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+assign y = c | (b & n1); 
+
+
+endmodule
+```
+![Screenshot from 2024-10-20 20-08-35](https://github.com/user-attachments/assets/56a2b606-005f-4d9f-a7ac-81f99a2bac88)
+6. Example 6:<br/>
+The code is shown below:
+```
+module sub_module(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+
+
+module multiple_module_opt2(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+sub_module U2 (.a(b), .b(c) , .y(n2));
+sub_module U3 (.a(n2), .b(d) , .y(n3));
+sub_module U4 (.a(n3), .b(n1) , .y(y));
+
+
+endmodule
+```
+![Screenshot from 2024-10-20 20-10-07](https://github.com/user-attachments/assets/c79c18cd-a8d4-4238-b586-da2f2d275176)
+#### Sequential Optimization labs:
+The commands are similar to earlier labs. Here we first show the simulation using iverilog and gtkwave. Then we optimize the synthesis using yosys.
+1. Example 1:<br/>
+The code is shown below:
+```
+module dff_const1(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b0;
+	else
+		q <= 1'b1;
+end
+
+endmodule
+```
+![image](https://github.com/user-attachments/assets/12a42f8b-4e30-48c6-b08b-fdba1c706974)
+![image](https://github.com/user-attachments/assets/6a0571cf-e3f6-4d7c-a3b3-d6a1732f7cb9)
+![Screenshot from 2024-10-20 21-51-01](https://github.com/user-attachments/assets/22710977-07a7-4788-90de-978a47881e68)
+![Screenshot from 2024-10-20 21-52-05](https://github.com/user-attachments/assets/b8e800a3-36e3-4df4-8eaf-f1ee95e4453a)
+2. Example 2:<br/>
+The code is shown below:
+```
+module dff_const2(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b1;
+	else
+		q <= 1'b1;
+end
+endmodule
+```
+![Screenshot from 2024-10-20 21-44-32](https://github.com/user-attachments/assets/28f20731-13c8-49a2-8ae9-30c4af710ae8)
+![image](https://github.com/user-attachments/assets/3e8be070-a902-4b33-ab00-472661c6d5fb)
+![Screenshot from 2024-10-20 21-53-20](https://github.com/user-attachments/assets/4320f6a7-2612-4e62-8017-e67ce1854a3c)
+![Screenshot from 2024-10-20 21-54-04](https://github.com/user-attachments/assets/12b4fe25-042d-41fb-9bf2-5cbe9457296b)
+* COMPARISON: The above designs can be compared and differences can be observed with the diagram below. <br/>
+![Screenshot from 2024-10-20 21-48-18](https://github.com/user-attachments/assets/1d8dd1ec-def7-4518-9550-7bb2b3ca6273)
+3. Example 3:<br/>
+The code is shown below:
+```
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+![image](https://github.com/user-attachments/assets/3556dc41-20ed-4696-a41a-5d0b577c6bbe)
+![image](https://github.com/user-attachments/assets/cadfc355-18e0-4a16-835e-c9337e8d8d48)
+![Screenshot from 2024-10-20 21-58-26](https://github.com/user-attachments/assets/c21cc704-875e-467e-81ce-89707ee9ac8a)
+![Screenshot from 2024-10-20 21-59-00](https://github.com/user-attachments/assets/ded296d5-4275-4500-b52e-25743d8942b3)
+4. Example 4:<br/>
+The code is shown below:
+```
+module dff_const4(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b1;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+![Screenshot from 2024-10-20 22-02-10](https://github.com/user-attachments/assets/03173bc5-25e9-456a-808a-ab40c0f2c637)
+![Screenshot from 2024-10-20 22-00-39](https://github.com/user-attachments/assets/9df1463b-ebb8-4635-ad25-edb52b904097)
+![Screenshot from 2024-10-20 22-01-05](https://github.com/user-attachments/assets/5a7e4495-6efd-40ba-8635-317789db82e6)
+5. Example 5:<br/>
+The code is shown below:
+```
+module dff_const5(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b0;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+![image](https://github.com/user-attachments/assets/b5d5877b-eeb9-42cd-ad1f-ed7f09f69f8a)
+![Screenshot from 2024-10-20 22-04-13](https://github.com/user-attachments/assets/cbdd62d0-f4d6-4978-af6c-c2d445e75040)
+#### Optimization of unused states:
+In verilog, especially sequential circuits, there are optimizations which involve the reduction of flops. Here each flop correspond to a state. <br/>
+1. Example 1:<br/>
+The code is shown below:
+```
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = count[0];
+
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
+end
+
+endmodule
+```
+The commands and steps are similar to the earlier labs.
+![Screenshot from 2024-10-20 22-15-31](https://github.com/user-attachments/assets/b2a1284a-3f98-4012-9ac8-6b12498f90de)
+![Screenshot from 2024-10-20 22-16-46](https://github.com/user-attachments/assets/4ffaaf29-bb20-4eb2-a7aa-b705b89c4e24)
+As seen, there is only one flop inferred.
+2. Example 2:<br/>
+The code is shown below:
+```
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = (count[2:0] == 3'b100);
+
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
+end
+
+endmodule
+```
+![Screenshot from 2024-10-20 22-19-48](https://github.com/user-attachments/assets/539f8789-bc91-41fd-bb4b-72e0e1591178)
+![Screenshot from 2024-10-20 22-21-03](https://github.com/user-attachments/assets/44d3a00b-caeb-4649-85f6-0f0471737ba1)
+Here we can see that there are three flops inferred.
 
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
