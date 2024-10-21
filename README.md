@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/95e7498a-03c4-46b5-a0ac-953603638da1)# Physical Design_2024
+# Physical Design_2024
 ## TABLE OF CONTENTS
 1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
