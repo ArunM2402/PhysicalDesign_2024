@@ -1,4 +1,4 @@
-# Physical Design_2024
+![image](https://github.com/user-attachments/assets/95e7498a-03c4-46b5-a0ac-953603638da1)# Physical Design_2024
 ## TABLE OF CONTENTS
 1. [GCC COMPILATION OF C PROGRAM](#gcc-compilation-of-c-program)
 2. [RISC V COMPILATION OF C PROGRAM](#risc-v-compilation-of-c-program)
@@ -992,14 +992,172 @@ show
 write_verilog -noattr good_mux_netlist.v
 ```
 ![Screenshot from 2024-10-19 17-57-29](https://github.com/user-attachments/assets/24d0d8c9-2d4c-45ce-8a9c-a19699a46fc6)
-![Screenshot from 2024-10-19 17-59-17](https://github.com/user-attachments/assets/6c301bd4-54ea-48f1-82a1-48af6a4ded0d)
+![Screenshot from 2024-10-19 18-09-44](https://github.com/user-attachments/assets/ee290993-e238-4e13-8fe4-67ffe39da051)
 
 ### Day 2: Timing libs, Hierarchical vs Flat Synthesis and Efficient flop coding styles
+* .lib file: It is a Liberty format library file that describes the characteristics of digital cells in a standard cell library. This file is essential for synthesis and timing analysis, as it contains information about Cell descriptions, timing information,power consumption,logical and electrical paramaters.
+* One of the fundamental parameter stored within .lib files comprises PVT parameters, where P signifies Process, V represents Voltage, and T denotes Temperature. The variations in these parameters can cause significant changes in the performance of circuits.
+* Process Variation: During the manufacturing process, there may be some deviations in the transistor characteristics, causing non-uniformity across the semiconductor wafer. Critical parameters like oxide thickness, dopant concentration, and transistor dimensions experience alterations.
+* Voltage Variation: Voltage regulators might exhibit variability in their output voltage over time, inducing fluctuations in current and impacting the operational speed of circuits.
+* Temperature Variation: The functionality of a semiconductor device is sensitive to changes in temperature, particularly at the internal junctions of the chip.
+![Screenshot from 2024-10-20 14-32-08](https://github.com/user-attachments/assets/8f8d1b70-4436-49ac-b62a-ac13c6542bc7)
+#### Hiererchical Synthesis and Flat Synthesis
+Hierarchical synthesis is breaking a comples modules into smaller, more manageable sub-modules or blocks. Each of these sub-modules can be synthesized or designed independently before being integrated into the larger system.
+Let us consider the following example:<br/>
+![image](https://github.com/user-attachments/assets/431abb7d-c50f-4363-834b-d9e33ccdf5b5)
+The module multiple_modules instantiates two sub_modules where the sub_module1 implements the AND gate and sub_module2 implements the OR gate which are integrated in the multiple_modules.
+The commands are:
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+read_verilog 
+read_verilog multiple_modules.v 
+synth -top multiple_modules
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+show multiple_modules
+write_verilog multiple_modules_hier.v
+```
+![Screenshot from 2024-10-20 14-41-24](https://github.com/user-attachments/assets/0242a119-9bdf-4cd2-9b28-30b4f2eb2d20)
+![Screenshot from 2024-10-20 14-41-45](https://github.com/user-attachments/assets/30b4d8f2-0e49-4901-be50-8c070d08aa55)
+![Screenshot from 2024-10-20 14-43-26](https://github.com/user-attachments/assets/3e839256-b1fe-4a1e-814c-a25f5845fe41)
+![image](https://github.com/user-attachments/assets/6a1de80b-7ca7-40ec-83d6-a4d056110352)
+Flattening the hierarchy means simplifying the hierarchical structure of a design by collapsing or merging lower-level modules or blocks into a single, unified representation. The commands are:
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+read_verilog 
+read_verilog multiple_modules.v 
+synth -top multiple_modules
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+flatten
+show multiple_modules
+write_verilog multiple_modules_hier.v
+```
+![Screenshot from 2024-10-20 14-51-35](https://github.com/user-attachments/assets/6b856b1f-f1f7-4e71-a427-3b5274776040)
+![Screenshot from 2024-10-20 14-55-09](https://github.com/user-attachments/assets/c4349c89-7feb-4326-93c9-d4a8aaa6220f)
+The flatten command breaks the hierarchy and makes the design into a single module by creating AND and OR gates for the logics inferred by the submodule which is shown in the images above. <br/>
+The comparison between the two can be seen below:
+![Screenshot from 2024-10-20 14-52-50](https://github.com/user-attachments/assets/ed1dce37-ac6f-46e2-86ad-4f7ba87038bd)
+#### Synthesising a Submodule:
+Sub-module synthesis refers to the process of synthesizing a portion of a larger digital design, focusing on specific modules or components rather than the entire design. This approach is often used in larger designs to improve manageability, reduce complexity, and optimize the synthesis process.
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+read_verilog multiple_modules.v 
+synth -top sub_module
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+show
+```
+![Screenshot from 2024-10-20 14-57-14](https://github.com/user-attachments/assets/4d23ac22-25e6-49d9-a286-8550d4ced7f4)
 
-
-
-
-
+#### Various Flops Coding Styles and optimization
+A flip-flop is a fundamental sequential synchronous electronic circuit that is capable of storing information. A single flip-flop can store 1- bit of information and several flip-flops can be grouped together to form registers and memory that can store multiple bits of information. 
+Need for flipflops:
+* In any electronic circuit there will always be an propagation delay. These delays may cause glitches in the output which may cause the output state to change when it is not supposed to. In order to avoid the glitches a D flip-flop can be connected at the output so that the output will change only at the rising or falling edge of the clock.
+Steps:
+```
+iverilog rtl_design.v testbench.v
+./a.out
+gtkwave testbench.vcd
+```
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
+read_verilog <module_name.v> 
+synth -top <top_module_name>
+dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+show
+write_verilog -noattr <netlist_name.v>
+```
+* Here dfflibmap is used to enable technology mapping of dflipflops.
+#### Different Types of Flipflops:
+1. D flip-flop with Asynchronous reset
+This flipflop has the reset as higher priority than clock.
+```
+module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
+always @ (posedge clk , posedge async_reset)
+begin
+	if(async_reset)
+		q <= 1'b0;
+	else	
+		q <= d;
+end
+endmodule
+```
+![image](https://github.com/user-attachments/assets/53311df9-76d2-4c46-b75f-046a0adb242e)
+![Screenshot from 2024-10-20 15-06-51](https://github.com/user-attachments/assets/f50a4e47-b85d-4fb4-bcf1-2f707d2ff243)
+![Screenshot from 2024-10-20 15-30-54](https://github.com/user-attachments/assets/790c0c58-88f5-4d11-a804-7d0d1d94c644)
+![Screenshot from 2024-10-20 15-31-07](https://github.com/user-attachments/assets/738765e6-8e4d-499e-8407-a88565446112)
+![Screenshot from 2024-10-20 15-33-07](https://github.com/user-attachments/assets/98077210-00b7-486e-8a41-a3b809a71542)
+2. D flip-flop with synchronous reset
+This flipflop has the clock as higher priority than reset.
+```
+module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+always @ (posedge clk )
+begin
+	if (sync_reset)
+		q <= 1'b0;
+	else	
+		q <= d;
+end
+endmodule
+```
+![image](https://github.com/user-attachments/assets/4dfd92e1-8526-40f0-af36-469705705ad1)
+![Screenshot from 2024-10-20 15-27-52](https://github.com/user-attachments/assets/84a992b1-5232-4586-b7cf-2770348c34bb)
+![Screenshot from 2024-10-20 15-36-29](https://github.com/user-attachments/assets/6a1ec9f3-fce3-4de1-bf18-2733e2f68cb0)
+![Screenshot from 2024-10-20 15-37-09](https://github.com/user-attachments/assets/f03a8cf5-9730-452c-ba51-dad238d2b873)
+3. D flip-flop with Asynchronous set
+A D flip-flop with asynchronous set combines the functionality of a D flip-flop with the ability to set its state asynchronously. This means that the flip-flop's stored value can be set to 1 or high state regardless of the clock signal's state.
+```
+module dff_async_set ( input clk ,  input async_set , input d , output reg q );
+always @ (posedge clk , posedge async_set)
+begin
+	if(async_set)
+		q <= 1'b1;
+	else	
+		q <= d;
+end
+endmodule
+```
+![image](https://github.com/user-attachments/assets/77c65a81-eaf0-4a8e-a3d3-6399f0e563bb)
+![Screenshot from 2024-10-20 15-35-20](https://github.com/user-attachments/assets/81ad531e-0f2a-4bd5-9108-0581a99c837f)
+![Screenshot from 2024-10-20 15-35-45](https://github.com/user-attachments/assets/f219f164-64be-4caf-b640-f71caa1764be)
+4. D flip-flop with Asynchronous and Synchronous reset
+A D flip-flop with both asynchronous and synchronous reset that combines the features of a D flip-flop with the ability to reset its state using either an asynchronous reset input or a synchronous reset input. 
+```
+module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+always @ (posedge clk , posedge async_reset)
+begin
+	if(async_reset)
+		q <= 1'b0;
+	else if (sync_reset)
+		q <= 1'b0;
+	else	
+		q <= d;
+end
+endmodule
+```
+#### Optimization
+1. Example 1:
+The code is shown below:
+```
+module mul2 (input [2:0] a, output [3:0] y);
+	assign y = a * 2;
+endmodule
+```
+![Screenshot from 2024-10-20 15-49-04](https://github.com/user-attachments/assets/1c8397b5-926b-4ae1-b005-b006f5e76d26)
+![Screenshot from 2024-10-20 15-50-07](https://github.com/user-attachments/assets/472a1961-44f7-4a21-b90b-f0efe61a3cca)
+As seen,the code doesn't need any hardware and it only needs the proper wiring of the input bits to the output and grounding the bit y0.
+2. Example 2:
+The code is shown below:
+```
+module mult8 (input [2:0] a , output [5:0] y);
+	assign y = a * 9;
+endmodule
+```
+![Screenshot from 2024-10-20 15-56-12](https://github.com/user-attachments/assets/8889c567-83ab-4e9a-a0e7-1bb94c3551af)
+In this design the 3-bit input number "a" is multiplied by 9 i.e.,(a*9) which can be re-written as (a*8) + a . The term (a*8) is nothing but a left shifting the number a by three bits. Consider that a = a2 a1 a0. (a*8) results in a2 a1 a0 0 0 0. (a*9)=(a*8)+a = a2 a1 a0 a2 a1 a0 = aa(in 6 bit format). Hence in this case no hardware realization is required.
 
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
