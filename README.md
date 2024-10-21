@@ -811,6 +811,194 @@ The following observations can be made:
 The analog output is analogous to the 10 bit output from the core.<br/>
 The timestamps of the project done is attached below:<br/>
 ![image](https://github.com/user-attachments/assets/751e3971-97ff-482e-98c9-ea78ed8a373c)
+## VSD WORKSHOP
+### Day 0: Installing Tools
+* Iverilog, gtkwave,OpenSTA and yosys were installed as part of earlier labs. (refer above)
+* Ngspice: Ngspice is an open source spice simulator for electronic circuits comprising of JFETs, bipolar and MOS transistors, passive elements like R, L, or C, diodes, transmission lines and other devices, all interconnected in a netlist. The user can add their circuits as a netlist, and the output is one or more graphs of currents, voltages and other electrical quantities or is saved in a data file. It can be installed using the following commands:
+```
+# Dependency for ngspice:
+sudo apt-get install build-essential
+sudo apt-get install libxaw7-dev
+
+# ngspice installation:
+tar -zxvf ngspice-40.tar.gz
+cd ngspice-40
+mkdir release
+cd release
+../configure  --with-x --with-readline=yes --disable-debug
+make
+sudo make install
+```
+![image](https://github.com/user-attachments/assets/68d2e095-4fb1-41a1-bd1a-ee94eda18e94)
+* Magic: Magic is an electronic design automation (EDA) layout tool for very-large-scale integration (VLSI) integrated circuit developed at UCB. The main difference between Magic and other VLSI design tools is its use of "corner-stitched" geometry, in which all layout is represented as a stack of planes, and each plane consists entirely of "tiles" (rectangles). Magic is primarily famous for writing the scripting interpreter language Tcl. The steps to install is given below:
+```
+sudo apt-get install m4 tcsh csh libx11-dev tcl-dev tk-dev libcairo2-dev mesa-common-dev libglu1-mesa-dev libncurses-dev
+git clone https://github.com/RTimothyEdwards/magic
+cd magic
+./configure
+make
+sudo make install
+```
+![Screenshot from 2024-10-19 10-39-30](https://github.com/user-attachments/assets/a565d1d3-94df-4f38-8bb6-9f0fec11b561)
+* OpenLane: OpenLane is an automated RTL to GDSII flow based on several components including OpenROAD, Yosys, Magic, Netgen, CVC, SPEF-Extractor, KLayout and a number of custom scripts for design exploration and optimization. It also provides a number of custom scripts for design exploration and optimization. The flow performs all ASIC implementation steps from RTL all the way down to GDSII. The steps are :
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt install -y build-essential python3 python3-venv python3-pip make git
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+# docker installation:
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+sudo docker run hello-world
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo reboot
+
+# Check for installation
+sudo docker run hello-world
+```
+![image](https://github.com/user-attachments/assets/37055316-6539-455d-a09d-edde90eee225)<br/>
+OpenLane can be installed using:
+```
+cd $HOME
+git clone https://github.com/The-OpenROAD-Project/OpenLane
+cd OpenLane
+make
+make test
+```
+### Day 1: Introduction to Verilog RTL Design and Synthesis
+#### Introduction to Open source simulator
+* A simulator is a software tool that can be used to check the functionality of a circuit design before it is implemented in hardware. It does this by simulating the behavior of the design in software, using a Hardware Description Language (HDL) such as Verilog or VHDL.
+* To verify the correctness of the RTL design with the specification, a testbench is written in HDL and simulated using the open-source simulator, Icarus Verilog. he testbench generates stimulus signals that are applied to the RTL design, and the simulator monitors the output signals to ensure that they are correct.
+* The simulator monitors changes in the input signals. When an input signal changes, the simulator re-evaluates the RTL design and updates the output signals. The simulator records the changes in the input and output signals in a file called a Value Change Dump (VCD) file.
+* Gtkwave is used to open the VCD file and debug the working using waveforms.
+![Screenshot from 2024-10-21 10-26-22](https://github.com/user-attachments/assets/c2f1dd76-7a79-4708-9e61-e7247960e6e2)
+Steps:
+* We clone the required files from the github repository given.
+```
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+```
+An overview of files inside the directory is shown below: <br/>
+![Screenshot from 2024-10-19 17-09-47](https://github.com/user-attachments/assets/8bb52edf-320d-4774-b871-57fdd46176d4)<br/>
+The standard cell library is a collection of well defined and appropriately characterized logic gates that can be used to implement a digital design. Timing data of standard cells is provided in the Liberty format.
+
+The lib directory contains the library file sky130_fd_sc_hd__tt_025C_1v80.lib. Libraries in the SKY130 PDK are named using the following scheme:<br/>
+<Process_name><Library_Source_Abbreviation><Library_type_abbreviation>[_<Library_name] <br/>
+
+sky130 - Process Technology of the PDK sky130<br/>
+fd - SkyWater Foundry<br/>
+sc - Digital standard cells<br/>
+hd - High density<br/>
+tt - Typical Timing<br/>
+025C - 25 degree celsius Temperature<br/>
+1v80 - 1.8V Supply Voltage<br/>
+
+### Basic simulation demo
+Simulation is done to check the functionality of our designed module. Let us see the code first. We are using a file called good_mux.v given to us in the directory. The RTL is shown below:
+```
+// Verilog Code for 2:1 Mux
+
+/*
+All verilog code starts with module, ends with endmodule and within them the logic is written. 
+For RTL design portlist should be mentioned in the module and it should have atleast one input port and one output port.
+In this design there are two data input ports, one select line input port and one output port. 
+*/
+
+module good_mux (input i0 , input i1 , input sel , output reg y);
+always @ (*) // Whenever any one of the input changes execute the code enclosed between begin ... end
+begin
+	if(sel) //If sel = 1 then output y follows i1 else output y follows i0 
+		y <= i1;
+	else 
+		y <= i0;
+end
+endmodule
+```
+The testbench for the code is also shown.
+```
+`timescale 1ns / 1ps // defines the time units and time precision for simulation.
+module tb_good_mux; // AS mentioned earlier testbench doesnot have input and output ports
+	// Inputs
+	reg i0,i1,sel;
+	// Outputs
+	wire y;
+
+        // Instantiate the Unit Under Test (UUT)
+	good_mux uut (
+		.sel(sel),
+		.i0(i0),
+		.i1(i1),
+		.y(y)
+	);
+
+	initial begin
+	$dumpfile("tb_good_mux.vcd"); //This system task specifies the name of the VCD file where simulation waveform data will be written
+	$dumpvars(0,tb_good_mux); //This system task is used to specify which signals within a module should be included in the VCD file for waveform dumping.
+	// Initialize Inputs
+	sel = 0;
+	i0 = 0;
+	i1 = 0;
+	#300 $finish; //Terminate the simulation after 300ns
+	end
+
+always #75 sel = ~sel;  //Toggle the value of the select line after 75ns
+always #10 i0 = ~i0;   //Toggle the value of the select line after 10ns
+always #55 i1 = ~i1;  //Toggle the value of the select line after 55ns
+endmodule
+```
+This is simulated using iverilog and waveform is seen using gtkwave as shown below. <br/>
+![image](https://github.com/user-attachments/assets/dc2cdeb8-60f4-4267-9920-92162fe07b07)<br/>
+![image](https://github.com/user-attachments/assets/47b0dce3-d0df-414e-b10c-dfcac11d1097)<br/>
+As seen from the waveform, it clearly defines the behaviour of a 2:1 multiplexer.
+#### Introduction to Yosys and Logic synthesis.
+Synthesis is the process that converts RTL into a technology-specific gate-level netlist, optimized for a set of pre-defined constraints. Yosys is a tool used to convert the RTL from the netlist. A netlist is a file that represents the gates and flip-flops required to implement the design in hardware and the ineterconnections between them which is a result of the synthesis process. Yosys is provided with both the design and its corresponding .lib file, and its task is to generate the netlist.<br/>
+![image](https://github.com/user-attachments/assets/ae22451d-1b74-4545-81ed-0cd6450521ad)
+The .lib file is a library of standard cells that can be used to implement any logic function. It includes different versions of the same standard cell, such as low speed, high speed etc. We have two kinds of cells- fast and slow.
+* Faster cells are used when the onus is to achieve high performance but at the cost of power.
+* Slower cells are used in portable systems where power is a major concern at the cost of speed. <br/>
+The steps to synthesize are:
+* Invoke yosys- the tool for snthesizing.
+```
+yosys
+```
+* Read the liberty files into the current working directory.
+```
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+```
+* Read verilog file.
+```
+read_verilog good_mux.v 
+```
+![image](https://github.com/user-attachments/assets/7ea69957-6e2c-4477-ad42-08de76ca797a)
+* Synthesize the file. We specify the module to be the top module using -top.
+```
+synth -top good_mux
+```
+![Screenshot from 2024-10-19 17-51-22](https://github.com/user-attachments/assets/aa74c29f-62e8-4710-abce-79246ec2583c)
+
+* Generate the netlist. This command uses the ABC tool for technology mapping of yosys's internal gate library to a target architecture. The -lib switch liberty generate netlists for the specified cell library using the liberty file format. The show command is then used to view the synthesized diagram.
+```
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+show
+```
+![Screenshot from 2024-10-19 17-53-36](https://github.com/user-attachments/assets/38a16c74-92d4-47c8-891f-fc813f983231)
+* Write the netlist into a verilog file. This netlist contains information about the nets,wires and gates used. The -noattr switch skips the attributes from included in the output netlist.
+```
+write_verilog -noattr good_mux_netlist.v
+```
+![Screenshot from 2024-10-19 17-57-29](https://github.com/user-attachments/assets/24d0d8c9-2d4c-45ce-8a9c-a19699a46fc6)
+![Screenshot from 2024-10-19 17-59-17](https://github.com/user-attachments/assets/6c301bd4-54ea-48f1-82a1-48af6a4ded0d)
+
+### Day 2: Timing libs, Hierarchical vs Flat Synthesis and Efficient flop coding styles
+
+
+
+
 
 
 ## REFERENCES
