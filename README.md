@@ -1121,6 +1121,8 @@ begin
 end
 endmodule
 ```
+![image](https://github.com/user-attachments/assets/68635d23-9cb2-4370-bec3-35c77c78cc9c)
+![image](https://github.com/user-attachments/assets/9edd3cb5-d1ec-43b6-84fd-96f9b62441e0)
 ![image](https://github.com/user-attachments/assets/77c65a81-eaf0-4a8e-a3d3-6399f0e563bb)
 ![Screenshot from 2024-10-20 15-35-20](https://github.com/user-attachments/assets/81ad531e-0f2a-4bd5-9108-0581a99c837f)
 ![Screenshot from 2024-10-20 15-35-45](https://github.com/user-attachments/assets/f219f164-64be-4caf-b640-f71caa1764be)
@@ -1139,6 +1141,11 @@ begin
 end
 endmodule
 ```
+![image](https://github.com/user-attachments/assets/4a472a56-fef3-4f66-bd5a-4d7c80e36a50)
+![image](https://github.com/user-attachments/assets/9baa1ff9-6eb1-4ab4-8816-cb62a5763afe)
+![image](https://github.com/user-attachments/assets/40fe7e9e-46ec-4809-be5d-fd1acfff00a5)
+![image](https://github.com/user-attachments/assets/d3d5e187-8a41-472b-8597-2fffeb796c1f)
+![image](https://github.com/user-attachments/assets/22f85380-7a73-4240-b60b-3bf81647c0fa)
 #### Optimization
 1. Example 1:<br/>
 The code is shown below:
@@ -1248,9 +1255,9 @@ endmodule
 4. Example 4:<br/>
 The code is shown below:
 ```
-module opt_check3 (input a , input b, input c , output y);
-	assign y = a?(c?b:0):0;
-endmodule
+module opt_check4 (input a , input b , input c , output y);
+ assign y = a?(b?(a & c ):c):(!c);
+ endmodule
 ```
 ![Screenshot from 2024-10-20 20-04-25](https://github.com/user-attachments/assets/29e9d8e7-385a-4fb9-a8b3-17286ca5ee55)
 ![Screenshot from 2024-10-20 20-05-40](https://github.com/user-attachments/assets/2a7a538f-5641-49a8-920f-9ce4f88f45f3)
@@ -1280,7 +1287,10 @@ assign y = c | (b & n1);
 
 endmodule
 ```
-![Screenshot from 2024-10-20 20-08-35](https://github.com/user-attachments/assets/56a2b606-005f-4d9f-a7ac-81f99a2bac88)
+![image](https://github.com/user-attachments/assets/e3c05d5e-0d5f-465c-a20f-1b31cd7352e0)
+![image](https://github.com/user-attachments/assets/2f1d2f1c-56f2-4400-9338-c85d2e5d0f68)
+![image](https://github.com/user-attachments/assets/27daae0f-8ab1-4a65-a54f-38243d2a8e07)
+
 6. Example 6:<br/>
 The code is shown below:
 ```
@@ -1301,7 +1311,9 @@ sub_module U4 (.a(n3), .b(n1) , .y(y));
 
 endmodule
 ```
-![Screenshot from 2024-10-20 20-10-07](https://github.com/user-attachments/assets/c79c18cd-a8d4-4238-b586-da2f2d275176)
+![image](https://github.com/user-attachments/assets/3a13f173-fa0f-42f2-aa8e-ddf448ef92b0)
+![image](https://github.com/user-attachments/assets/67a9f0dd-6538-462c-9bc2-483f6e789348)
+![image](https://github.com/user-attachments/assets/44a3dad4-17f5-40b6-93f6-8746e12a9dad)
 #### Sequential Optimization labs:
 The commands are similar to earlier labs. Here we first show the simulation using iverilog and gtkwave. Then we optimize the synthesis using yosys.
 1. Example 1:<br/>
