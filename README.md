@@ -12,6 +12,7 @@
 10. [5-STAGE PIPELINE PROCESSOR](#5-stage-pipeline-processor)<br/>
 11. [SIMULATION OF RISCV CORE USING IVERILOG](#simulation-of-riscv-core-using-iverilog)<br/>
 12. [BABYSOC SIMULATION-PRE-SYNTHESIS](#babysoc-simulation-pre-synthesis)<br/>
+13. [VSD WORKSHOP-RTL DESIGN USING VERILOG WITH SKY130 TECHNOLOGY](#vsd-workshop-rtl-design-using-verilog-with-sky130-technology)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -811,8 +812,8 @@ The following observations can be made:
 The analog output is analogous to the 10 bit output from the core.<br/>
 The timestamps of the project done is attached below:<br/>
 ![image](https://github.com/user-attachments/assets/751e3971-97ff-482e-98c9-ea78ed8a373c)
-## VSD WORKSHOP
-### Day 0: Installing Tools
+## VSD WORKSHOP-RTL DESIGN USING VERILOG WITH SKY130 TECHNOLOGY
+### Installing Tools
 * Iverilog, gtkwave,OpenSTA and yosys were installed as part of earlier labs. (refer above)
 * Ngspice: Ngspice is an open source spice simulator for electronic circuits comprising of JFETs, bipolar and MOS transistors, passive elements like R, L, or C, diodes, transmission lines and other devices, all interconnected in a netlist. The user can add their circuits as a netlist, and the output is one or more graphs of currents, voltages and other electrical quantities or is saved in a data file. It can be installed using the following commands:
 ```
@@ -1437,7 +1438,7 @@ endmodule
 The commands and steps are similar to the earlier labs.
 ![Screenshot from 2024-10-20 22-15-31](https://github.com/user-attachments/assets/b2a1284a-3f98-4012-9ac8-6b12498f90de)
 ![Screenshot from 2024-10-20 22-16-46](https://github.com/user-attachments/assets/4ffaaf29-bb20-4eb2-a7aa-b705b89c4e24)
-As seen, there is only one flop inferred.
+As seen, there is only one flop inferred. <br/>
 2. Example 2:<br/>
 The code is shown below:
 ```
@@ -1457,8 +1458,165 @@ endmodule
 ```
 ![Screenshot from 2024-10-20 22-19-48](https://github.com/user-attachments/assets/539f8789-bc91-41fd-bb4b-72e0e1591178)
 ![Screenshot from 2024-10-20 22-21-03](https://github.com/user-attachments/assets/44d3a00b-caeb-4649-85f6-0f0471737ba1)
-Here we can see that there are three flops inferred.
-
+Here we can see that there are three flops inferred.<br/>
+### Day 4: Gate Level Simulation (GLS), Blocking Vs Non-blocking assignment and Synthesis-Simulation Mismatch
+* Gate Level Simulation helps ensure that the synthesized version of the design matches the specification both in terms of functionality and timing. It helps in debugging.The GLS flow is similar to the testbench flow except that gate level verilog models are also used. It is necessary to mention the gatelevel verilog models to iverilog to make the iverilog understand about the standard cell given in the library.<br/>
+![image](https://github.com/user-attachments/assets/e3236b09-7f57-43de-a799-f1d47c7f2383)<br/>
+* Synthesis-simulation mismatch refers to the differences between the behavior of a digital circuit as simulated at the Register Transfer Level (RTL) and its behavior after being synthesized to gate-level netlists. Synthesis-simulation mismatch can occur because of the following reasons: <br/>
+1. Missing Sensitivity List: <br/>
+Consider the below code:<br/>
+```
+module mux(
+	input i0,i1,s,
+	output reg y
+)
+	always @(sel) begin
+		if(sel)
+			y = i1;
+		else
+			y = i0;
+	end
+endmodule
+```
+Here the always block is sensitive only to select line. Hence if the inputs change, there won't be any effect on the output till there is a change in the select line.<br/>
+The corrected code would be:<br/>
+```
+module mux(
+	input i0,i1,s,
+	output reg y
+)
+	always @(*) begin //* - It considers changes in all the input signals. So always is evaluated whenever any signal changes.
+		if(sel)
+			y = i1;
+		else
+			y = i0;
+	end
+endmodule
+```
+2. Blocking and Non-Blocking Statements in Verilog:<br/>
+* Blocking assignments are denoted using the "=" operator. When a blocking assignment is executed, it directly assigns the right-hand side value to the left-hand side variable immediately within the current simulation cycle.
+* Non-blocking assignments are denoted using the "<=" operator. When a non-blocking assignment is encountered, the right-hand side value is scheduled to be assigned to the left-hand side variable at the end of the current simulation cycle. <br/>
+Consider the example shown below:<br/>
+```
+module code(
+	input clk,reset,d,
+	output reg q
+)
+	reg q0;
+	always @(posedge clk, posedge reset) begin
+		if(reset) begin
+			q=1'b0;
+			q0=1'b0;
+		end
+		else begin
+			q = q0; //Line 1
+			q0=d; // Line 2
+		end
+	end
+endmodule
+```
+Since blocking assignmnet is used,both the lines will be executed sequentially. First line 1 will be executed creating a flip-flop whose input is q0 and output is q. Then line 2 will be executed which creates a second flip-flop whose input is d and output is q0.<br/>
+![image](https://github.com/user-attachments/assets/985896b4-5d9d-4cff-a045-521f588b84c2)<br/>
+Now let us see another example: <br/>
+```
+module code(
+	input clk,reset,d,
+	output reg q
+)
+	reg q0;
+	always @(posedge clk, posedge reset) begin
+		if(reset) begin
+			q=1'b0;
+			q0=1'b0;
+		end
+		else begin
+			q0 = d; //Line 1
+			q=q0; // Line 2
+		end
+	end
+endmodule
+```
+Since , blocking assignment is used line 1 and line 2 will be executed sequentially. First line 1 will be executed which creates a D flip-flop with the input d and output q0, then line 2 is executed. Since q0 is already defined assigning q0 to q creates wire . Hence only flip-flop is inferred instead of two. <br/>
+![image](https://github.com/user-attachments/assets/df3fe35a-68b9-4e1b-9481-033fb5f5ecf1)<br>
+#### Labs:
+The steps are:
+* Simulation:
+```
+iverilog <rtl_name.v> <tb_name.v>
+./a.out
+gtkwave <dump_file_name.vcd>
+```
+* Synthesis:
+```
+yosys
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib  
+read_verilog <module_name.v> 
+synth -top <top_module_name>
+# opt_clean -purge # If optimisation has to be done
+# dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib # if sequential circuit is used 
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+show
+write_verilog -noattr <netlist_name.v>
+```
+* GLS:
+```
+iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v <netlist_name.v> <tb_name.v>
+./a.out
+gtkwave <dump_file_name.vcd>
+```
+1. Example 1: <br/>
+The code is shown below:
+```
+module ternary_operator_mux (input i0 , input i1 , input sel , output y);
+	assign y = sel?i1:i0;
+endmodule
+```
+![image](https://github.com/user-attachments/assets/31fe4556-5153-4a9a-8cee-172c0786a1da)
+![image](https://github.com/user-attachments/assets/e082d587-ebed-4c00-acac-57d97549bacd)
+![Screenshot from 2024-10-20 22-43-22](https://github.com/user-attachments/assets/c6f85807-a934-4009-8121-12303aa899c6)
+![Screenshot from 2024-10-20 22-45-18](https://github.com/user-attachments/assets/3319dfd4-303a-4b6e-9211-c2289f4d9291) <br/>
+The comparison for debugging can be seen below. The GLS waveform can be differentiated by noticing the extra wires and UUTs.<br/>
+![Screenshot from 2024-10-20 22-49-53](https://github.com/user-attachments/assets/91f8b76c-818d-4cd6-8f6d-04c3edf25f18)<br/>
+As seen there is no mismatch.<br/>
+2. Example 2: <br/>
+The code is shown below:
+```
+module bad_mux (input i0 , input i1 , input sel , output reg y);
+always @ (sel)
+begin
+	if(sel)
+		y <= i1;
+	else 
+		y <= i0;
+end
+endmodule
+```
+![image](https://github.com/user-attachments/assets/1e6c1658-ca5a-477b-9d8b-51cc29d2e50f)
+![image](https://github.com/user-attachments/assets/f61d0979-7084-4350-a800-939e909a445d)
+![Screenshot from 2024-10-20 22-53-32](https://github.com/user-attachments/assets/ac627e72-b412-4425-9aa6-c6ccb6d72865)
+![Screenshot from 2024-10-20 22-54-24](https://github.com/user-attachments/assets/e38bd0a4-f4cf-4180-b5d3-6554e4bd4ebb)
+The comparison for debugging can be seen below. The GLS waveform can be differentiated by noticing the extra wires and UUTs.<br/>
+![Screenshot from 2024-10-20 22-57-21](https://github.com/user-attachments/assets/d37ebf7a-f095-4ba4-8f82-a30b31f29299)<br/>
+Here, there is a mismatch.<br/>
+3. Example 3: <br/>
+The code is shown below:
+```
+module blocking_caveat (input a , input b , input  c, output reg d); 
+reg x;
+always @ (*)
+begin
+	d = x & c; //Line 1
+	x = a | b; //Line 2
+end
+endmodule
+```
+![image](https://github.com/user-attachments/assets/31e43dca-c6ee-4af7-8941-c89157a803b5)
+![image](https://github.com/user-attachments/assets/b1f02288-cf53-46bc-927c-b676bde098e7)
+![Screenshot from 2024-10-20 23-00-56](https://github.com/user-attachments/assets/9a50f53e-4fda-47fc-934b-156a8b6fd441)
+![Screenshot from 2024-10-20 23-02-09](https://github.com/user-attachments/assets/293c0d09-1948-462d-bce0-3ea0ea4a52d8)<br/>
+The comparison for debugging can be seen below. The GLS waveform can be differentiated by noticing the extra wires and UUTs.<br/>
+![Screenshot from 2024-10-20 23-04-42](https://github.com/user-attachments/assets/b3cd33eb-838d-4324-b260-8c13710e53a1)<br/>
+Here, there is a mismatch.<br/>
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
@@ -1468,6 +1626,7 @@ Here we can see that there are three flops inferred.
 * https://github.com/Subhasis-Sahu/SFAL-VSD
 * https://github.com/shivanishah269/risc-v-core/tree/master/FPGA_Implementation
 * https://github.com/manili/VSDBabySoC.git
+* https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
   
 
 
