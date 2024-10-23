@@ -13,6 +13,7 @@
 11. [SIMULATION OF RISCV CORE USING IVERILOG](#simulation-of-riscv-core-using-iverilog)<br/>
 12. [BABYSOC SIMULATION-PRE-SYNTHESIS](#babysoc-simulation-pre-synthesis)<br/>
 13. [VSD WORKSHOP-RTL DESIGN USING VERILOG WITH SKY130 TECHNOLOGY](#vsd-workshop-rtl-design-using-verilog-with-sky130-technology)<br/>
+14. [BABYSOC SIMULATION-POST SYNTHESIS](#babysoc-simulation-post-synthesis)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -1630,7 +1631,7 @@ The comparison for debugging can be seen below. The GLS waveform can be differen
 ![Screenshot from 2024-10-20 23-04-42](https://github.com/user-attachments/assets/b3cd33eb-838d-4324-b260-8c13710e53a1)<br/>
 Here, there is a mismatch.<br/>
 
-## BABYSOC SIMULATION- POST SYNTHESIS
+## BABYSOC SIMULATION-POST SYNTHESIS
 In this section, we will be seeing the synthesis and simulation of the BabySoC which we had designed earlier(Refer 12: BabySoC Simulation- Pre-synthesis). In the referred lab, we had generated a .v file from .tlv file using sandpiper and simulated it using iverilog and gtkwave. The waveform is obtained as shown in the repository. <br/>
 Now we will be synthesizing the same .v file using yosys, generating a netlist and simulate it using iverilog and gtkwave with the aim of obtaining the same waveform.<br/>
 The steps are as follows:<br/>
@@ -1683,6 +1684,7 @@ A better view of the analog continous values(due to DAC) in the waveform is show
 Let us compare it with the waveform obtained in the pre-synthesis simulation. For easy comparison, the waveform from the earlier lab is attached below.<br/>
 The following can be noted: <br/>
 ![Screenshot from 2024-09-02 21-14-09](https://github.com/user-attachments/assets/1100c3c7-8e3c-4232-94cd-8dec8d641378)<br/>
+![Screenshot from 2024-09-02 09-41-03](https://github.com/user-attachments/assets/31bfa046-d6c1-4802-96be-5fa458abdfe6)<br/>
 1. Custom Clock signal<br/>
 2. Reset signal<br/>
 3. Analog signal output from DAC module<br/>
