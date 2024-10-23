@@ -1629,6 +1629,66 @@ endmodule
 The comparison for debugging can be seen below. The GLS waveform can be differentiated by noticing the extra wires and UUTs.<br/>
 ![Screenshot from 2024-10-20 23-04-42](https://github.com/user-attachments/assets/b3cd33eb-838d-4324-b260-8c13710e53a1)<br/>
 Here, there is a mismatch.<br/>
+
+## BABYSOC SIMULATION- POST SYNTHESIS
+In this section, we will be seeing the synthesis and simulation of the BabySoC which we had designed earlier(Refer 12: BabySoC Simulation- Pre-synthesis). In the referred lab, we had generated a .v file from .tlv file using sandpiper and simulated it using iverilog and gtkwave. The waveform is obtained as shown in the repository. <br/>
+Now we will be synthesizing the same .v file using yosys, generating a netlist and simulate it using iverilog and gtkwave with the aim of obtaining the same waveform.<br/>
+The steps are as follows:<br/>
+* We launch yosys using the command in the terminal.
+* Read the liberty file of sky130 which contains the cells to map to. Along with this, we also read the liberty file of DAC and PLL blocks.
+```
+yosys
+read_liberty -lib <sky130_lib_path>
+read_liberty -lib <avsddac.lib>
+read_liberty -lib <avsdpll.lib>
+```
+![Screenshot from 2024-10-23 18-54-12](https://github.com/user-attachments/assets/a0f8296a-273c-464e-a5ea-21d9b90b7526)<br/>
+
+
+* Read the verilog files to synthesize. You can read mutliple files and set the top module.
+```
+read_verilog <file_name>
+synth -top <module_name>
+```
+![Screenshot from 2024-10-23 18-54-39](https://github.com/user-attachments/assets/3fef09a3-e38b-4e4a-a8bf-0e2c2bfa8c01)<br/>
+![Screenshot from 2024-10-23 18-54-48](https://github.com/user-attachments/assets/eea18a45-93ff-4c73-be7e-802a48e3bc03)<br/>
+* We then map the fliflop libraries using the command:
+```
+dfflibmap -liberty <path>
+```
+![Screenshot from 2024-10-23 18-55-19](https://github.com/user-attachments/assets/b4751caf-6368-413e-b775-9fe10c3e2361)<br/>
+* The cells are then mapped using the command:
+```
+abc -liberty <path>
+```
+* The show command along with the top module gives us the diagram as shown below:
+![Screenshot from 2024-10-23 18-57-38](https://github.com/user-attachments/assets/5ecd117b-18a8-4a44-bfac-707457cca114)<br/>
+* The netlist is generated using the command:
+```
+write_verilog -noattr <file_name_synth.v>
+```
+This netlist is used to do the post-synthesis simulation using iverilog. The synthesized netlist is added as a file in the same repository with the name vsdbabysoc.synth.v.
+* The next series of steps involve simulating the netlist using iverilog. For this, we will need to include the files needed(.lib files, .vh files, .v files etc). The commands are as shown below:
+```
+mkdir -p output/post_synth_sim && iverilog -o output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM -DFUNCTIONAL -DUNIT_DELAY=#1     -I src/module/include -I src/module -I src/gls_model     src/module/testbench.v && cd output/post_synth_sim && ./post_synth_sim.out
+gtkwave post_synth_sim.vcd
+```
+![Screenshot from 2024-10-23 18-50-15](https://github.com/user-attachments/assets/853a4390-f53a-471e-a075-0dd3f712b94c)<br/>
+
+Here, the POST_SYNTH_SIM directive is enabled and given to the testbench which includes all the files and simulates the sythesized netlist to generate the .vcd file. The waveform is shown below(for atleast 20 cycles):
+![Screenshot from 2024-10-23 18-49-14](https://github.com/user-attachments/assets/e1163def-74b1-4a39-af80-66e763163c47)<br/>
+A better view of the analog continous values(due to DAC) in the waveform is shown below:
+![Screenshot from 2024-10-23 18-49-36](https://github.com/user-attachments/assets/7cc1a5c1-1c20-4fb6-91a4-8a684852c61d)<br/>
+
+Let us compare it with the waveform obtained in the pre-synthesis simulation. For easy comparison, the waveform from the earlier lab is attached below.<br/>
+The following can be noted: <br/>
+![Screenshot from 2024-09-02 21-14-09](https://github.com/user-attachments/assets/1100c3c7-8e3c-4232-94cd-8dec8d641378)<br/>
+1. Custom Clock signal<br/>
+2. Reset signal<br/>
+3. Analog signal output from DAC module<br/>
+4. Sum of numbers 1 to 9 which is 2D. This value is reflected across output of ALU unit from CPU stage, the 10 bit output from designed core(RV_TO_DAC) and 10 bit wire D.<br/>
+The analog output is analogous to the 10 bit output from the core.<br/>
+**Note that both the waveforms are exactly similar to each other. The post-synthesis waveform can be identified by the wires and UUTs created. This similarity is what we had expected and can now confirm that our designed BabySoC is working and functionally correct**
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
