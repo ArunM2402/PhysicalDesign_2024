@@ -1676,7 +1676,7 @@ gtkwave post_synth_sim.vcd
 ```
 ![Screenshot from 2024-10-23 18-50-15](https://github.com/user-attachments/assets/853a4390-f53a-471e-a075-0dd3f712b94c)<br/>
 
-Here, the POST_SYNTH_SIM directive is enabled and given to the testbench which includes all the files and simulates the sythesized netlist to generate the .vcd file. The waveform is shown below(for atleast 20 cycles):
+Here, the POST_SYNTH_SIM directive is enabled and given to the testbench which includes all the files and simulates the sythesized netlist to generate the .vcd file. The waveform is shown below(for atleast 20 cycles). Note that mapped standard cells:<br/>
 ![Screenshot from 2024-10-23 18-49-14](https://github.com/user-attachments/assets/e1163def-74b1-4a39-af80-66e763163c47)<br/>
 A better view of the analog continous values(due to DAC) in the waveform is shown below:
 ![Screenshot from 2024-10-23 18-49-36](https://github.com/user-attachments/assets/7cc1a5c1-1c20-4fb6-91a4-8a684852c61d)<br/>
@@ -1690,7 +1690,7 @@ The following can be noted: <br/>
 3. Analog signal output from DAC module<br/>
 4. Sum of numbers 1 to 9 which is 2D. This value is reflected across output of ALU unit from CPU stage, the 10 bit output from designed core(RV_TO_DAC) and 10 bit wire D.<br/>
 The analog output is analogous to the 10 bit output from the core.<br/>
-**Note that both the waveforms are exactly similar to each other. The post-synthesis waveform can be identified by the wires and UUTs created. This similarity is what we had expected and can now confirm that our designed BabySoC is working and functionally correct**
+**Note that both the waveforms are exactly similar to each other. The post-synthesis waveform can be identified by the wires and UUTs created. The mapped standard cells can also be seen. This similarity is what we had expected and can now confirm that our designed BabySoC is working and functionally correct**
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
