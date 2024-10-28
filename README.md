@@ -13,7 +13,8 @@
 11. [SIMULATION OF RISCV CORE USING IVERILOG](#simulation-of-riscv-core-using-iverilog)<br/>
 12. [BABYSOC SIMULATION-PRE-SYNTHESIS](#babysoc-simulation-pre-synthesis)<br/>
 13. [VSD WORKSHOP-RTL DESIGN USING VERILOG WITH SKY130 TECHNOLOGY](#vsd-workshop-rtl-design-using-verilog-with-sky130-technology)<br/>
-14. [BABYSOC SIMULATION-POST SYNTHESIS](#babysoc-simulation-post-synthesis)<br/>
+14. [BABYSOC SIMULATION-POST SYNTHESIS](#babysoc-simulation-post-synthesis)<br/> 
+15. [STATIC TIMING ANALYSIS OF VSDBABYSOC](#static-timing-analysis-of-vsdbabysoc)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -1691,6 +1692,140 @@ The following can be noted: <br/>
 4. Sum of numbers 1 to 9 which is 2D. This value is reflected across output of ALU unit from CPU stage, the 10 bit output from designed core(RV_TO_DAC) and 10 bit wire D.<br/>
 The analog output is analogous to the 10 bit output from the core.<br/>
 **Note that both the waveforms are exactly similar to each other. The post-synthesis waveform can be identified by the wires and UUTs created. The mapped standard cells can also be seen. This similarity is what we had expected and can now confirm that our designed BabySoC is working and functionally correct**
+## STATIC TIMING ANALYSIS OF VSDBABYSOC
+Static Timing Analysis(or STA) refers to a method used in digital circuit design to verify the timing performance of a circuit without needing to simulate its behavior dynamically. It analyzes the timing characteristics of a circuit by examining its structure and the delays associated with its components, such as gates and interconnects. For understanding the basics of STA, we have referred to the below two courses conducted by Prof. Kunal Ghosh on Udemy:<br/>
+1. VSD - Static Timing Analysis - I<br/>
+2. VSD - Static Timing Analysis - II<br/>
+Some key points/ topics from the course are listed below:<br/>
+### Setup Time
+Setup time is the minimum duration before the clock edge during which a data input must remain stable to ensure it is correctly sampled by a flip-flop or latch. This timing constraint is critical because if the data changes too close to the clock edge, the flip-flop may not reliably capture the data, leading to potential errors in circuit operation. 
+### Hold Time
+Hold time is the minimum period after the clock edge that a data input must remain stable for the flip-flop to correctly latch the input value. This requirement is crucial because if the data changes too soon after the clock edge, the flip-flop might capture an incorrect value, resulting in malfunctioning circuit behavior. 
+### Setup Slack
+Setup slack is the difference between the available time for a signal to stabilize before the clock edge and the required setup time. It is calculated by subtracting the required time (which includes setup time) from the arrival time of the signal at the flip-flop. Positive setup slack indicates that the signal arrives with sufficient time to meet the setup requirement, while negative slack signifies a timing violation, suggesting that the design may fail to operate correctly at the intended clock frequency.
+### Hold Slack
+Hold slack is the difference between the time a data signal must remain stable after the clock edge and the actual arrival time of that signal. It is calculated by subtracting the required time (which incorporates hold time) from the arrival time. Positive hold slack indicates that the hold time constraint is satisfied, meaning the signal remains stable long enough after the clock edge, while negative slack indicates a hold time violation, which can lead to incorrect data being latched in the flip-flop.<br/>
+![image](https://github.com/user-attachments/assets/efef0ab7-7adb-4b2b-a681-5fc912c6ebc4)<br/>
+Launch Flop: The launch flop is the flip-flop that sends out the data at the clock edge. When the clock transitions (usually from low to high), the launch flop captures its input data and begins propagating this data to the next stage in the circuit.<br/>
+Capture Flop: The capture flop is the flip-flop that receives the data from the launch flop. It samples the incoming data at the next clock edge, which occurs after the launch flop has already sent its data out. The timing between the launch and capture flops is critical for ensuring that the data is stable and meets setup and hold time requirements.<br/>
+### Types of Setup/Hold Analysis<br/>
+1. Reg2Reg Analysis <br/>
+Reg2Reg (Register to Register) analysis evaluates the timing between two flip-flops to ensure that data output from one register arrives at the input of another within the required setup and hold times. This analysis is critical for confirming reliable data transfer and preventing timing violations that could lead to incorrect data being latched.<br/>
+2. In2Reg Analysis <br/>
+In2Reg (Input to Register) analysis focuses on the timing between an external input signal and a flip-flop. It verifies that the input data stabilizes before the clock edge (setup time) and remains stable afterward (hold time), ensuring the flip-flop can accurately sample the input without data corruption. <br/>
+3. Reg2Out Analysis <br/>
+Reg2Out (Register to Output) analysis examines the timing from a flip-flop to an output pin. It ensures that the data driven from the flip-flop meets the necessary timing constraints for external outputs, confirming that the output is valid and stable when needed. <br/>
+4. In2Out Analysis <br/>
+In2Out (Input to Output) analysis assesses the timing from an external input directly to an output pin. It ensures that the input data is stable and meets setup and hold time requirements relative to the output timing constraints, maintaining accurate data flow in the circuit. <br/>
+5. Clock Gating <br/>
+Clock gating is a power-saving technique used in digital circuits to reduce dynamic power consumption by selectively disabling the clock signal to certain components when they are not in use. By preventing unnecessary clock transitions in inactive parts of a circuit, clock gating minimizes switching activity and conserves energy, making it especially important in battery-powered and energy-efficient designs. <br/>
+6. Recovery/Removal Analysis <br/>
+Recovery and removal analysis are timing checks performed on flip-flops to ensure reliable operation during data transitions. Recovery time refers to the minimum time after the clock edge that the data must be stable before it can change again, ensuring that the flip-flop can correctly capture the new data. Removal time is the minimum time after the clock edge that the data must remain stable to ensure it is latched properly. Both analyses are crucial for preventing timing violations that could lead to incorrect data capture. <br/>
+7. Data-to-Data Analysis <br/>
+Data-to-Data analysis assesses the timing relationships between data signals within a circuit. This analysis ensures that the timing constraints are met when data changes occur at different points in the circuit, verifying that the data paths do not violate setup and hold times between various data signals. It is essential for maintaining data integrity across combinational and sequential logic. <br/>
+8. Latch (Time Borrow/Time Given) <br/>
+In the context of latches, time borrow refers to a situation where a latch is allowed to take extra time to hold data, which can help accommodate timing violations in a circuit. Conversely, time given refers to the time that a latch can release data before the next capture event, allowing for flexibility in timing analysis. Both concepts are important for optimizing latch designs and ensuring reliable data capture without violating timing constraints. <br/>
+### Slew/ Transition Analysis
+1. Data (Max/Min) <br/>
+Max slew refers to the maximum allowable rise or fall time that a data signal can have while still meeting timing requirements. If the slew rate exceeds this maximum, it may result in timing violations due to insufficient time for subsequent components to sample the signal accurately. Conversely, Min slew refers to the minimum allowable rise or fall time, ensuring that the signal does not change too quickly, which could lead to issues like ringing or reflections in the circuit. <br/>
+2. Clock (Max/Min) <br/>
+Max slew indicates the maximum rise or fall time for the clock signal that still allows the circuit to function correctly; exceeding this can lead to setup and hold time violations at flip-flops. On the other hand, Min slew denotes the minimum rise or fall time, ensuring that the clock signal transitions do not happen too abruptly, which could cause glitches or unintended behavior in synchronous circuits. <br/>
+### Load Analysis
+1. Fanout(Max/Min) <br/>
+Max fanout refers to the maximum number of inputs that a gate output can effectively drive without degrading signal integrity or timing performance. Exceeding this limit can lead to increased delay and potential timing violations due to excessive loading. Min fanout, while less commonly discussed, typically indicates the minimum number of inputs that need to be driven for the circuit to function properly; insufficient fanout can affect logic levels and overall circuit reliability. <br/>
+2. Capacitance(Max/Min) <br/>
+Max capacitance is the maximum allowable capacitance that can be connected to a gate output while still meeting timing and performance requirements. High capacitance can slow down signal transitions, leading to longer delays. Min capacitance typically denotes the minimum capacitive load necessary to ensure stable operation and proper voltage levels; too little capacitance can lead to unstable signals and noise susceptibility. <br/>
+### Clock Analysis
+1. Skew <br/>
+Clock skew refers to the difference in arrival times of the clock signal at various components in a synchronous circuit. It can occur due to variations in the physical layout, routing, or clock distribution network. Skew can lead to timing issues if the difference exceeds the allowable setup and hold time requirements for flip-flops, potentially causing data corruption. Minimizing skew is essential for ensuring that all components receive the clock signal simultaneously, thus maintaining the integrity and reliability of data transfers in the circuit. <br/>
+2. Pulse Width <br/>
+Pulse width analysis examines the duration of the clock signal's high and low states. Pulse width must meet specific timing requirements to ensure that flip-flops can correctly sample input data. The minimum pulse width is the shortest duration that the clock signal must remain high or low for reliable operation; if it falls below this threshold, it may lead to incorrect data capture. Conversely, the maximum pulse width can determine the limits for clock frequency and the overall performance of the circuit. Properly managing pulse width is critical for the effective operation of synchronous designs. <br/>
+### ACTIVITY: To perform STA analysis on the synthesized design(from earlier lab). The design is to operating at 11.55ns. For setup uncertainty and clock transition we assume 5% of clock period. For hold uncertainty and data transition we assume 8% of clock period.
+The procedure is as follows: <br/>
+* OpenSTA tool is used for this lab. The tool was already installed as part of the earlier labs.
+* The liberty file used is sky130_fd_sc_hd__tt_025C_1v80.lib.
+* We launch STA using the following command:
+```
+cd /home/arunp24/VSDbabysoc/src/script/
+sta
+```
+* We use a configuration file to set the libraries and read the verilog file. The configuration file also reads the constraints file(.sdc).
+```
+read_liberty -min ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_liberty -max ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_liberty -min ../lib/avsdpll.lib
+read_liberty -max ../lib/avsdpll.lib
+read_liberty -min ../lib/avsddac.lib
+read_liberty -max ../lib/avsddac.lib
+read_verilog ../module/vsdbabysoc.synth.v
+link_design vsdbabysoc
+read_sdc ../sdc/vsdbabysoc_synthesis.sdc
+report_checks -path_delay max -format full  # for finding the setup analysis 
+report_checks -path_delay min -format full  # for finding the hold analysis 
+```
+![Screenshot from 2024-10-28 15-16-17](https://github.com/user-attachments/assets/83083365-1406-4f5c-8298-772e2d85722a)
+
+* We first use a basic SDC file to check for unconstrained setup and hold slack
+```
+set_units -time ns
+create_clock [get_pins {pll/CLK}] -name clk -period 11.55
+```
+The setup slack is shown below:<br/>
+![Screenshot from 2024-10-28 14-58-11](https://github.com/user-attachments/assets/21f6047c-f403-429d-a8f9-de597dd45ac5)
+The hold slack is shown below:<br/>
+![Screenshot from 2024-10-28 14-58-19](https://github.com/user-attachments/assets/d40ced4e-1b71-4d72-965e-319ea87ac031)
+Note: The entire terminal screen has been attached to confirm the authencity of completing the lab. Please check for keywords- setup and hold in the report to differentiate between setup and hold slacks.<br/>
+* Now we use a SDC file which incorporates the constraints given i.e For setup uncertainty and clock transition we assume 5% of clock period. For hold uncertainty and data transition we assume 8% of clock period.\
+```
+# Create clock with new period
+create_clock [get_pins pll/CLK] -name clk -period 11.55 -waveform {0 5.775} 
+
+# Set loads
+set_load -pin_load 0.5 [get_ports OUT] 
+set_load -min -pin_load 0.5 [get_ports OUT] 
+
+# Set clock latency
+set_clock_latency 1 [get_clocks clk] 
+set_clock_latency -source 2 [get_clocks clk] 
+
+# Set clock uncertainty
+set_clock_uncertainty 0.5775 [get_clocks clk]  ; # 5% of clock period for setup
+set_clock_uncertainty -hold 0.924 [get_clocks clk] ; # 8% of clock period for hold
+
+# Set maximum delay
+set_max_delay 11.55 -from [get_pins dac/OUT] -to [get_ports OUT] 
+
+# Set input delay for VCO_IN
+set_input_delay -clock clk -max 4 [get_ports VCO_IN] 
+set_input_delay -clock clk -min 1 [get_ports VCO_IN] 
+
+# Set input delay for ENb_VCO
+set_input_delay -clock clk -max 4 [get_ports ENb_VCO] 
+set_input_delay -clock clk -min 1 [get_ports ENb_VCO] 
+
+# Set input delay for ENb_CP
+set_input_delay -clock clk -max 4 [get_ports ENb_CP] 
+set_input_delay -clock clk -min 1 [get_ports ENb_CP] 
+
+# Set input transition for VCO_IN
+set_input_transition -max 0.5775 [get_ports VCO_IN] ; # 5% of clock
+set_input_transition -min 0.1155 [get_ports VCO_IN] ; # adjust if needed
+
+# Set input transition for ENb_VCO
+set_input_transition -max 0.5775 [get_ports ENb_VCO] ; # 5% of clock
+set_input_transition -min 0.1155 [get_ports ENb_VCO] ; # adjust if needed
+
+# Set input transition for ENb_CP
+set_input_transition -max 0.924 [get_ports ENb_CP] ; # 5% of clock
+set_input_transition -min 0.924 [get_ports ENb_CP] ; # adjust if needed
+```
+* We run the same configuration file and the slacks are noted.
+* The setup slack is shown below:<br/>
+![Screenshot from 2024-10-28 14-54-57](https://github.com/user-attachments/assets/82866c48-8885-493f-bce7-39e3753686d0)
+* The hold slack is shown below:<br/>
+![Screenshot from 2024-10-28 14-55-05](https://github.com/user-attachments/assets/06104dcb-ed1f-4263-a786-9333dadbd694)
+Note: The entire terminal screen has been attached to confirm the authencity of completing the lab. Please check for keywords- setup and hold in the report to differentiate between setup and hold slacks.<br/>
+All files and reports mentioned in this lab are uploaded to the same repository. Please refer above.
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
@@ -1701,6 +1836,8 @@ The analog output is analogous to the 10 bit output from the core.<br/>
 * https://github.com/shivanishah269/risc-v-core/tree/master/FPGA_Implementation
 * https://github.com/manili/VSDBabySoC.git
 * https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+* https://www.udemy.com/course/vlsi-academy-sta-checks/?couponCode=3D425F2B9705E44298A9
+* https://www.udemy.com/course/vlsi-academy-sta-checks-2/?couponCode=952614A18B598B2B0623
   
 
 
