@@ -1775,6 +1775,7 @@ The setup slack is shown below:<br/>
 The hold slack is shown below:<br/>
 ![Screenshot from 2024-10-28 14-58-19](https://github.com/user-attachments/assets/d40ced4e-1b71-4d72-965e-319ea87ac031)
 Note: The entire terminal screen has been attached to confirm the authencity of completing the lab. Please check for keywords- setup and hold in the report to differentiate between setup and hold slacks.<br/>
+As seen, the slack is violated. This can be fixed by optimizing the logic and reducing propagation delay, inserting buffers or increasing the time period(lowering the clock frequency) of the design. <br/>
 * Now we use a SDC file which incorporates the constraints given i.e For setup uncertainty and clock transition we assume 5% of clock period. For hold uncertainty and data transition we assume 8% of clock period.\
 ```
 # Create clock with new period
@@ -1825,6 +1826,7 @@ set_input_transition -min 0.924 [get_ports ENb_CP] ; # adjust if needed
 * The hold slack is shown below:<br/>
 ![Screenshot from 2024-10-28 14-55-05](https://github.com/user-attachments/assets/06104dcb-ed1f-4263-a786-9333dadbd694)
 Note: The entire terminal screen has been attached to confirm the authencity of completing the lab. Please check for keywords- setup and hold in the report to differentiate between setup and hold slacks.<br/>
+As seen, the slack is violated. This can be fixed by optimizing the logic and reducing propagation delay, inserting buffers or increasing the time period(lowering the clock frequency) of the design. <br/>
 All files and reports mentioned in this lab are uploaded to the same repository. Please refer above.
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
