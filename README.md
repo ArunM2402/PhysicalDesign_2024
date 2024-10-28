@@ -1749,6 +1749,7 @@ The procedure is as follows: <br/>
 cd /home/arunp24/VSDbabysoc/src/script/
 sta
 ```
+* Due to lack of the proper PLL and DAC liberty files for complete/correct STA, we should consider the output port of the PLL (PLL.CLK) as the clock and analyze the timing of the design.
 * We use a configuration file to set the libraries and read the verilog file. The configuration file also reads the constraints file(.sdc).
 ```
 read_liberty -min ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
