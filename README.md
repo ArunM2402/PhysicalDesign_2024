@@ -15,6 +15,7 @@
 13. [VSD WORKSHOP-RTL DESIGN USING VERILOG WITH SKY130 TECHNOLOGY](#vsd-workshop-rtl-design-using-verilog-with-sky130-technology)<br/>
 14. [BABYSOC SIMULATION-POST SYNTHESIS](#babysoc-simulation-post-synthesis)<br/> 
 15. [STATIC TIMING ANALYSIS OF VSDBABYSOC](#static-timing-analysis-of-vsdbabysoc)<br/>
+16. [SYNTHESIZE BABYSOC DESIGN USING DIFFERENT PVT CORNER LIBRARY FILES](#synthesize-babysoc-design-using-different-pvt-corner-library-files)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -1829,6 +1830,70 @@ set_input_transition -min 0.924 [get_ports ENb_CP] ; # adjust if needed
 Note: The entire terminal screen has been attached to confirm the authencity of completing the lab. Please check for keywords- setup and hold in the report to differentiate between setup and hold slacks.<br/>
 As seen, the slack is violated. This can be fixed by optimizing the logic and reducing propagation delay, inserting buffers or increasing the time period(lowering the clock frequency) of the design. <br/>
 All files and reports mentioned in this lab are uploaded to the same repository. Please refer above.
+
+## SYNTHESIZE BABYSOC DESIGN USING DIFFERENT PVT CORNER LIBRARY FILES
+In this lab, we will be checking for the worst setup/hold slacks using different PVT Corner library files.<br/>
+* PVT (Process, Voltage, Temperature) are the three key factors that impact the performance and behavior of integrated circuits in VLSI design. Here is a summary of how each of these factors affects circuit design:<br/>
+1. Process (P): <br/>
+Process variation refers to deviations in the semiconductor fabrication process, such as variations in impurity concentration, oxide thickness, and transistor dimensions.
+These process variations can cause changes in transistor parameters like threshold voltage, mobility, and current drive, which in turn impact the circuit delay and performance.
+Circuits designed with a "fast" process will have lower delays, while "slow" process corners will have higher delays. <br/>
+2. Voltage (V): <br/>
+The supply voltage of the chip can deviate from the optimal value during operation due to factors like noise, IR drop, and voltage regulator variations.
+Higher supply voltage leads to increased current and faster charging/discharging of capacitances, resulting in lower delays. Lower voltage has the opposite effect. <br/>
+3. Temperature (T): <br/>
+The operating temperature of the chip can vary widely depending on the environment and power dissipation within the chip.
+Higher temperatures generally decrease carrier mobility, leading to increased delays. <br/>
+* We must ensure that our design is functioning properly for all PVT corners. For this, we use STA using the following procedure.<br/>
+* We run the script shown below. This script reads in all the library files one by one from the specified directory and is used on our VSDBabySoC design. The constraints file from the earlier lab is also read(clock-11.55 ns with 5% uncertainity for setup and 8% uncertainity for hold).<br/>
+```
+set list_of_lib_files(1) "sky130_fd_sc_hd__tt_025C_1v80.lib"
+set list_of_lib_files(2) "sky130_fd_sc_hd__ff_100C_1v65.lib"
+set list_of_lib_files(3) "sky130_fd_sc_hd__ff_100C_1v95.lib"
+set list_of_lib_files(4) "sky130_fd_sc_hd__ff_n40C_1v56.lib"
+set list_of_lib_files(5) "sky130_fd_sc_hd__ff_n40C_1v65.lib"
+set list_of_lib_files(6) "sky130_fd_sc_hd__ff_n40C_1v76.lib"
+set list_of_lib_files(7) "sky130_fd_sc_hd__ss_100C_1v40.lib"
+set list_of_lib_files(8) "sky130_fd_sc_hd__ss_100C_1v60.lib"
+set list_of_lib_files(9) "sky130_fd_sc_hd__ss_n40C_1v28.lib"
+set list_of_lib_files(10) "sky130_fd_sc_hd__ss_n40C_1v35.lib"
+set list_of_lib_files(11) "sky130_fd_sc_hd__ss_n40C_1v40.lib"
+set list_of_lib_files(12) "sky130_fd_sc_hd__ss_n40C_1v44.lib"
+set list_of_lib_files(13) "sky130_fd_sc_hd__ss_n40C_1v76.lib"
+
+for {set i 1} {$i <= [array size list_of_lib_files]} {incr i} {
+read_liberty /home/arunp24/SFAL-VSD/skywater-pdk-libs-sky130_fd_sc_hd/timing/$list_of_lib_files($i)
+read_liberty -min ../lib/avsdpll.lib
+read_liberty -max ../lib/avsdpll.lib
+read_liberty -min ../lib/avsddac.lib
+read_liberty -max ../lib/avsddac.lib
+read_verilog /home/arunp24/VSDBabySoC/src/module/vsdbabysoc.synth.v
+link_design vsdbabysoc
+
+read_sdc /home/arunp24/VSDBabySoC/src/sdc/vsdbabysoc_synth1.sdc
+
+report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} > /home/arunp24/VSDBabySoC/output/sta/new_reports/min_max_$list_of_lib_files($i).txt
+
+exec echo "$list_of_lib_files($i)" >> /home/arunp24/VSDBabySoC/output/sta/new_reports/sta_worst_max_slack.txt
+report_worst_slack -max -digits {4} >> /home/arunp24/VSDBabySoC/output/sta/new_reports/sta_worst_max_slack.txt
+
+exec echo "$list_of_lib_files($i)" >> /home/arunp24/VSDBabySoC/output/sta/new_reports/sta_worst_min_slack.txt
+report_worst_slack -min -digits {4} >> /home/arunp24/VSDBabySoC/output/sta/new_reports/sta_worst_min_slack.txt
+
+}
+```
+* The script generates reports for each library file. A table comprising of the worst setup and hold slacks from the reports is shown below: <br/>
+![image](https://github.com/user-attachments/assets/26a57487-ddd4-4d64-b2f8-f2ef4b240b6d) <br/>
+* From the table, we have plotted the below graphs:<br/>
+### GRAPH FOR WORST SETUP SLACK
+![worst_setup_slack](https://github.com/user-attachments/assets/dc2facee-ec8e-4129-974e-773230040c5b)
+### GRAPH FOR WORST HOLD SLACK
+![worst_hold_slack](https://github.com/user-attachments/assets/29cf2a8d-0a52-40b8-bbab-f8ad9f0029a2)
+From the graphs we can infer: <br/>
+1) Worst setup slack - sky130_fd_sc_hd__ss_n40C_1v28 PVT Corner library file<br/>
+2) Worst hold slack - sky130_fd_sc_hd__ff_100C_1v95 PVT Corner library file<br/>
+
+
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
@@ -1841,6 +1906,7 @@ All files and reports mentioned in this lab are uploaded to the same repository.
 * https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
 * https://www.udemy.com/course/vlsi-academy-sta-checks/?couponCode=3D425F2B9705E44298A9
 * https://www.udemy.com/course/vlsi-academy-sta-checks-2/?couponCode=952614A18B598B2B0623
+* https://github.com/arunkpv/vsd-hdp/blob/main/docs/Day_19.md#day-19---pvt-corner-analysis-post-synthesis-timing-of-the-risc-v-cpu-design
   
 
 
