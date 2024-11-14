@@ -2047,6 +2047,117 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 The standard cells are placed correctly now.
 ![Screenshot from 2024-11-10 23-45-59](https://github.com/user-attachments/assets/b43a19c3-98c5-4b12-b640-49b55c9a4d1a)
 ### Day 3:
+In this lab, we will load the custom inverter layout in magic and explore. Spice extraction of inverter in magic will be done. Editing the spice model file for analysis through simulation. Analyse Post-layout ngspice simulations. Finally find DRC problems and fix them. <br/>
+* Cloning the inverter
+```
+# Change directory to openlane
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# Clone the repository with custom inverter design
+git clone https://github.com/nickson-jose/vsdstdcelldesign
+
+# Change into repository directory
+cd vsdstdcelldesign
+
+# Copy magic tech file to the repo directory for easy access
+cp /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech .
+
+# Check contents whether everything is present
+ls
+
+# Command to open custom inverter layout in magic
+magic -T sky130A.tech sky130_inv.mag &
+```
+![Screenshot from 2024-11-13 22-43-34](https://github.com/user-attachments/assets/e6e28eb8-c9f0-4dcd-aa9a-fe75481efc1f)
+![Screenshot from 2024-11-13 22-49-15](https://github.com/user-attachments/assets/6d46377c-3757-4cd2-8a7b-5c8633ae47b5)
+* We then load the custom inverter in magic for exploration. <br/>
+![Screenshot from 2024-11-13 22-49-56](https://github.com/user-attachments/assets/556169e8-d7a5-4956-90b0-152f2388f153)
+* We then perform spice extraction using tckon window using the following commands :
+```
+# Check current directory
+pwd
+
+# Extraction command to extract to .ext format
+extract all
+
+# Before converting ext to spice this command enable the parasitic extraction also
+ext2spice cthresh 0 rthresh 0
+
+# Converting to ext to spice
+ext2spice
+```
+![Screenshot from 2024-11-13 22-53-47](https://github.com/user-attachments/assets/1440a506-e158-48fb-9d05-a0c09e057590)
+* The generated file is shown below.<br/>
+![Screenshot from 2024-11-13 22-54-33](https://github.com/user-attachments/assets/1f15cc74-d0eb-4d4b-9f44-c61257b4fb5b)
+* The spice file has to be edited so as to be feasible for ngspice simulation. <br/>
+![Screenshot from 2024-11-13 23-05-47](https://github.com/user-attachments/assets/1cb195c9-e542-414a-a8a1-dcf007053e02)
+![image](https://github.com/user-attachments/assets/e3377019-3062-433d-ac62-3f8f4a0a3cda)
+* Simulation is performed using ngspice commands
+```
+# Command to directly load spice file for simulation to ngspice
+ngspice sky130_inv.spice
+
+# Now that we have entered ngspice with the simulation spice file loaded we just have to load the plot
+plot y vs time a
+```
+![Screenshot from 2024-11-13 23-14-35](https://github.com/user-attachments/assets/c96da838-e4f8-4d6d-bf4d-38be4a23a334)
+![Screenshot from 2024-11-13 23-14-56](https://github.com/user-attachments/assets/71db5f3c-d577-44fc-95b7-fbd25bcc415b)
+* Some important metrics can be calculated from the graph.
+```
+Rise time = Time taken for output to rise to 80% - Time taken for output to rise to 20%
+Fall time = Time taken for output to fall to 20% - Time taken for output to rise to 80%
+Rise Cell Delay = Time taken for output to rise to 50% - Time taken for input to fall to 50%
+Fall Cell Delay = Time taken for output to fall to 50% - Time taken for input to rise to 50%
+
+Rise time = 2.26 - 2.18 = 0.08ns
+Fall time = 4.11 - 4.06 = 0.03ns
+Rise Cell delay =2.23 - 2.16 = 0.07ns
+Fall Cell delay = 4.1 - 4.03 = 0.07ns
+```
+The screenshot for how these values are obtained is shown below: <br/>
+![Screenshot from 2024-11-13 23-32-41](https://github.com/user-attachments/assets/124c1ea3-36cf-4036-8ab4-51353efac06c)
+* The next step is to identify DRC errors and fix them. The DRC check is done in adherence with sky130 periphery rules. The commands are shown:
+```
+# Change to home directory
+cd
+
+# Command to download the lab files
+wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+
+# Since lab file is compressed command to extract it
+tar xfz drc_tests.tgz
+
+# Change directory into the lab folder
+cd drc_tests
+
+# List all files and directories present in the current directory
+ls -al
+
+# Command to view .magicrc file
+gvim .magicrc
+
+# Command to open magic tool in better graphics
+magic -d XR &
+```
+![Screenshot from 2024-11-13 23-34-17](https://github.com/user-attachments/assets/abccca70-436c-419a-b530-62c59622119e)
+![Screenshot from 2024-11-13 23-46-14](https://github.com/user-attachments/assets/70db19b9-b150-4f33-bdf2-fef480872a1e)
+* Once it is run, we get the following errors due to polysilicon rules. <br/>
+![image](https://github.com/user-attachments/assets/ad8d7078-8e6c-4b92-922b-6edd74c82dd4) <br/>
+![image](https://github.com/user-attachments/assets/5d79e435-ba55-4cab-a450-d693dd78e1db) <br/>
+* The tech file is the updated to fix it. <br/>
+```
+# Loading updated tech file
+tech load sky130A.tech
+
+# Must re-run drc check to see updated drc errors
+drc check
+
+# Selecting region displaying the new errors and getting the error messages 
+drc why
+```
+![image](https://github.com/user-attachments/assets/660daab5-df07-4b3f-ac6c-d53be09f628c) <br/>
+### Day 4:
+
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
