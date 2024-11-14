@@ -1922,7 +1922,131 @@ Synthesis is the process of convertion or translation of design RTL into circuit
 ![image](https://github.com/user-attachments/assets/4f6e96ac-9dfb-48c2-8563-3a84b99e7f6c) <br/>
 In FloorPlanning, the chip is divided between different system blocks and I/O padding is done. Power Planning typically uses upper metal layers for power distribution since thay are thicker than lower metal layers and so have lower resistance and PP is done to avoid electron migration and IR drops. <br/>
 ![image](https://github.com/user-attachments/assets/c5460ab0-9ef6-4add-86d7-3f19f524b21f) <br/>
-Placement refers to careful and considerate placement of cells on the chip floorplan. This is followed by CTS( Clock tree synthesis) and routing where delivering clock to all components without any jitter
+Placement refers to careful and considerate placement of cells on the chip floorplan. This is followed by CTS( Clock tree synthesis) and routing where delivering clock to all components without any jitter.
+![image](https://github.com/user-attachments/assets/c75ee9ed-c542-4c57-8ea8-2d9feb50da16) <br/>
+Routing refers to interconnecting the blocks. Once routing is done, it does sign off checks which are DRC(Design Rule Check), LVS (Layout Vs. Schematic) and STA(Static Timing Analysis). <br/>
+![image](https://github.com/user-attachments/assets/8ff21f6a-fe55-4fb4-bf60-fbd31202a542)
+### Day 1: 
+1. Run 'picorv32a' design synthesis using OpenLANE flow <br/>
+We first invoke openlane from the working directory.
+```
+# Change directory to openlane flow directory
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'
+# Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
+docker
+```
+![Screenshot from 2024-11-10 22-59-08](https://github.com/user-attachments/assets/09417902-5949-45c6-87a6-c29d7af2957f)
+```
+# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
+./flow.tcl -interactive
+
+# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
+
+# Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
+prep -design picorv32a
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+
+# Exit from OpenLANE flow
+exit
+
+# Exit from OpenLANE flow docker sub-system
+exit
+```
+![Screenshot from 2024-11-10 23-00-45](https://github.com/user-attachments/assets/45fd4e82-5d22-4d64-b09b-d57b41b72219)
+![Screenshot from 2024-11-10 23-01-49](https://github.com/user-attachments/assets/3292b28b-7ba7-47c8-8df7-3809d4b406aa)
+2. Calculation of Flop Ratio <br/>
+The synthesis reports are checked and flop ratio is calculated by the formula : <br/> 
+```
+Flop Ratio = Number of D flip flops/ Number of total cells
+Percentage = Flop Ratio * 100 
+```
+![Screenshot from 2024-11-10 23-06-12](https://github.com/user-attachments/assets/d2448a66-8e9a-4b3f-9530-f296bdc61b0d)
+![Screenshot from 2024-11-10 23-07-17](https://github.com/user-attachments/assets/6daec98c-4391-4e50-8286-f7f8b68adb63)
+![Screenshot from 2024-11-10 23-11-58](https://github.com/user-attachments/assets/23371ed1-95fa-401e-b3a4-ae053a766bf8)
+Substituting we get, 1613/14876 = 0.1084 = 10.84%
+### Day 2:
+Here, we try to design the floorplan of the picrorv32a design using openflow. The commands are :
+```
+# Change directory to openlane flow directory
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'
+# Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
+docker
+# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
+./flow.tcl -interactive
+
+# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
+
+# Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
+prep -design picorv32a
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+
+# Now we can run floorplan
+run_floorplan
+```
+![Screenshot from 2024-11-10 23-19-00](https://github.com/user-attachments/assets/ccd8a3cc-c84f-4dcb-ba52-ebc31651e42f)
+![Screenshot from 2024-11-10 23-19-54](https://github.com/user-attachments/assets/a7e2dc27-d9a7-4588-8b63-b1562572ac06)
+We then calculate the die area using:
+```
+Area of die in microns = Die width in microns * Die height in microns
+```
+![Screenshot from 2024-11-10 23-22-56](https://github.com/user-attachments/assets/7bb9f5a8-ff88-4445-8f16-f52e98ae4bd2)
+![Screenshot from 2024-11-10 23-23-25](https://github.com/user-attachments/assets/81bea21b-fd04-4bbd-ab24-c860e2400843)
+From the def file we can see,
+```
+1000 Unit distance = 1 micron
+Die width in unit distance = 660685
+Die height in unit distance = 671405
+After converting into microns,
+Area = 660.685 * 671.405 = 443587.212425 sq. microns
+```
+We can use magic tool to open and explore the floorplan.
+```
+# Change directory to path containing generated floorplan def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-11_12-14/results/floorplan/
+
+# Command to load the floorplan def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+![Screenshot from 2024-11-10 23-25-55](https://github.com/user-attachments/assets/c4c12d9f-4de2-4000-9c7c-437776ee8c2d)
+![Screenshot from 2024-11-10 23-27-26](https://github.com/user-attachments/assets/8f9aa8e9-2b69-425d-8f39-06f29cab7087)
+Different metal layers : <br/>
+![Screenshot from 2024-11-10 23-30-55](https://github.com/user-attachments/assets/05e08516-7184-4ac8-96ed-4371ee8255c5)
+![Screenshot from 2024-11-10 23-32-11](https://github.com/user-attachments/assets/eec35c2c-64b0-43c4-9385-4a6cbd5fadc0)
+Equidistant tap cells <br/>
+![Screenshot from 2024-11-10 23-33-13](https://github.com/user-attachments/assets/80489298-bf79-445d-b74e-bc0def7ea385)
+Standard Cells at the origin(unplaced) <br/>
+![Screenshot from 2024-11-10 23-34-27](https://github.com/user-attachments/assets/b7a2ac66-5873-4132-82fd-9f00d07ee0eb)
+![Screenshot from 2024-11-10 23-34-47](https://github.com/user-attachments/assets/93d0b92c-6294-4491-929e-af50b3c00faa)
+Next we run congestion aware placement using:
+```
+# Congestion aware placement by default
+run_placement
+```
+![Screenshot from 2024-11-10 23-40-41](https://github.com/user-attachments/assets/a32be1c1-1c7a-45d7-857c-6b8445f9189a)
+![Screenshot from 2024-11-10 23-41-19](https://github.com/user-attachments/assets/4b733ba9-d6cf-4744-8108-2d52f07a3906)
+To explore the placement, we load in magic tool again.
+```
+# Change directory to path containing generated placement def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-11_12-14/results/placement/
+
+# Command to load the placement def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+![image](https://github.com/user-attachments/assets/477b1ec1-280d-4d72-81fd-924ac9f46b90)
+![Screenshot from 2024-11-10 23-44-49](https://github.com/user-attachments/assets/4b30f558-fe4b-4a5a-be27-89f2fb5458e1)
+The standard cells are placed correctly now.
+![Screenshot from 2024-11-10 23-45-59](https://github.com/user-attachments/assets/b43a19c3-98c5-4b12-b640-49b55c9a4d1a)
+### Day 3:
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
