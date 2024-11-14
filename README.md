@@ -1893,7 +1893,36 @@ From the graphs we can infer: <br/>
 1) Worst setup slack - sky130_fd_sc_hd__ss_n40C_1v28 PVT Corner library file<br/>
 2) Worst hold slack - sky130_fd_sc_hd__ff_100C_1v95 PVT Corner library file<br/>
 
-
+## VSD WORKSHOP
+### Theory
+Package: <br/>
+* In any embedded board we have seen, the part of the board we consider as the chip is only the PACKAGE of the chip which is nothing but a protective layer or packet bound over the actual chip and the actual manufatured chip is usually present at the center of a package wherein, the connections from package is fed to the chip by WIRE BOUND method which is none other than basic wired connection.
+![image](https://github.com/user-attachments/assets/57b0bd39-9916-4028-85cb-e20f9c507ec3)<br/>
+![image](https://github.com/user-attachments/assets/16e10f23-cf48-431e-bc6d-6d69ac1137f0)<br/>
+* Now, taking a look inside the chip, all the signals from the external world to the chip and vice versa is passed through PADS. The area bound by the pads is CORE where all the digital logic of the chip is placed. Both the core and pads make up the DIE which is the basic manufacturing unit in regards to semiconductor chips.
+* FOUNDRY is the place where the semiconductor chips are manufactured.
+ISA (Intruction Set Architecture) <br/>
+* A C program which has to be run on a specific hardware layout which is the interior of a chip in your laptop, there is certain flow to be followed.
+* Initially, this particular C program is compiled in it's assembly language program which is nothing but RISC-V ISA (Reduced Instruction Set Compting - V Intruction Set Architecture).
+* Following this, the assembly language program is then converted to machine language program which is the binary language logic 0 and 1 which is understood by the hardware of the computer.
+* Directly after this, we've to implement this RISC-V specification using some RTL (a Hardware Description Language). Finally, from the RTL to Layout it is a standard PnR or RTL to GDSII flow.
+![image](https://github.com/user-attachments/assets/a737d5e9-561d-4d91-af8b-39a4bc043ad0) <br/>
+* For an application software to be run on a hardware there are several processes taking place. To begin with, the apps enters into a block called system software and it converts the application program to binary language. There are 
+ various layers in system software in which the major layers or components are OS (Operating System), Compiler and Assembler.
+![image](https://github.com/user-attachments/assets/f4cb8c6b-030e-4737-9e93-3cdfc93c7900) <br/>
+### Open Source Implementation
+For open-source ASIC design implemantation, we require the following enablers to be readily available as open-source versions. They are:-
+1. RTL Designs <br/>
+2. EDA Tools <br/>
+3. PDK Data <br/>
+![image](https://github.com/user-attachments/assets/9241f680-b230-402e-ae1f-273bb651e42a) <br/>
+The main objective of the ASIC Design Flow is to take the design from the RTL (Register Transfer Level) all the way to the GDSII, which is the format used for the final fabrication layout. <br/>
+![image](https://github.com/user-attachments/assets/3027d708-4e74-4e5e-a8be-70928dea9bd0) <br/>
+Synthesis is the process of convertion or translation of design RTL into circuits made out of Standard Cell Libraries (SCL). <br/>
+![image](https://github.com/user-attachments/assets/4f6e96ac-9dfb-48c2-8563-3a84b99e7f6c) <br/>
+In FloorPlanning, the chip is divided between different system blocks and I/O padding is done. Power Planning typically uses upper metal layers for power distribution since thay are thicker than lower metal layers and so have lower resistance and PP is done to avoid electron migration and IR drops. <br/>
+![image](https://github.com/user-attachments/assets/c5460ab0-9ef6-4add-86d7-3f19f524b21f) <br/>
+Placement refers to careful and considerate placement of cells on the chip floorplan. This is followed by CTS( Clock tree synthesis) and routing where delivering clock to all components without any jitter
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
