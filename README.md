@@ -2046,7 +2046,6 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 ![Screenshot from 2024-11-15 05-52-07](https://github.com/user-attachments/assets/94a41c25-937b-47af-b241-e07915d9553d)
 ![Screenshot from 2024-11-15 05-52-14](https://github.com/user-attachments/assets/e72047b1-90fa-471f-a189-d969eb344c62)
 The standard cells are placed correctly now.
-![Screenshot from 2024-11-10 23-45-59](https://github.com/user-attachments/assets/b43a19c3-98c5-4b12-b640-49b55c9a4d1a)
 ### Day 3: Design library cell using Magic Layout and ngspice characterization
 In this lab, we will load the custom inverter layout in magic and explore. Spice extraction of inverter in magic will be done. Editing the spice model file for analysis through simulation. Analyse Post-layout ngspice simulations. Finally find DRC problems and fix them. <br/>
 * Cloning the inverter
