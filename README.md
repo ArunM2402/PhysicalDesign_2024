@@ -1938,7 +1938,7 @@ cd Desktop/work/tools/openlane_working_dir/openlane
 # Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
 docker
 ```
-![Screenshot from 2024-11-10 22-59-08](https://github.com/user-attachments/assets/09417902-5949-45c6-87a6-c29d7af2957f)
+![Screenshot from 2024-11-15 05-49-14](https://github.com/user-attachments/assets/03ac535a-d0c1-41f1-af62-5d19ddbc402a)
 ```
 # Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
 ./flow.tcl -interactive
@@ -1958,17 +1958,17 @@ exit
 # Exit from OpenLANE flow docker sub-system
 exit
 ```
-![Screenshot from 2024-11-10 23-00-45](https://github.com/user-attachments/assets/45fd4e82-5d22-4d64-b09b-d57b41b72219)
-![Screenshot from 2024-11-10 23-01-49](https://github.com/user-attachments/assets/3292b28b-7ba7-47c8-8df7-3809d4b406aa)
+![Screenshot from 2024-11-15 05-49-25](https://github.com/user-attachments/assets/06ce24ad-351f-49a6-ba28-b90c8c8225e0)
+![Screenshot from 2024-11-15 05-49-39](https://github.com/user-attachments/assets/dfcc7c68-346e-4edf-8e79-d1dc553bbd0f)
 2. Calculation of Flop Ratio <br/>
 The synthesis reports are checked and flop ratio is calculated by the formula : <br/> 
 ```
 Flop Ratio = Number of D flip flops/ Number of total cells
 Percentage = Flop Ratio * 100 
 ```
-![Screenshot from 2024-11-10 23-06-12](https://github.com/user-attachments/assets/d2448a66-8e9a-4b3f-9530-f296bdc61b0d)
-![Screenshot from 2024-11-10 23-07-17](https://github.com/user-attachments/assets/6daec98c-4391-4e50-8286-f7f8b68adb63)
-![Screenshot from 2024-11-10 23-11-58](https://github.com/user-attachments/assets/23371ed1-95fa-401e-b3a4-ae053a766bf8)
+![Screenshot from 2024-11-15 05-49-50](https://github.com/user-attachments/assets/34084607-2cc9-49de-8728-3854484dd39a)
+![Screenshot from 2024-11-15 05-49-58](https://github.com/user-attachments/assets/26548794-ea8d-4ffc-b810-39357dfe5f86)
+![Screenshot from 2024-11-15 05-50-05](https://github.com/user-attachments/assets/1fcb1ce4-9cd4-4100-95c6-1d74e2b71df4)
 Substituting we get, 1613/14876 = 0.1084 = 10.84%
 ### Day 2: Good floorplan vs bad floorplan and introduction to library cells
 Here, we try to design the floorplan of the picrorv32a design using openflow. The commands are :
@@ -1994,14 +1994,14 @@ run_synthesis
 # Now we can run floorplan
 run_floorplan
 ```
-![Screenshot from 2024-11-10 23-19-00](https://github.com/user-attachments/assets/ccd8a3cc-c84f-4dcb-ba52-ebc31651e42f)
-![Screenshot from 2024-11-10 23-19-54](https://github.com/user-attachments/assets/a7e2dc27-d9a7-4588-8b63-b1562572ac06)
+![Screenshot from 2024-11-15 05-50-17](https://github.com/user-attachments/assets/fb8d37d2-4546-4391-b6c8-901852928944)
+![Screenshot from 2024-11-15 05-50-27](https://github.com/user-attachments/assets/5a90470b-5e20-4e7f-b71a-8d63f064ccc2)
 We then calculate the die area using:
 ```
 Area of die in microns = Die width in microns * Die height in microns
 ```
-![Screenshot from 2024-11-10 23-22-56](https://github.com/user-attachments/assets/7bb9f5a8-ff88-4445-8f16-f52e98ae4bd2)
-![Screenshot from 2024-11-10 23-23-25](https://github.com/user-attachments/assets/81bea21b-fd04-4bbd-ab24-c860e2400843)
+![Screenshot from 2024-11-15 05-50-34](https://github.com/user-attachments/assets/48f6ff64-a70c-4cf8-97c7-6950ae3a705d)
+![Screenshot from 2024-11-15 05-50-43](https://github.com/user-attachments/assets/3cf92357-68c1-49a8-ab89-7a0ebd2a9d90)
 From the def file we can see,
 ```
 1000 Unit distance = 1 micron
@@ -2018,23 +2018,23 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-11
 # Command to load the floorplan def in magic tool
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
 ```
-![Screenshot from 2024-11-10 23-25-55](https://github.com/user-attachments/assets/c4c12d9f-4de2-4000-9c7c-437776ee8c2d)
-![Screenshot from 2024-11-10 23-27-26](https://github.com/user-attachments/assets/8f9aa8e9-2b69-425d-8f39-06f29cab7087)
+![Screenshot from 2024-11-15 05-50-52](https://github.com/user-attachments/assets/90db1bbb-96b2-4cfe-9868-359aee17384e)
+![Screenshot from 2024-11-15 05-51-02](https://github.com/user-attachments/assets/89d27af5-c089-423d-b4ba-a5addf8fabf0)
 Different metal layers : <br/>
-![Screenshot from 2024-11-10 23-30-55](https://github.com/user-attachments/assets/05e08516-7184-4ac8-96ed-4371ee8255c5)
-![Screenshot from 2024-11-10 23-32-11](https://github.com/user-attachments/assets/eec35c2c-64b0-43c4-9385-4a6cbd5fadc0)
+![Screenshot from 2024-11-15 05-51-14](https://github.com/user-attachments/assets/3cb33b69-3a98-4183-b17f-9b84db4d3ffd)
+![Screenshot from 2024-11-15 05-51-23](https://github.com/user-attachments/assets/26ab042f-b3be-4474-a350-f318ccf70926)
 Equidistant tap cells <br/>
-![Screenshot from 2024-11-10 23-33-13](https://github.com/user-attachments/assets/80489298-bf79-445d-b74e-bc0def7ea385)
+![Screenshot from 2024-11-15 05-51-30](https://github.com/user-attachments/assets/7122c819-ada2-402f-aa92-6cb4943c6ada)
 Standard Cells at the origin(unplaced) <br/>
-![Screenshot from 2024-11-10 23-34-27](https://github.com/user-attachments/assets/b7a2ac66-5873-4132-82fd-9f00d07ee0eb)
-![Screenshot from 2024-11-10 23-34-47](https://github.com/user-attachments/assets/93d0b92c-6294-4491-929e-af50b3c00faa)
+![Screenshot from 2024-11-15 05-51-39](https://github.com/user-attachments/assets/c35c26d3-25e4-45c0-a966-42ff53cedeb5)
+![Screenshot from 2024-11-15 05-51-43](https://github.com/user-attachments/assets/a572e3b4-e8a8-4ec1-8ed2-f343756b72d3)
 Next we run congestion aware placement using:
 ```
 # Congestion aware placement by default
 run_placement
 ```
-![Screenshot from 2024-11-10 23-40-41](https://github.com/user-attachments/assets/a32be1c1-1c7a-45d7-857c-6b8445f9189a)
-![Screenshot from 2024-11-10 23-41-19](https://github.com/user-attachments/assets/4b733ba9-d6cf-4744-8108-2d52f07a3906)
+![Screenshot from 2024-11-15 05-51-51](https://github.com/user-attachments/assets/61b9a108-a81f-471f-b106-74d600622615)
+![Screenshot from 2024-11-15 05-51-59](https://github.com/user-attachments/assets/71edf71b-b103-4f4e-96dd-b79efca4f358)
 To explore the placement, we load in magic tool again.
 ```
 # Change directory to path containing generated placement def
@@ -2043,8 +2043,8 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-11
 # Command to load the placement def in magic tool
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
-![image](https://github.com/user-attachments/assets/477b1ec1-280d-4d72-81fd-924ac9f46b90)
-![Screenshot from 2024-11-10 23-44-49](https://github.com/user-attachments/assets/4b30f558-fe4b-4a5a-be27-89f2fb5458e1)
+![Screenshot from 2024-11-15 05-52-07](https://github.com/user-attachments/assets/94a41c25-937b-47af-b241-e07915d9553d)
+![Screenshot from 2024-11-15 05-52-14](https://github.com/user-attachments/assets/e72047b1-90fa-471f-a189-d969eb344c62)
 The standard cells are placed correctly now.
 ![Screenshot from 2024-11-10 23-45-59](https://github.com/user-attachments/assets/b43a19c3-98c5-4b12-b640-49b55c9a4d1a)
 ### Day 3: Design library cell using Magic Layout and ngspice characterization
