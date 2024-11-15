@@ -16,7 +16,7 @@
 14. [BABYSOC SIMULATION-POST SYNTHESIS](#babysoc-simulation-post-synthesis)<br/> 
 15. [STATIC TIMING ANALYSIS OF VSDBABYSOC](#static-timing-analysis-of-vsdbabysoc)<br/>
 16. [SYNTHESIZE BABYSOC DESIGN USING DIFFERENT PVT CORNER LIBRARY FILES](#synthesize-babysoc-design-using-different-pvt-corner-library-files)<br/>
-17. [VSD WORKSHOP:ADVANCED PHYSICAL DESIGN USING OpenLANE-SKY130 ](#vsd-workshop:advanced-physical-design-using-openlane-sky130)<br/>
+17. [VSD WORKSHOP-ADVANCED PHYSICAL DESIGN USING OpenLANE-SKY130 ](#vsd-workshop-advanced-physical-design-using-openlane-sky130)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -1894,7 +1894,7 @@ From the graphs we can infer: <br/>
 1) Worst setup slack - sky130_fd_sc_hd__ss_n40C_1v28 PVT Corner library file<br/>
 2) Worst hold slack - sky130_fd_sc_hd__ff_100C_1v95 PVT Corner library file<br/>
 
-## VSD WORKSHOP:ADVANCED PHYSICAL DESIGN USING OpenLANE-SKY130 
+## VSD WORKSHOP-ADVANCED PHYSICAL DESIGN USING OpenLANE-SKY130 
 ### Theory
 Package: <br/>
 * In any embedded board we have seen, the part of the board we consider as the chip is only the PACKAGE of the chip which is nothing but a protective layer or packet bound over the actual chip and the actual manufatured chip is usually present at the center of a package wherein, the connections from package is fed to the chip by WIRE BOUND method which is none other than basic wired connection.
