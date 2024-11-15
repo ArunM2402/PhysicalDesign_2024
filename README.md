@@ -2144,7 +2144,7 @@ magic -d XR &
 * Once it is run, we get the following errors due to polysilicon rules. <br/>
 ![image](https://github.com/user-attachments/assets/ad8d7078-8e6c-4b92-922b-6edd74c82dd4) <br/>
 ![image](https://github.com/user-attachments/assets/5d79e435-ba55-4cab-a450-d693dd78e1db) <br/>
-* The tech file is the updated to fix it. <br/>
+* The tech file is then updated to fix it. <br/>
 ```
 # Loading updated tech file
 tech load sky130A.tech
