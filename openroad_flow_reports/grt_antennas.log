@@ -1,0 +1,35 @@
+Net: net6
+  Pin:   rvmyth.CPU_reset_a1$_DFF_P_/D (sky130_fd_sc_hd__dfxtp_4)
+    Layer: mcon
+      Partial area ratio:    0.23
+      Required ratio:    3.00 (Gate area) 
+      Cumulative area ratio:    0.23
+      Required ratio:    0.00 (Cumulative area) 
+
+    Layer: met1
+      Partial area ratio:  944.61
+      Required ratio:    0.00 (Gate area) 
+      Cumulative area ratio:  944.61
+      Required ratio:    0.00 (Cumulative area) 
+      Partial area ratio: 4704.00
+      Required ratio: 4686.56 (Side area) (VIOLATED)
+      Cumulative area ratio: 4704.00
+      Required ratio:    0.00 (Cumulative side area) 
+
+    Layer: via
+      Partial area ratio:    2.68
+      Required ratio:  193.79 (Gate area) 
+      Cumulative area ratio:    2.91
+      Required ratio:    0.00 (Cumulative area) 
+
+    Layer: met2
+      Partial area ratio:  116.35
+      Required ratio:    0.00 (Gate area) 
+      Cumulative area ratio: 1060.96
+      Required ratio:    0.00 (Cumulative area) 
+      Partial area ratio:  575.72
+      Required ratio: 7146.80 (Side area) 
+      Cumulative area ratio: 5279.72
+      Required ratio:    0.00 (Cumulative side area) 
+
+

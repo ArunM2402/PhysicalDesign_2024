@@ -1,0 +1,503 @@
+
+==========================================================================
+cts final report_tns
+--------------------------------------------------------------------------
+tns 0.00
+
+==========================================================================
+cts final report_wns
+--------------------------------------------------------------------------
+wns 0.00
+
+==========================================================================
+cts final report_worst_slack
+--------------------------------------------------------------------------
+worst slack 5.73
+
+==========================================================================
+cts final report_clock_skew
+--------------------------------------------------------------------------
+Clock clk
+   3.03 source latency rvmyth.CPU_src1_value_a3[20]$_DFF_P_/CLK ^
+  -2.95 target latency rvmyth.CPU_Xreg_value_a4[5][26]$_SDFFE_PP0P_/CLK ^
+   0.58 clock uncertainty
+   0.00 CRPR
+--------------
+   0.66 setup skew
+
+
+==========================================================================
+cts final report_checks -path_delay min
+--------------------------------------------------------------------------
+Startpoint: rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          2.00    2.00   clock source latency
+     1    0.23    0.00    0.00    2.00 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01    2.01 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00    2.23 ^ clkbuf_2_2_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.14    0.16    0.26    2.49 ^ clkbuf_2_2_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_2_0_clk_arun (net)
+                  0.16    0.00    2.49 ^ clkbuf_4_8__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    13    0.23    0.24    0.31    2.81 ^ clkbuf_4_8__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_8__leaf_clk_arun (net)
+                  0.24    0.00    2.81 ^ clkbuf_leaf_24_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     9    0.04    0.06    0.20    3.01 ^ clkbuf_leaf_24_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_24_clk_arun (net)
+                  0.06    0.00    3.01 ^ rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_4)
+     1    0.06    0.09    0.41    3.42 v rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_4)
+                                         rvmyth.CPU_dmem_rd_data_a5[20] (net)
+                  0.09    0.01    3.43 v _08267_/B (sky130_fd_sc_hd__nand3_4)
+    15    0.09    0.26    0.26    3.68 ^ _08267_/Y (sky130_fd_sc_hd__nand3_4)
+                                         _02886_ (net)
+                  0.26    0.01    3.69 ^ _09005_/A1 (sky130_fd_sc_hd__o221ai_1)
+     1    0.00    0.08    0.16    3.85 v _09005_/Y (sky130_fd_sc_hd__o221ai_1)
+                                         _00684_ (net)
+                  0.08    0.00    3.85 v rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+                                  3.85   data arrival time
+
+                          0.00    0.00   clock clk (rise edge)
+                          2.00    2.00   clock source latency
+     1    0.23    0.00    0.00    2.00 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01    2.01 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00    2.23 ^ clkbuf_2_0_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.15    0.17    0.26    2.50 ^ clkbuf_2_0_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_0_0_clk_arun (net)
+                  0.17    0.00    2.50 ^ clkbuf_4_2__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    10    0.20    0.21    0.29    2.79 ^ clkbuf_4_2__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_2__leaf_clk_arun (net)
+                  0.21    0.00    2.80 ^ clkbuf_leaf_7_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     8    0.04    0.06    0.20    2.99 ^ clkbuf_leaf_7_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_7_clk_arun (net)
+                  0.06    0.00    2.99 ^ rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                          0.92    3.92   clock uncertainty
+                          0.00    3.92   clock reconvergence pessimism
+                         -0.06    3.85   library hold time
+                                  3.85   data required time
+-----------------------------------------------------------------------------
+                                  3.85   data required time
+                                 -3.85   data arrival time
+-----------------------------------------------------------------------------
+                                  0.00   slack (MET)
+
+
+
+==========================================================================
+cts final report_checks -path_delay max
+--------------------------------------------------------------------------
+Startpoint: rvmyth.CPU_imm_a3[30]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          2.00    2.00   clock source latency
+     1    0.23    0.00    0.00    2.00 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01    2.01 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00    2.23 ^ clkbuf_2_3_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.15    0.16    0.26    2.49 ^ clkbuf_2_3_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_3_0_clk_arun (net)
+                  0.16    0.00    2.50 ^ clkbuf_4_13__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    12    0.21    0.22    0.30    2.80 ^ clkbuf_4_13__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_13__leaf_clk_arun (net)
+                  0.22    0.00    2.80 ^ clkbuf_leaf_96_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     9    0.04    0.07    0.20    3.00 ^ clkbuf_leaf_96_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_96_clk_arun (net)
+                  0.07    0.00    3.00 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_4)
+    51    0.43    1.18    1.11    4.11 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_4)
+                                         rvmyth.CPU_imm_a3[10] (net)
+                  1.18    0.03    4.14 ^ _11528_/B (sky130_fd_sc_hd__ha_2)
+     6    0.03    0.10    0.55    4.68 v _11528_/SUM (sky130_fd_sc_hd__ha_2)
+                                         _05639_ (net)
+                  0.10    0.00    4.68 v _07982_/C (sky130_fd_sc_hd__nor3_2)
+     3    0.02    0.34    0.28    4.96 ^ _07982_/Y (sky130_fd_sc_hd__nor3_2)
+                                         _02612_ (net)
+                  0.34    0.00    4.96 ^ _07984_/A (sky130_fd_sc_hd__nand2_2)
+     2    0.02    0.13    0.16    5.12 v _07984_/Y (sky130_fd_sc_hd__nand2_2)
+                                         _02614_ (net)
+                  0.13    0.00    5.12 v _07988_/A2 (sky130_fd_sc_hd__a21oi_2)
+     2    0.02    0.26    0.29    5.41 ^ _07988_/Y (sky130_fd_sc_hd__a21oi_2)
+                                         _02618_ (net)
+                  0.26    0.00    5.41 ^ _08107_/A1 (sky130_fd_sc_hd__o21ai_4)
+     4    0.04    0.17    0.16    5.57 v _08107_/Y (sky130_fd_sc_hd__o21ai_4)
+                                         _02733_ (net)
+                  0.17    0.00    5.57 v _08315_/A1 (sky130_fd_sc_hd__a21oi_4)
+     3    0.03    0.22    0.26    5.84 ^ _08315_/Y (sky130_fd_sc_hd__a21oi_4)
+                                         _02932_ (net)
+                  0.22    0.00    5.84 ^ _08522_/A2 (sky130_fd_sc_hd__o211ai_2)
+     2    0.01    0.13    0.13    5.97 v _08522_/Y (sky130_fd_sc_hd__o211ai_2)
+                                         _03129_ (net)
+                  0.13    0.00    5.97 v _08526_/B (sky130_fd_sc_hd__and3_1)
+     1    0.01    0.06    0.23    6.20 v _08526_/X (sky130_fd_sc_hd__and3_1)
+                                         _03133_ (net)
+                  0.06    0.00    6.20 v _08540_/B (sky130_fd_sc_hd__nor3_4)
+    17    0.14    1.32    1.03    7.23 ^ _08540_/Y (sky130_fd_sc_hd__nor3_4)
+                                         _03147_ (net)
+                  1.32    0.03    7.26 ^ _09879_/B2 (sky130_fd_sc_hd__o221ai_1)
+     1    0.00    0.20    0.20    7.47 v _09879_/Y (sky130_fd_sc_hd__o221ai_1)
+                                         _00983_ (net)
+                  0.20    0.00    7.47 v hold1504/A (sky130_fd_sc_hd__dlygate4sd3_1)
+     1    0.00    0.06    0.63    8.09 v hold1504/X (sky130_fd_sc_hd__dlygate4sd3_1)
+                                         net1742 (net)
+                  0.06    0.00    8.09 v rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+                                  8.09   data arrival time
+
+                         11.55   11.55   clock clk (rise edge)
+                          2.00   13.55   clock source latency
+     1    0.23    0.00    0.00   13.55 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01   13.56 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22   13.78 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00   13.78 ^ clkbuf_2_0_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.15    0.17    0.26   14.05 ^ clkbuf_2_0_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_0_0_clk_arun (net)
+                  0.17    0.00   14.05 ^ clkbuf_4_0__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    10    0.17    0.18    0.28   14.33 ^ clkbuf_4_0__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_0__leaf_clk_arun (net)
+                  0.18    0.00   14.33 ^ clkbuf_leaf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     9    0.04    0.06    0.19   14.52 ^ clkbuf_leaf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_0_clk_arun (net)
+                  0.06    0.00   14.52 ^ rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                         -0.58   13.94   clock uncertainty
+                          0.00   13.94   clock reconvergence pessimism
+                         -0.11   13.83   library setup time
+                                 13.83   data required time
+-----------------------------------------------------------------------------
+                                 13.83   data required time
+                                 -8.09   data arrival time
+-----------------------------------------------------------------------------
+                                  5.73   slack (MET)
+
+
+
+==========================================================================
+cts final report_checks -unconstrained
+--------------------------------------------------------------------------
+Startpoint: rvmyth.CPU_imm_a3[30]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                          0.00    0.00   clock clk (rise edge)
+                          2.00    2.00   clock source latency
+     1    0.23    0.00    0.00    2.00 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01    2.01 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00    2.23 ^ clkbuf_2_3_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.15    0.16    0.26    2.49 ^ clkbuf_2_3_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_3_0_clk_arun (net)
+                  0.16    0.00    2.50 ^ clkbuf_4_13__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    12    0.21    0.22    0.30    2.80 ^ clkbuf_4_13__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_13__leaf_clk_arun (net)
+                  0.22    0.00    2.80 ^ clkbuf_leaf_96_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     9    0.04    0.07    0.20    3.00 ^ clkbuf_leaf_96_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_96_clk_arun (net)
+                  0.07    0.00    3.00 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_4)
+    51    0.43    1.18    1.11    4.11 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_4)
+                                         rvmyth.CPU_imm_a3[10] (net)
+                  1.18    0.03    4.14 ^ _11528_/B (sky130_fd_sc_hd__ha_2)
+     6    0.03    0.10    0.55    4.68 v _11528_/SUM (sky130_fd_sc_hd__ha_2)
+                                         _05639_ (net)
+                  0.10    0.00    4.68 v _07982_/C (sky130_fd_sc_hd__nor3_2)
+     3    0.02    0.34    0.28    4.96 ^ _07982_/Y (sky130_fd_sc_hd__nor3_2)
+                                         _02612_ (net)
+                  0.34    0.00    4.96 ^ _07984_/A (sky130_fd_sc_hd__nand2_2)
+     2    0.02    0.13    0.16    5.12 v _07984_/Y (sky130_fd_sc_hd__nand2_2)
+                                         _02614_ (net)
+                  0.13    0.00    5.12 v _07988_/A2 (sky130_fd_sc_hd__a21oi_2)
+     2    0.02    0.26    0.29    5.41 ^ _07988_/Y (sky130_fd_sc_hd__a21oi_2)
+                                         _02618_ (net)
+                  0.26    0.00    5.41 ^ _08107_/A1 (sky130_fd_sc_hd__o21ai_4)
+     4    0.04    0.17    0.16    5.57 v _08107_/Y (sky130_fd_sc_hd__o21ai_4)
+                                         _02733_ (net)
+                  0.17    0.00    5.57 v _08315_/A1 (sky130_fd_sc_hd__a21oi_4)
+     3    0.03    0.22    0.26    5.84 ^ _08315_/Y (sky130_fd_sc_hd__a21oi_4)
+                                         _02932_ (net)
+                  0.22    0.00    5.84 ^ _08522_/A2 (sky130_fd_sc_hd__o211ai_2)
+     2    0.01    0.13    0.13    5.97 v _08522_/Y (sky130_fd_sc_hd__o211ai_2)
+                                         _03129_ (net)
+                  0.13    0.00    5.97 v _08526_/B (sky130_fd_sc_hd__and3_1)
+     1    0.01    0.06    0.23    6.20 v _08526_/X (sky130_fd_sc_hd__and3_1)
+                                         _03133_ (net)
+                  0.06    0.00    6.20 v _08540_/B (sky130_fd_sc_hd__nor3_4)
+    17    0.14    1.32    1.03    7.23 ^ _08540_/Y (sky130_fd_sc_hd__nor3_4)
+                                         _03147_ (net)
+                  1.32    0.03    7.26 ^ _09879_/B2 (sky130_fd_sc_hd__o221ai_1)
+     1    0.00    0.20    0.20    7.47 v _09879_/Y (sky130_fd_sc_hd__o221ai_1)
+                                         _00983_ (net)
+                  0.20    0.00    7.47 v hold1504/A (sky130_fd_sc_hd__dlygate4sd3_1)
+     1    0.00    0.06    0.63    8.09 v hold1504/X (sky130_fd_sc_hd__dlygate4sd3_1)
+                                         net1742 (net)
+                  0.06    0.00    8.09 v rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+                                  8.09   data arrival time
+
+                         11.55   11.55   clock clk (rise edge)
+                          2.00   13.55   clock source latency
+     1    0.23    0.00    0.00   13.55 ^ avsdpll/CLK (avsdpll)
+                                         clk_arun (net)
+                  0.03    0.01   13.56 ^ clkbuf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.16    0.17    0.22   13.78 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_0_clk_arun (net)
+                  0.17    0.00   13.78 ^ clkbuf_2_0_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     4    0.15    0.17    0.26   14.05 ^ clkbuf_2_0_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_2_0_0_clk_arun (net)
+                  0.17    0.00   14.05 ^ clkbuf_4_0__f_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+    10    0.17    0.18    0.28   14.33 ^ clkbuf_4_0__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_4_0__leaf_clk_arun (net)
+                  0.18    0.00   14.33 ^ clkbuf_leaf_0_clk_arun/A (sky130_fd_sc_hd__clkbuf_16)
+     9    0.04    0.06    0.19   14.52 ^ clkbuf_leaf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+                                         clknet_leaf_0_clk_arun (net)
+                  0.06    0.00   14.52 ^ rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                         -0.58   13.94   clock uncertainty
+                          0.00   13.94   clock reconvergence pessimism
+                         -0.11   13.83   library setup time
+                                 13.83   data required time
+-----------------------------------------------------------------------------
+                                 13.83   data required time
+                                 -8.09   data arrival time
+-----------------------------------------------------------------------------
+                                  5.73   slack (MET)
+
+
+
+==========================================================================
+cts final report_check_types -max_slew -max_cap -max_fanout -violators
+--------------------------------------------------------------------------
+
+==========================================================================
+cts final max_slew_check_slack
+--------------------------------------------------------------------------
+0.03236699849367142
+
+==========================================================================
+cts final max_slew_check_limit
+--------------------------------------------------------------------------
+1.5
+
+==========================================================================
+cts final max_slew_check_slack_limit
+--------------------------------------------------------------------------
+0.0216
+
+==========================================================================
+cts final max_fanout_check_slack
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+cts final max_fanout_check_limit
+--------------------------------------------------------------------------
+1.0000000150474662e+30
+
+==========================================================================
+cts final max_capacitance_check_slack
+--------------------------------------------------------------------------
+0.004754904191941023
+
+==========================================================================
+cts final max_capacitance_check_limit
+--------------------------------------------------------------------------
+0.43305400013923645
+
+==========================================================================
+cts final max_capacitance_check_slack_limit
+--------------------------------------------------------------------------
+0.0110
+
+==========================================================================
+cts final max_slew_violation_count
+--------------------------------------------------------------------------
+max slew violation count 0
+
+==========================================================================
+cts final max_fanout_violation_count
+--------------------------------------------------------------------------
+max fanout violation count 0
+
+==========================================================================
+cts final max_cap_violation_count
+--------------------------------------------------------------------------
+max cap violation count 0
+
+==========================================================================
+cts final setup_violation_count
+--------------------------------------------------------------------------
+setup violation count 0
+
+==========================================================================
+cts final hold_violation_count
+--------------------------------------------------------------------------
+hold violation count 0
+
+==========================================================================
+cts final report_checks -path_delay max reg to reg
+--------------------------------------------------------------------------
+Startpoint: rvmyth.CPU_imm_a3[30]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   2.00    2.00   clock source latency
+   0.00    2.00 ^ avsdpll/CLK (avsdpll)
+   0.23    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.26    2.49 ^ clkbuf_2_3_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.30    2.80 ^ clkbuf_4_13__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.20    3.00 ^ clkbuf_leaf_96_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.00    3.00 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_4)
+   1.11    4.11 ^ rvmyth.CPU_imm_a3[30]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_4)
+   0.57    4.68 v _11528_/SUM (sky130_fd_sc_hd__ha_2)
+   0.28    4.96 ^ _07982_/Y (sky130_fd_sc_hd__nor3_2)
+   0.16    5.12 v _07984_/Y (sky130_fd_sc_hd__nand2_2)
+   0.29    5.41 ^ _07988_/Y (sky130_fd_sc_hd__a21oi_2)
+   0.16    5.57 v _08107_/Y (sky130_fd_sc_hd__o21ai_4)
+   0.26    5.84 ^ _08315_/Y (sky130_fd_sc_hd__a21oi_4)
+   0.13    5.97 v _08522_/Y (sky130_fd_sc_hd__o211ai_2)
+   0.23    6.20 v _08526_/X (sky130_fd_sc_hd__and3_1)
+   1.03    7.23 ^ _08540_/Y (sky130_fd_sc_hd__nor3_4)
+   0.24    7.47 v _09879_/Y (sky130_fd_sc_hd__o221ai_1)
+   0.63    8.09 v hold1504/X (sky130_fd_sc_hd__dlygate4sd3_1)
+   0.00    8.09 v rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+           8.09   data arrival time
+
+  11.55   11.55   clock clk (rise edge)
+   2.00   13.55   clock source latency
+   0.00   13.55 ^ avsdpll/CLK (avsdpll)
+   0.23   13.78 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.27   14.05 ^ clkbuf_2_0_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.28   14.33 ^ clkbuf_4_0__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.19   14.52 ^ clkbuf_leaf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.00   14.52 ^ rvmyth.CPU_Xreg_value_a4[8][30]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.58   13.94   clock uncertainty
+   0.00   13.94   clock reconvergence pessimism
+  -0.11   13.83   library setup time
+          13.83   data required time
+---------------------------------------------------------
+          13.83   data required time
+          -8.09   data arrival time
+---------------------------------------------------------
+           5.73   slack (MET)
+
+
+
+==========================================================================
+cts final report_checks -path_delay min reg to reg
+--------------------------------------------------------------------------
+Startpoint: rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   2.00    2.00   clock source latency
+   0.00    2.00 ^ avsdpll/CLK (avsdpll)
+   0.23    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.26    2.49 ^ clkbuf_2_2_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.31    2.81 ^ clkbuf_4_8__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.21    3.01 ^ clkbuf_leaf_24_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.00    3.01 ^ rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_4)
+   0.41    3.42 v rvmyth.CPU_dmem_rd_data_a5[20]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_4)
+   0.27    3.68 ^ _08267_/Y (sky130_fd_sc_hd__nand3_4)
+   0.17    3.85 v _09005_/Y (sky130_fd_sc_hd__o221ai_1)
+   0.00    3.85 v rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+           3.85   data arrival time
+
+   0.00    0.00   clock clk (rise edge)
+   2.00    2.00   clock source latency
+   0.00    2.00 ^ avsdpll/CLK (avsdpll)
+   0.23    2.23 ^ clkbuf_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.27    2.50 ^ clkbuf_2_0_0_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.30    2.79 ^ clkbuf_4_2__f_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.20    2.99 ^ clkbuf_leaf_7_clk_arun/X (sky130_fd_sc_hd__clkbuf_16)
+   0.00    2.99 ^ rvmyth.CPU_Xreg_value_a4[14][20]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.92    3.92   clock uncertainty
+   0.00    3.92   clock reconvergence pessimism
+  -0.06    3.85   library hold time
+           3.85   data required time
+---------------------------------------------------------
+           3.85   data required time
+          -3.85   data arrival time
+---------------------------------------------------------
+           0.00   slack (MET)
+
+
+
+==========================================================================
+cts final critical path target clock latency max path
+--------------------------------------------------------------------------
+0
+
+==========================================================================
+cts final critical path target clock latency min path
+--------------------------------------------------------------------------
+0
+
+==========================================================================
+cts final critical path source clock latency min path
+--------------------------------------------------------------------------
+0
+
+==========================================================================
+cts final critical path delay
+--------------------------------------------------------------------------
+8.0928
+
+==========================================================================
+cts final critical path slack
+--------------------------------------------------------------------------
+5.7323
+
+==========================================================================
+cts final slack div critical path delay
+--------------------------------------------------------------------------
+70.832098
+
+==========================================================================
+cts final report_power
+--------------------------------------------------------------------------
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             4.83e-03   9.02e-04   1.04e-08   5.73e-03  30.7%
+Combinational          2.05e-03   4.67e-03   2.39e-08   6.72e-03  36.0%
+Clock                  3.27e-03   2.95e-03   2.82e-09   6.22e-03  33.3%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  1.01e-02   8.52e-03   3.71e-08   1.87e-02 100.0%
+                          54.4%      45.6%       0.0%
