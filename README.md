@@ -17,6 +17,7 @@
 15. [STATIC TIMING ANALYSIS OF VSDBABYSOC](#static-timing-analysis-of-vsdbabysoc)<br/>
 16. [SYNTHESIZE BABYSOC DESIGN USING DIFFERENT PVT CORNER LIBRARY FILES](#synthesize-babysoc-design-using-different-pvt-corner-library-files)<br/>
 17. [VSD WORKSHOP-ADVANCED PHYSICAL DESIGN USING OpenLANE-SKY130 ](#vsd-workshop-advanced-physical-design-using-openlane-sky130)<br/>
+18. [OPENROAD PHYSICAL DESIGN-VSDBABYSOC](#openroad-physical-design-vsdbabysoc)<br/>
 [REFERENCES](#references)
 ## GCC COMPILATION OF C PROGRAM
 Shown below are a series of steps to compile a C program using GCC.
@@ -2750,7 +2751,7 @@ exit
 ![Screenshot from 2024-11-15 03-11-36](https://github.com/user-attachments/assets/5d902082-67fa-4ee5-acce-0c916a3ed5dd)
 ![Screenshot from 2024-11-15 03-12-15](https://github.com/user-attachments/assets/a9d029ee-787b-47ff-bf3c-bf9465f35a1d)
 ![Screenshot from 2024-11-15 03-12-20](https://github.com/user-attachments/assets/2b1a30d7-db7c-4205-b570-31fbc2097b87)
-## OPENROAD PHYSICAL DESIGN
+## OPENROAD PHYSICAL DESIGN-VSDBABYSOC
 In this section, we deal with performing the physical design flow using OpenRoad Flow Scripts on our local machine. This is done with reference to the workshop enabled at 'vsdiat.com' titled "OPENROAD PHYSICAL DESIGN CONTEST". It has the nine sections as follows: <br/>
 ### Section 1:Latest developments in CMOS technology and its Implications on Circuits design <br/>
 The path to Zetta computing was born out of need and necessity. <br/>
@@ -4701,7 +4702,7 @@ The heatmap of the design can be found using:
 make gui_place
 ```
 ![Screenshot from 2024-11-26 02-45-17](https://github.com/user-attachments/assets/8eaccee2-c903-46e2-b014-0282baa1531a)<br/>
-![Screenshot from 2024-11-26 02-46-18](https://github.com/user-attachments/assets/e47ba355-e27c-489a-80d7-6f4a2ffc343d) <br/>
+![image](https://github.com/user-attachments/assets/e151755a-e815-4a9c-bb23-0ca9299fcd0b)<br/>
 Zoomed view of all macros:<br/>
 ![Screenshot from 2024-11-26 02-47-09](https://github.com/user-attachments/assets/71596c7c-1906-496f-8d83-ce69fb5cf87f) <br/>
 ![Screenshot from 2024-11-26 02-47-24](https://github.com/user-attachments/assets/2089c47b-5d12-4cf0-80fa-9f47a2fd72d6) <br/>
