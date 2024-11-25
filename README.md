@@ -2933,33 +2933,7 @@ gedit designs/nangate45/gcd/metadata-base-ok.json
 ### CTS: <br/>
 ![image](https://github.com/user-attachments/assets/17e44250-9765-48d3-bb4f-1c56be3560d5) <br/>
 * The final output in Klayout is : <br/>
-![image](https://github.com/user-attachments/assets/e895fba8-15c2-4c34-83f2-f45e26ba3898)
-
-### Section 7: Design exploration using Autotuner.
-We follow the below commands to use Autotuner.
-```
-pip3.9 install -U --user 'ray[default,tune]==1.11.0' ax-platform hyperopt nevergrad optuna pandas
-or if above not works then use below
-python3.9 -m pip install -U --user 'ray[default,tune]==1.11.0' ax-platform hyperopt nevergrad optuna pandas
-
-pip3.9 install -U --user colorama==0.4.4 bayesian-optimization==1.4.0
-or 
-python3.9 -m pip install -U --user colorama==0.4.4 bayesian-optimization==1.4.0
-
-cd flow/util/
-python3 distributed.py tune -h
-python3 distributed.py --design gcd --platform sky130hd \
-                       --config ../../../../flow/designs/sky130hd/gcd/autotuner.json \
-                       tune
-                       or if above not works then use below
-python3.9 distributed.py --design gcd --platform sky130hd \
-                       --config ../../../../flow/designs/sky130hd/gcd/autotuner.json \
-                       tune --samples 5
-                       
-tensorboard --logdir=../logs/sky130hd/gcd/test-tune-__date__/
-```
-![image](https://github.com/user-attachments/assets/d081cecb-1fa7-4116-b94d-31158f656d85)
-
+![image](https://github.com/user-attachments/assets/e895fba8-15c2-4c34-83f2-f45e26ba3898)<br/>
 ## OpenRoad Flow Scripts: VSDbabySoC
 In this section,we execute the same flow for our VSDbabysoc that was designed in earlier labs.
 * We create a directory vsdbabysoc inside OpenROAD-flow-scripts/flow/designs/sky130hd
