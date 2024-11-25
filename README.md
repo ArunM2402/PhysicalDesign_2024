@@ -2908,10 +2908,9 @@ The macro.cfg is shown below: <br/>
 The pin_order.cfg is shown below:<br/>
 ![image](https://github.com/user-attachments/assets/01b6d853-feb6-4bf5-bf71-91cda5cdb9a4) <br/>
 ### Section 5 & Section 6: OpenROAD GUI. Macro Placement RTL MP and QOR.
-We run the same flow for two designs: GCD and Ariane136.
+We run the same flow for the default design: GCD.
 ```
 make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk
-make DESIGN_CONFIG=./designs/nangate45/ariane136/config.mk
 make gui_floorplan
 make gui_place
 make gui_cts
@@ -2923,8 +2922,18 @@ openroad -gui
 make metadata
 gedit designs/nangate45/gcd/metadata-base-ok.json
 ```
-![image](https://github.com/user-attachments/assets/1c07fadb-fedd-4c93-bd5c-839f6c7eb538)
-
+![image](https://github.com/user-attachments/assets/0b26dad5-eec3-4679-860b-901d6ae0192e)
+![image](https://github.com/user-attachments/assets/61eb0273-535c-4685-8ba0-501202a42f08) <br/>
+* The following commands are run:<br/>
+![image](https://github.com/user-attachments/assets/066e2f9b-cdff-466f-bf44-0b345d9d277f)<br/>
+### Heatmap: <br/>
+![image](https://github.com/user-attachments/assets/53667428-37f0-488b-97c8-f0cc570c006a) <br/>
+### Routing: <br/>
+![image](https://github.com/user-attachments/assets/da729cee-8710-42ea-95c1-75df695648f2) <br/>
+### CTS: <br/>
+![image](https://github.com/user-attachments/assets/17e44250-9765-48d3-bb4f-1c56be3560d5) <br/>
+* The final output in Klayout is : <br/>
+![image](https://github.com/user-attachments/assets/e895fba8-15c2-4c34-83f2-f45e26ba3898)
 
 ### Section 7: Design exploration using Autotuner.
 We follow the below commands to use Autotuner.
@@ -2949,9 +2958,7 @@ python3.9 distributed.py --design gcd --platform sky130hd \
                        
 tensorboard --logdir=../logs/sky130hd/gcd/test-tune-__date__/
 ```
-### Section 8
-
-### Section 9
+![image](https://github.com/user-attachments/assets/d081cecb-1fa7-4116-b94d-31158f656d85)
 
 ## OpenRoad Flow Scripts: VSDbabySoC
 In this section,we execute the same flow for our VSDbabysoc that was designed in earlier labs.
