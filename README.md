@@ -2750,6 +2750,147 @@ exit
 ![Screenshot from 2024-11-15 03-11-36](https://github.com/user-attachments/assets/5d902082-67fa-4ee5-acce-0c916a3ed5dd)
 ![Screenshot from 2024-11-15 03-12-15](https://github.com/user-attachments/assets/a9d029ee-787b-47ff-bf3c-bf9465f35a1d)
 ![Screenshot from 2024-11-15 03-12-20](https://github.com/user-attachments/assets/2b1a30d7-db7c-4205-b570-31fbc2097b87)
+## OPENROAD PHYSICAL DESIGN
+In this section, we deal with performing the physical design flow using OpenRoad Flow Scripts on our local machine. This is done with reference to the workshop enabled at 'vsdiat.com' titled "OPENROAD PHYSICAL DESIGN CONTEST". It has the nine sections as follows: <br/>
+### Section 1:Latest developments in CMOS technology and its Implications on Circuits design <br/>
+The path to Zetta computing was born out of need and necessity. <br/>
+* The Bombe was an electro-mechanical machine designed during World War II to decrypt German Enigma-encrypted messages. It was refined and built by Alan Turing and Gordon Welchman at Bletchley Park, UK. The Bombe systematically tested possible rotor settings of the Enigma machine by exploiting known plaintext patterns. Its logical operations helped narrow down the vast number of possible keys, significantly accelerating the decryption process.
+* ENIAC was developed during World War II by John Presper Eckert and John Mauchly at the University of Pennsylvania, was the first general-purpose, fully electronic digital computer. Completed in 1945, it was designed to compute artillery firing tables for the U.S. Army. ENIAC used vacuum tubes instead of mechanical or electromechanical components. However, it lacked a stored-program capability, requiring manual reconfiguration for each new task.
+* EDVAC, also developed by Eckert and Mauchly with conceptual input from John von Neumann, was one of the first computers to implement the stored-program concept. Completed in 1949, EDVAC represented a significant improvement over ENIAC by using binary representation instead of decimal and storing both data and instructions in memory. This innovation simplified programming and laid the groundwork for the modern von Neumann architecture.<br/>
+The trend is shown below:<br/>
+![image](https://github.com/user-attachments/assets/fae1f640-944a-424d-b65d-344cbc89b4bb)<br/>
+It can be noted that: <br/>
+* Transistors (Orange): The number of transistors on a microprocessor chip (in thousands) has increased exponentially, following Moore's Law, which predicts a doubling approximately every two years. This growth enabled more complex and capable processors, reaching the range of billions of transistors by the 2020s.
+* Single-Thread Performance (Blue): It is measured using SpecINT. It indicates the computational ability of a single processor core. Performance grew steadily due to improvements in architecture, instruction-level parallelism, and clock speeds, but the growth rate slowed post-2005 due to physical limitations like power and heat.
+* Frequency (Green): Processor clock speed (in MHz) rose steadily until the early 2000s but then stagnated as increasing clock speeds became inefficient due to heat dissipation issues.
+* Typical Power (Red): Power consumption increased with transistor density and frequency, becoming a critical design challenge around the mid-2000s.
+* Number of Logical Cores (Black): The transition to multi-core processors gained momentum in the mid-2000s as a response to the stagnation in single-thread performance. By increasing the number of cores, processors enabled more efficient parallel processing, leading to significant improvements in overall performance. <br/>
+![image](https://github.com/user-attachments/assets/15b586f5-142d-4b1f-846f-0b24ecbe1047)<br/>
+As illustrated, the trend goes as Gigascale (10⁹ FLOPS),Terascale (10¹² FLOPS),Petascale (10¹⁵ FLOPS),Exascale (10¹⁸ FLOPS),Zettascale (10²¹ FLOPS). <br/>
+![image](https://github.com/user-attachments/assets/b32325e2-6f1e-4171-a564-405e5e633bbf)<br/>
+The above diagram shows the evolving landscape of CMOS (Complementary Metal-Oxide-Semiconductor) technology and highlights emerging materials, structures, and processes being explored for next-generation semiconductor devices.
+* Silicon (Si) is the primary material used for the channel in traditional CMOS transistors, with strained SiGe (Silicon-Germanium) being used in some high-performance applications to enhance carrier mobility. 2D materials such as MoS₂ (Molybdenum Disulfide) are being explored due to their potential for better electrical characteristics at smaller scales.Germanium (Ge) is gaining interest as it offers higher electron mobility, which could significantly boost transistor performance at small nodes.
+* Deep Ultraviolet (DUV) lithography is the most commonly used technique for defining transistor features, with ArF (Argon Fluoride) and KrF (Krypton Fluoride) lasers operating at different wavelengths.Extreme Ultraviolet (EUV) lithography is expected to be a key technology for sub-7nm nodes. High-NA (Numerical Aperture) EUV will further improve the resolution for even smaller transistor nodes, pushing the boundaries of Moore's Law.
+* High-K metal gates (HKMG) are used in the gate stack of modern FETs to reduce gate leakage current and improve switching performance.NC-FET (Negative Capacitance FET): This is a promising transistor design that leverages ferroelectric materials to reduce power consumption by enabling lower voltage operation.TFET (Tunnel FET): TFETs use quantum tunneling to switch on and off, offering a significant reduction in power consumption compared to conventional FETs, especially for low-power applications.
+* Copper (Cu) is the primary material used for interconnects due to its low resistivity, which helps in minimizing power loss and delays in transistor connections.Ruthenium (Ru) and Compound metals are being investigated for their potential to reduce resistance and improve performance in ultra-small transistors.Topological semi-metals may offer unique properties, such as lower resistivity and increased performance at the atomic scale.
+* FinFET and planar transistors are used to maintain performance at smaller nodes. FinFETs, in particular, help improve control over short-channel effects by using a 3D structure.3DS-FET (3D Stacked FET): These are three-dimensional transistors where multiple layers of devices are stacked vertically, reducing footprint and improving performance.MBC-FET (Multi-Bridge Channel FET): This structure aims to enhance drive current by creating multiple channels within the same device.VFET (Vertical FET): VFETs utilize vertical channels to improve density and reduce power consumption.
+* DTCO (Design-Technology Co-Optimization) focuses on integrating new design techniques with advanced process technologies to maximize chip performance, often involving backside interconnects (BSI), where interconnections are made at the back of the wafer for improved signal integrity and reduced latency.
+* STCO (System-Technology Co-Optimization) nvolves optimizing both the system architecture and the underlying technology. One example is the use of chiplets, which allow for modular, customized designs by integrating multiple smaller chips into one package, offering flexibility and reducing the complexity of scaling single-chip designs.
+### FINFETS
+![image](https://github.com/user-attachments/assets/d4ba6f03-cb1d-443c-b8f1-5097b56f9aa2)<br/>
+* Planar Transistor (Traditional): Early transistor design with a flat channel and gate structure.The gate controls the channel from one side only, leading to limited performance as scaling continues.Sub-channel leakage occurs where current leaks underneath the gate.Results in reduced efficiency.Increases power consumption.
+* FinFET: The channel is shaped like a vertical fin, allowing the gate to wrap around three sides of the channel.Provides better control over the channel, reducing leakage and improving performance at smaller sizes. The gate wraps around the channel (fin) on three sides, providing better control over the channel. Reduces sub-threshold leakage.Enhances drive current.Allows a smaller transistor area while maintaining high performance.
+* A possible improvement to FinFETs in the near future would be Gate-All-Around (GAA) Transistors where The gate completely surrounds the channel, offering superior electrostatic control.<br/>
+Below shown is a comparison of Circuit Performance.<br/>
+![image](https://github.com/user-attachments/assets/d0a3a05b-cad2-4056-9cda-8e0eeeb1ca67)<br/>
+### CMOS INNOVATIONS
+![image](https://github.com/user-attachments/assets/e0ec98ef-c3a7-46e0-b09a-60477fdb16eb)<br/>
+The trend is as follows: <br/>
+* 180 nm (Voltage Scaling): Start of drive voltage reduction.
+* 130 nm (Cu BEOL): Introduction of copper interconnects for better conductivity.
+* 90 nm (Uniaxial Strained Si NMOS): Strained silicon enhances electron mobility.
+* 65 nm (eSiGe CVD ULK): Embedded SiGe improves PMOS performance.
+* 45 nm (HK-first MG-last): High-k dielectrics and metal gates reduce leakage and improve gate control.
+* 32 nm (HKMG with Raised S/D NMOS): Advanced HKMG implementation and raised source/drain regions.
+* 22 nm: Introduction of FinFET (Tri-Gate) transistors, which reduce leakage and improve gate control.Use of self-aligned contacts (SAC) and copper interconnects (Co+Cu BEOL).
+* 14 nm: Transition to unidirectional metal routing for better density. Implementation of SADP (Self-Aligned Double Patterning) and SDB (Single Diffusion Break) for precise layout.
+* 10 nm: Adoption of advanced patterning techniques such as SA-SDB (Self-Aligned SDB),LELELE (Litho-Etch-Litho-Etch-Litho-Etch),SAQP (Self-Aligned Quadruple Patterning) for tighter geometries.
+* 7 nm: Introduction of Extreme Ultraviolet Lithography (EUV) to simplify the patterning process and reduce overlay errors.
+* 5 nm: Integration of SiGe (Silicon-Germanium) channels for PMOS to enhance hole mobility.Use of EUV SA-LELE (Self-Aligned Litho-Etch-Litho-Etch).
+* 3 nm / 2 nm / 1.4 nm: Transition to Gate-All-Around (GAA) nanosheet transistors for improved electrostatic control.GAA stacks nanosheets or nanowires horizontally to maximize current drive.
+* ~ 1 nm: Development of CFET (Complementary FET), which vertically stacks NMOS over PMOS to save area. Use of 2D materials, such as MoS₂, for atomic-scale channel thickness in 2D FETs.
+### PARASITIC RESISTANCE <br/>
+![image](https://github.com/user-attachments/assets/793d0bfe-2544-422b-8ba8-717d5324b6ab)
+Parasitic resistance refers to the unintended or "extra" resistance that arises in an electrical circuit due to the physical properties of the materials, layout, and components involved, but is not part of the intentional design. It is an inherent characteristic in real-world circuits, especially in high-speed digital or analog systems, and is caused by the non-ideal behavior of conductive materials, such as metals and semiconductors.
+<br/>
+Components of Parasitic Resistance ((R_{EXT})) : <br/>
+* (R_{CA-BEOL}): Resistance from the contact in the Back-End-Of-Line (BEOL).
+* (R_{CA}): Resistance at the contact area.
+* (R_{CA-TS}): Resistance at the contact to the transition structure.
+* (R_{TS}): Resistance in the transition structure.
+* (R_{MOL}): Middle-Of-Line resistance (includes lateral and vertical contributions).
+* (R_C): Contact resistance at the metal-semiconductor interface.
+* (R_{EPI}): Epitaxial layer resistance (contributes to current spreading).
+* (R_{FEOL}): Front-End-Of-Line resistance from the source/drain extensions. <br/>
+In the diagram below, the contribution is shown for both NFETS and PFETS along with the equation. <br/>
+![image](https://github.com/user-attachments/assets/6abe6400-8e2b-44fe-9c29-c8dd3ee3d17c)<br/>
+### PARASITIC CAPACITANCE <br/>
+Parasitic capacitance refers to the unintended or unwanted capacitance that arises between conductors or components in a circuit due to their physical proximity and their electrical properties. It is an inherent characteristic of real-world electrical circuits and can significantly affect the performance of high-speed or high-frequency circuits. <br/>
+![image](https://github.com/user-attachments/assets/346f6626-e75e-4776-b1e7-9675ad5979a9) <br/>
+The diagram shows the main contributors in each technology node. The first scatter plot shows a reduction in normalized delay for a ring oscillator when using SiBCN spacers instead of SiN spacers, indicating improved performance. The second scatter plot demonstrates an 8% reduction in (C_{eff}) with SiBCN spacers, which corresponds to the delay improvement observed in the first plot. It also shows the evolution of spacer materials.
+### TRANSISTOR SCALING <br/>
+To achieve smaller gate lengths, devices must address various physical and material constraints to ensure reliable operation. However some major challenges exist like :<br/>
+* Direct Source-to-Drain Tunneling: As the gate length decreases, electrons can tunnel directly from the source to the drain, bypassing the gate control. To mitigate this, materials with a high effective mass are needed.
+* Surface Roughness and Thickness Variations: Variability at atomic scales can cause performance issues. Uniform, atomically thin materials are essential for minimizing such variations.
+* Capacitance Ratios (( C_D ) and ( C_{ox} )): The capacitance of the depletion region (( C_D )) must remain low relative to the gate oxide capacitance (( C_{ox} )) to improve gate control. Materials with a low in-plane dielectric constant (( \epsilon )) are necessary for this.
+### Direct Source-to-Drain Tunneling <br/>
+Direct Source-to-Drain Tunneling (DSDT) refers to a phenomenon that occurs in Field-Effect Transistors (FETs), particularly in n-channel or p-channel MOSFETs at small feature sizes (such as in advanced technology nodes of semiconductors, e.g., 7nm, 5nm, and below). It describes a quantum mechanical effect where electrons or holes tunnel directly from the source to the drain of the transistor, bypassing the channel between them.
+This effect becomes more pronounced as the transistor's gate length shrinks and the oxide layer (the insulating material between the gate and the channel) becomes thinner, allowing the quantum tunneling effect to occur more easily. <br/>
+![image](https://github.com/user-attachments/assets/d5b06a3d-4276-489e-a639-ed25685fdd5c) <br/>
+### Body- Bias Effect <br/>
+The body-bias effect (also known as bulk-bias effect) refers to the influence of the bias voltage applied to the body (or substrate) of a Field-Effect Transistor (FET) on its threshold voltage (V_th) and overall electrical characteristics. This effect is particularly relevant in MOSFETs (Metal-Oxide-Semiconductor Field-Effect Transistors), including n-channel (NMOS) and p-channel (PMOS) devices. The body-bias effect is a key aspect of modern transistor design and is widely used in techniques such as dynamic voltage scaling and power management. <br/>
+![image](https://github.com/user-attachments/assets/092e8da2-5728-4044-9387-b345ca94b060) <br/>
+### LEVELS OF MOSFETS
+* A MoS₂ (Molybdenum Disulfide) transistor with a 1 nm gate represents a promising development in the field of semiconductor technology, leveraging the unique properties of 2D materials for ultra-scaled devices. MoS₂ is known for its high electron mobility, direct bandgap, and scalability, making it an ideal candidate for high-speed and low-power electronics. However, as the gate length shrinks to 1 nm, several challenges arise, including short-channel effects, quantum tunneling, and increased leakage currents. The ultra-thin nature of MoS₂ allows for precise control over the channel, reducing threshold voltages and improving power efficiency, but the small gate length can lead to a degradation in electrostatic control over the channel, increasing the likelihood of drain-induced barrier lowering (DIBL) and subthreshold swing issues. Additionally, gate leakage becomes a concern due to quantum tunneling, especially with ultra-thin gate dielectrics. To overcome these challenges, innovative approaches such as high-k dielectrics, multi-gate or Gate-All-Around (GAA) structures, and better contact engineering are necessary to ensure efficient transistor performance. Despite these hurdles, MoS₂’s potential for low-power, high-performance electronics at the atomic scale makes it an exciting material for the next generation of transistors. <br/>
+![image](https://github.com/user-attachments/assets/bf408c12-6b3b-43fb-94a0-cc9bc6f8e214)
+* An All-2D MOSFET represents an advanced concept in semiconductor technology, where the transistor is entirely constructed from two-dimensional (2D) materials, including the channel, gate, and dielectric layers. This approach takes advantage of the unique properties of 2D materials like graphene, MoS₂ (Molybdenum Disulfide), and other transition metal dichalcogenides (TMDs), which exhibit exceptional electronic, optical, and mechanical characteristics at the atomic scale. In an All-2D MOSFET, the channel material, typically MoS₂ or similar materials, is just one or a few atoms thick, allowing for extreme miniaturization and reduced short-channel effects compared to traditional silicon-based MOSFETs. These materials offer high carrier mobility, low power consumption, and the potential for direct bandgap behavior that can be tuned for specific applications, such as optoelectronics and low-power digital logic circuits.However, building a fully 2D MOSFET presents significant challenges. One of the main difficulties lies in scaling the gate dielectric to maintain good electrostatic control over the extremely thin channel, which becomes problematic as the gate length approaches the atomic scale. Additionally, issues like contact resistance between 2D materials and metal electrodes, quantum tunneling, and gate leakage become more pronounced in devices with sub-nanometer scale gates. To overcome these challenges, the development of high-k dielectric materials, multi-gate architectures, and advanced 2D material synthesis techniques is essential. Despite these hurdles, All-2D MOSFETs hold great promise for future electronics, particularly in high-performance, low-power applications where the inherent properties of 2D materials can be fully exploited. <br/>
+![image](https://github.com/user-attachments/assets/97d6e0af-78ed-4b96-a77d-70499b680f2f)
+* Transistor-level Monolithic 3D (M3D) technology involves stacking multiple layers of active transistors within a single chip to create a three-dimensional integrated circuit. This approach significantly increases transistor density by arranging transistors vertically, reducing the footprint and enabling compact, high-performance devices. By minimizing the interconnect length between transistors, monolithic 3D can also enhance signal speed and reduce power consumption, making it a promising solution for next-generation electronics. The technology enables heterogeneous integration, where different materials and device types, such as logic, memory, and sensors, can be combined in a single stack, offering a high degree of functionality in a small space. However, challenges like effective thermal management, the need for precise through-silicon vias (TSVs) to connect layers, and maintaining high yields in complex fabrication processes must be addressed for large-scale adoption. Despite these challenges, monolithic 3D transistors hold the potential to revolutionize fields such as high-performance computing, mobile devices, and AI applications, providing both increased performance and energy efficiency. <br/>
+![image](https://github.com/user-attachments/assets/6e1a2ac0-75ef-436f-816c-428cd7836d3f)
+### Back-Side Power Delivery Network (BS-PDN)
+The Back-Side Power Delivery Network (BS-PDN) is an innovative power distribution method used in advanced integrated circuit (IC) designs, particularly in 3D ICs and stacked die configurations. Unlike traditional power delivery networks that route power on the front side of the chip, the BS-PDN moves the power distribution to the back of the chip. This approach offers several benefits, including improved power delivery efficiency, reduced signal routing congestion, and better thermal management. By freeing up space on the front side of the chip for signal traces, the BS-PDN helps optimize routing and minimizes interconnect resistance, which can improve overall performance. Additionally, in 3D stacked ICs, the back-side PDN reduces the complexity of power delivery between multiple layers and enhances heat dissipation, helping to prevent overheating of the upper layers. However, incorporating a BS-PDN into chip designs increases manufacturing complexity and requires precise alignment and integration techniques. Despite these challenges, the BS-PDN is becoming an essential strategy for improving power efficiency and performance in modern semiconductor devices. <br/>
+![image](https://github.com/user-attachments/assets/64f9c70c-9f3f-42a6-9d75-53e35ef22c8d) <br/>
+### Section 2: Tools Installation
+* The commands to install openroad is shown below: <br/>
+```
+git clone https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
+cd OpenROAD-flow-scripts
+sudo ./setup.sh
+```
+![image](https://github.com/user-attachments/assets/56dab5ca-f4e6-48a3-b3b7-c30ff3a3876f)
+![image](https://github.com/user-attachments/assets/b357e5d7-0e69-433c-92e3-49f685eb8eb6)
+![image](https://github.com/user-attachments/assets/318693fc-d09c-473d-8508-55034f9490c7)
+```
+./build_openroad.sh --local
+```
+![image](https://github.com/user-attachments/assets/099b5026-3554-4d70-8ff2-017b40c7036d)
+* To verify the setup, use the following commands:
+```
+source ./env.sh
+yosys -help
+openroad -help
+cd flow
+make
+```
+![Screenshot from 2024-11-22 21-45-35](https://github.com/user-attachments/assets/8876ea22-3377-4082-8056-9f9382c98587)
+![Screenshot from 2024-11-22 21-45-59](https://github.com/user-attachments/assets/b72d79b0-801a-4f1b-8cbc-24dd4f514c63)
+```
+make gui_final
+```
+![Screenshot from 2024-11-22 21-46-27](https://github.com/user-attachments/assets/a09f240b-f295-47b1-8a2a-9163b2117417)
+![Screenshot from 2024-11-22 21-46-36](https://github.com/user-attachments/assets/d5d66884-b3e3-4c37-8ebd-8501d7c5d9e3)
+### Section 3: Flow Structure
+The OpenROAD Directory Structure and File formats is shown below.
+```
+├── OpenROAD-flow-scripts             
+│   ├── docker           -> It has Docker based installation, run scripts and all saved here
+│   ├── docs             -> Documentation for OpenROAD or its flow scripts.  
+│   ├── flow             -> Files related to run RTL to GDS flow  
+|   ├── jenkins          -> It contains the regression test designed for each build update
+│   ├── tools            -> It contains all the required tools to run RTL to GDS flow
+│   ├── etc              -> Has the dependency installer script and other things
+│   ├── setup_env.sh     -> Its the source file to source all our OpenROAD rules to run the RTL to GDS flow
+```
+```
+├── flow           
+│   ├── design           -> It has built-in examples from RTL to GDS flow across different technology nodes
+│   ├── makefile         -> The automated flow runs through makefile setup
+│   ├── platform         -> It has different technology note libraries, lef files, GDS etc 
+|   ├── tutorials        
+│   ├── util            
+│   ├── scripts
+```
+![Screenshot from 2024-11-23 19-36-41](https://github.com/user-attachments/assets/903db259-1c52-41ff-84ba-d216eb939737)
 
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
