@@ -3293,6 +3293,9 @@ Total                  5.67e-03   1.47e-03   1.86e-08   7.14e-03 100.0%
                           79.4%      20.6%       0.0%
 ```
 ### Placement report:
+The image is shown below: <br/>
+![Screenshot from 2024-11-26 05-02-14](https://github.com/user-attachments/assets/81ac9fd1-7934-4149-8f55-ea9accdb6ba6) <br/>
+The reports are :<br/>
 ![image](https://github.com/user-attachments/assets/816c9e34-0c30-4015-901a-388ce7d01730)
 ```
 
@@ -3676,6 +3679,9 @@ Total                  6.68e-03   5.49e-03   2.26e-08   1.22e-02 100.0%
                           54.9%      45.1%       0.0%
 ```
 ### CTS report:
+The clock tree is shown below:<br/>
+![Screenshot from 2024-11-26 05-03-14](https://github.com/user-attachments/assets/4ae6a58c-835d-4637-8d6d-061626540751)<br/>
+The reports are:<br/>
 ![image](https://github.com/user-attachments/assets/9c2b8bff-6dfc-477a-b28a-3ed34586ad1d)
 ```
 
