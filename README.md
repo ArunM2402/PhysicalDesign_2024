@@ -4703,7 +4703,7 @@ make gui_cts
 ![Screenshot from 2024-11-26 02-48-28](https://github.com/user-attachments/assets/770eb0f2-eb70-4f81-bafb-c64e506f91e5)
 The path is highlighted below: <br/>
 ![Screenshot from 2024-11-26 02-50-20](https://github.com/user-attachments/assets/b051a0d8-2c2b-42ff-bc4c-8006aeff1473)
-
+**NOTE: ALL FILES USED IN THIS LAB SECTION (DESIGN FILES, LIB FILES, SCRIPTS, CONFIGURATION FILES) ARE UPLOADED IN THE REPO.PLEASE REFER TO THE FILES ABOVE**
 ## REFERENCES
 * https://forgefunder.com/~kunal/riscv_workshop.vdi
 * https://riscv.org/technical/specifications/
